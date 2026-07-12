@@ -82,6 +82,88 @@ body{
 @media(max-width:900px){.auth-logo{width:min(78vw,430px);max-height:230px}}
 @media(max-width:620px){.auth-showcase{min-height:275px}.auth-logo{width:min(80vw,340px);transform:none}.profile-shortcut{width:52px;min-width:52px;padding:4px}.profile-shortcut #profileButtonLabel{display:block!important;font-size:.54rem}}
 
+
+
+/* ===== Nexo Cards: 50 premium card effects ===== */
+.fx-layer{isolation:isolate;will-change:transform,opacity,filter}
+.fx-layer::before,.fx-layer::after{pointer-events:none;will-change:transform,opacity,filter}
+@keyframes fx-sweep{0%{transform:translateX(-120%) rotate(18deg)}100%{transform:translateX(120%) rotate(18deg)}}
+@keyframes fx-rotate{to{transform:rotate(360deg)}}
+@keyframes fx-rotate-reverse{to{transform:rotate(-360deg)}}
+@keyframes fx-pulse{0%,100%{opacity:.24;transform:scale(.92)}50%{opacity:.78;transform:scale(1.08)}}
+@keyframes fx-breathe{0%,100%{opacity:.35;filter:blur(0)}50%{opacity:.9;filter:blur(1.5px)}}
+@keyframes fx-drift{0%{transform:translate3d(-5%,-4%,0) scale(1)}100%{transform:translate3d(7%,6%,0) scale(1.15)}}
+@keyframes fx-fall{0%{transform:translate3d(-8%,-125%,0) rotate(-12deg)}100%{transform:translate3d(10%,145%,0) rotate(32deg)}}
+@keyframes fx-rise{0%{transform:translate3d(0,125%,0) scale(.8);opacity:0}25%{opacity:.9}100%{transform:translate3d(8%,-135%,0) scale(1.15);opacity:0}}
+@keyframes fx-twinkle{0%,100%{opacity:.18}30%{opacity:.9}60%{opacity:.32}}
+@keyframes fx-wave{0%{transform:translateX(-25%) skewX(-8deg)}100%{transform:translateX(25%) skewX(8deg)}}
+@keyframes fx-flicker{0%,18%,22%,62%,64%,100%{opacity:.22}20%,63%{opacity:.95}}
+@keyframes fx-glitch{0%,100%{clip-path:inset(0 0 0 0);transform:translate(0)}18%{clip-path:inset(12% 0 68% 0);transform:translate(-4px,1px)}20%{clip-path:inset(64% 0 13% 0);transform:translate(4px,-2px)}22%{clip-path:inset(38% 0 40% 0);transform:translate(-2px,2px)}72%{clip-path:inset(75% 0 8% 0);transform:translate(3px,0)}}
+@keyframes fx-scan{0%{transform:translateY(-115%)}100%{transform:translateY(115%)}}
+@keyframes fx-orbit{0%{transform:rotate(0deg) translateX(34%) rotate(0deg)}100%{transform:rotate(360deg) translateX(34%) rotate(-360deg)}}
+@keyframes fx-shake-light{0%,100%{transform:translate(0)}25%{transform:translate(1.5px,-1px)}50%{transform:translate(-1px,1.5px)}75%{transform:translate(1px,1px)}}
+@keyframes fx-heart{0%,100%{transform:scale(.92);opacity:.38}12%{transform:scale(1.08);opacity:.85}24%{transform:scale(.96)}36%{transform:scale(1.04)}}
+@keyframes fx-flame{0%,100%{transform:translateY(4%) scaleX(.94);filter:blur(.2px)}50%{transform:translateY(-5%) scaleX(1.05);filter:blur(1.2px)}}
+@keyframes fx-rain{0%{transform:translateY(-65%) translateX(-4%)}100%{transform:translateY(70%) translateX(7%)}}
+@keyframes fx-smoke{0%{transform:translate(-7%,12%) scale(.95);opacity:.12}50%{opacity:.58}100%{transform:translate(9%,-12%) scale(1.2);opacity:.16}}
+@keyframes fx-prism{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes fx-pop{0%,100%{transform:scale(.9) rotate(-2deg);opacity:.22}50%{transform:scale(1.12) rotate(2deg);opacity:.78}}
+
+/* 01 */ .effect-soft-shine::after{inset:-72% -38%;background:linear-gradient(112deg,transparent 36%,rgba(255,255,255,.68) 49%,rgba(255,246,224,.38) 52%,transparent 65%);animation:fx-sweep 4.4s ease-in-out infinite}
+/* 02 */ .effect-sparkles{background-image:radial-gradient(circle at 15% 19%,#fff 0 1.5px,transparent 2.5px),radial-gradient(circle at 79% 24%,rgba(255,255,255,.92) 0 1.2px,transparent 2.3px),radial-gradient(circle at 62% 73%,#fff 0 1.8px,transparent 2.8px),radial-gradient(circle at 24% 84%,rgba(255,245,214,.95) 0 1.4px,transparent 2.5px);background-size:100% 100%;animation:fx-twinkle 2.6s ease-in-out infinite}
+/* 03 */ .effect-holographic::after{inset:-45%;opacity:.48;background:conic-gradient(from 25deg,transparent 0 9%,rgba(255,193,210,.75),rgba(180,221,255,.72),rgba(213,242,199,.72),rgba(255,229,159,.68),rgba(211,190,244,.72),transparent 61% 100%);mix-blend-mode:screen;animation:fx-rotate 7.5s linear infinite}
+/* 04 */ .effect-prism-sweep::after{inset:-60% -35%;background:linear-gradient(105deg,transparent 31%,rgba(255,170,190,.52),rgba(255,233,173,.48),rgba(172,230,255,.52),rgba(218,188,255,.48),transparent 69%);mix-blend-mode:screen;animation:fx-sweep 3.5s cubic-bezier(.3,.7,.2,1) infinite}
+/* 05 */ .effect-aurora::before{inset:-25%;background:radial-gradient(ellipse at 15% 35%,rgba(137,220,197,.55),transparent 42%),radial-gradient(ellipse at 82% 45%,rgba(184,169,236,.53),transparent 46%),radial-gradient(ellipse at 45% 88%,rgba(255,191,206,.5),transparent 43%);filter:blur(13px);animation:fx-drift 5s ease-in-out infinite alternate}
+/* 06 */ .effect-stardust{background-image:radial-gradient(circle,#fff 0 1px,transparent 1.8px),radial-gradient(circle,rgba(255,223,155,.9) 0 1.2px,transparent 2px);background-position:0 0,19px 27px;background-size:34px 36px,47px 43px;animation:fx-rise 8s linear infinite}
+/* 07 */ .effect-moon-glow::before{width:73%;aspect-ratio:1;right:-29%;top:-24%;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.95),rgba(220,230,255,.54) 34%,rgba(182,189,225,.18) 58%,transparent 72%);box-shadow:0 0 34px rgba(222,231,255,.56);animation:fx-pulse 4.8s ease-in-out infinite}
+/* 08 */ .effect-solar-flare::before{inset:-48%;border-radius:50%;background:repeating-conic-gradient(from 4deg,rgba(255,247,201,.7) 0 3deg,transparent 3deg 12deg);animation:fx-rotate 15s linear infinite}.effect-solar-flare::after{inset:24%;border-radius:50%;box-shadow:0 0 35px 13px rgba(255,205,110,.35);animation:fx-pulse 2.7s ease-in-out infinite}
+/* 09 */ .effect-cosmic::before{inset:-15%;background:radial-gradient(circle at 25% 18%,rgba(255,255,255,.82) 0 1px,transparent 2px),radial-gradient(circle at 75% 72%,rgba(218,197,255,.9) 0 1.5px,transparent 2.6px),radial-gradient(circle at 63% 31%,rgba(170,220,255,.75) 0 1.2px,transparent 2.2px);background-size:43px 47px,59px 53px,71px 67px;animation:fx-drift 8s linear infinite alternate}.effect-cosmic::after{inset:-20%;background:radial-gradient(ellipse at 35% 32%,rgba(145,118,190,.34),transparent 46%),radial-gradient(ellipse at 77% 71%,rgba(78,128,175,.3),transparent 44%);filter:blur(9px);animation:fx-breathe 5s ease-in-out infinite}
+/* 10 */ .effect-galaxy-drift::before{inset:-45%;border-radius:44%;background:conic-gradient(from 15deg,transparent 0 13%,rgba(130,91,177,.38),rgba(85,151,194,.38),rgba(239,154,188,.32),transparent 59%);filter:blur(8px);animation:fx-rotate 13s linear infinite}.effect-galaxy-drift::after{inset:0;background-image:radial-gradient(circle at 18% 22%,#fff 0 1px,transparent 2px),radial-gradient(circle at 83% 64%,#fff 0 1.5px,transparent 2.5px),radial-gradient(circle at 55% 40%,rgba(255,242,193,.9) 0 1px,transparent 2px);animation:fx-twinkle 3s infinite}
+/* 11 */ .effect-nebula::before{inset:-22%;background:radial-gradient(circle at 28% 32%,rgba(255,170,207,.52),transparent 33%),radial-gradient(circle at 72% 29%,rgba(156,193,255,.46),transparent 36%),radial-gradient(circle at 51% 76%,rgba(183,159,230,.48),transparent 42%);filter:blur(15px);animation:fx-drift 6.5s ease-in-out infinite alternate}
+/* 12 */ .effect-meteor-shower::before{content:"✦  ·   ✦    ·  ✧";left:-35%;top:-35%;width:170%;color:rgba(255,255,255,.9);font-size:12px;letter-spacing:22px;text-shadow:20px 35px 0 rgba(255,232,174,.75),-15px 70px 0 rgba(255,255,255,.65),45px 105px 0 rgba(193,222,255,.75);transform:rotate(-23deg);animation:fx-fall 3.7s linear infinite}
+/* 13 */ .effect-constellation{background-image:linear-gradient(27deg,transparent 48%,rgba(255,255,255,.22) 49% 50%,transparent 51%),linear-gradient(143deg,transparent 48%,rgba(255,255,255,.18) 49% 50%,transparent 51%),radial-gradient(circle,#fff 0 1.4px,transparent 2.4px);background-size:53px 47px,67px 61px,43px 39px;animation:fx-twinkle 4s ease-in-out infinite}
+/* 14 */ .effect-black-hole::before{width:115%;aspect-ratio:1;left:-7%;top:4%;border-radius:50%;background:radial-gradient(circle,rgba(10,8,18,.82) 0 8%,rgba(72,42,99,.6) 15%,rgba(152,102,180,.38) 28%,transparent 58%);filter:blur(1px);animation:fx-rotate 9s linear infinite}.effect-black-hole::after{inset:-30%;background:conic-gradient(transparent 0 24%,rgba(255,221,255,.35),transparent 38% 62%,rgba(165,216,255,.28),transparent 77%);animation:fx-rotate-reverse 14s linear infinite}
+/* 15 */ .effect-quantum-grid{background-image:linear-gradient(rgba(255,255,255,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.18) 1px,transparent 1px);background-size:22px 22px;animation:fx-prism 4s linear infinite}.effect-quantum-grid::after{inset:0;background:linear-gradient(180deg,transparent,rgba(151,221,255,.28),transparent);animation:fx-scan 3.2s linear infinite}
+/* 16 */ .effect-divine::before{inset:-38%;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.46) 0 4deg,transparent 4deg 15deg);animation:fx-rotate 13s linear infinite}.effect-divine::after{inset:7px;border:1px solid rgba(255,255,255,.88);border-radius:16px;box-shadow:inset 0 0 24px rgba(255,255,255,.48),0 0 22px rgba(255,235,167,.28);animation:fx-breathe 3.2s ease-in-out infinite}
+/* 17 */ .effect-halo-rings::before{width:115%;aspect-ratio:1;left:-7%;top:7%;border-radius:50%;border:2px solid rgba(255,255,255,.57);box-shadow:0 0 0 17px rgba(255,242,193,.17),0 0 0 34px rgba(204,225,255,.12);animation:fx-rotate 8s linear infinite}.effect-halo-rings::after{width:12px;height:12px;left:50%;top:12%;border-radius:50%;background:#fff;box-shadow:0 0 17px #fff;animation:fx-orbit 4.2s linear infinite}
+/* 18 */ .effect-angel-feathers::before{content:"❧  ❧   ❧";left:-15%;top:-16%;width:135%;font-size:20px;letter-spacing:29px;color:rgba(255,255,255,.72);text-shadow:38px 70px 0 rgba(255,255,255,.52),-12px 128px 0 rgba(255,244,218,.55);animation:fx-fall 7s ease-in-out infinite}
+/* 19 */ .effect-holy-rays::before{inset:-55%;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.38) 0 2deg,transparent 2deg 11deg);animation:fx-rotate 18s linear infinite}.effect-holy-rays::after{inset:12%;border-radius:18px;box-shadow:inset 0 0 35px rgba(255,245,204,.48);animation:fx-pulse 3.5s ease-in-out infinite}
+/* 20 */ .effect-crown-glow::before{content:"♕";right:7%;top:7%;font-size:44px;color:rgba(255,247,190,.72);text-shadow:0 0 16px rgba(255,226,120,.72);animation:fx-pop 3s ease-in-out infinite}.effect-crown-glow::after{inset:0;background:radial-gradient(circle at 80% 18%,rgba(255,226,120,.42),transparent 32%);animation:fx-breathe 3s infinite}
+/* 21 */ .effect-sakura::before{content:"✿  ·  ✿  ·  ✿";left:-22%;top:-18%;width:145%;color:rgba(255,239,245,.92);font-size:15px;letter-spacing:25px;text-shadow:21px 66px 0 rgba(255,183,205,.62),-14px 119px 0 rgba(255,230,238,.72);animation:fx-fall 5.8s linear infinite}
+/* 22 */ .effect-rose-petals::before{content:"❦   ●   ❦";left:-18%;top:-20%;width:145%;color:rgba(246,145,169,.68);font-size:14px;letter-spacing:27px;text-shadow:28px 58px 0 rgba(255,204,215,.74),-15px 112px 0 rgba(238,126,153,.5);animation:fx-fall 6.8s ease-in-out infinite}
+/* 23 */ .effect-snow-crystals{background-image:radial-gradient(circle,rgba(255,255,255,.95) 0 1.4px,transparent 2.3px),radial-gradient(circle,rgba(218,240,255,.92) 0 1.1px,transparent 2px);background-size:30px 34px,47px 51px;animation:fx-fall 8s linear infinite}.effect-snow-crystals::after{content:"❄";left:17%;top:13%;font-size:20px;color:rgba(255,255,255,.7);text-shadow:90px 65px 0 rgba(255,255,255,.65),35px 155px 0 rgba(220,242,255,.65);animation:fx-rotate 9s linear infinite}
+/* 24 */ .effect-rain-drops::before{inset:-55% 0;background:repeating-linear-gradient(108deg,transparent 0 16px,rgba(226,245,255,.48) 17px 19px,transparent 20px 37px);animation:fx-rain 2.4s linear infinite}.effect-rain-drops::after{inset:0;background:radial-gradient(ellipse at 28% 80%,rgba(190,230,250,.34),transparent 30%);animation:fx-pulse 3s infinite}
+/* 25 */ .effect-fireflies{background-image:radial-gradient(circle,rgba(255,244,151,.96) 0 1.8px,rgba(255,221,95,.42) 2.4px,transparent 5px),radial-gradient(circle,rgba(218,255,176,.9) 0 1.4px,transparent 4px);background-size:61px 53px,79px 67px;background-position:4px 7px,29px 18px;animation:fx-drift 5.7s ease-in-out infinite alternate}
+/* 26 */ .effect-ocean-waves::before{left:-35%;bottom:-27%;width:170%;height:63%;border-radius:45%;background:radial-gradient(ellipse at center,rgba(177,226,245,.48),rgba(111,183,218,.24) 54%,transparent 57%);animation:fx-wave 4.3s ease-in-out infinite alternate}.effect-ocean-waves::after{inset:0;background:linear-gradient(180deg,rgba(255,255,255,.2),transparent 50%,rgba(115,196,226,.24));animation:fx-breathe 4s infinite}
+/* 27 */ .effect-forest-spores{background-image:radial-gradient(circle,rgba(225,247,195,.88) 0 1.5px,transparent 3px),radial-gradient(circle,rgba(255,241,181,.8) 0 1px,transparent 2.5px);background-size:48px 57px,71px 65px;animation:fx-rise 7s linear infinite}.effect-forest-spores::after{inset:0;background:radial-gradient(circle at 20% 75%,rgba(106,175,125,.26),transparent 35%);animation:fx-breathe 4s infinite}
+/* 28 */ .effect-butterfly-dream::before{content:"ʚ  ɞ   ʚ";left:-5%;top:12%;width:110%;font-size:19px;letter-spacing:36px;color:rgba(255,238,249,.8);text-shadow:31px 75px 0 rgba(198,222,255,.58),-18px 142px 0 rgba(255,214,234,.68);animation:fx-drift 6s ease-in-out infinite alternate}
+/* 29 */ .effect-cloud-drift::before{inset:-15%;background:radial-gradient(ellipse at 20% 25%,rgba(255,255,255,.55),transparent 35%),radial-gradient(ellipse at 77% 46%,rgba(255,255,255,.46),transparent 39%),radial-gradient(ellipse at 35% 87%,rgba(236,246,255,.38),transparent 40%);filter:blur(9px);animation:fx-drift 8s ease-in-out infinite alternate}
+/* 30 */ .effect-rainbow-mist::before{inset:-25%;background:linear-gradient(125deg,rgba(255,184,201,.38),rgba(255,227,164,.34),rgba(188,235,210,.35),rgba(174,216,248,.38),rgba(218,189,246,.35),rgba(255,184,201,.38));background-size:300% 300%;filter:blur(12px);mix-blend-mode:screen;animation:fx-prism 7s ease infinite}
+/* 31 */ .effect-flame-aura::before{left:-12%;right:-12%;bottom:-30%;height:78%;background:radial-gradient(ellipse at 20% 100%,rgba(255,112,73,.62),transparent 42%),radial-gradient(ellipse at 52% 100%,rgba(255,208,96,.55),transparent 48%),radial-gradient(ellipse at 82% 100%,rgba(255,99,69,.48),transparent 41%);filter:blur(6px);animation:fx-flame 1.8s ease-in-out infinite}
+/* 32 */ .effect-blue-flame::before{left:-12%;right:-12%;bottom:-29%;height:82%;background:radial-gradient(ellipse at 18% 100%,rgba(79,181,255,.6),transparent 44%),radial-gradient(ellipse at 53% 100%,rgba(185,237,255,.65),transparent 48%),radial-gradient(ellipse at 85% 100%,rgba(104,132,246,.5),transparent 43%);filter:blur(7px);animation:fx-flame 1.65s ease-in-out infinite reverse}
+/* 33 */ .effect-lightning::before{content:"";inset:-15%;background:linear-gradient(116deg,transparent 0 45%,rgba(255,255,255,.92) 46% 47%,transparent 48% 56%,rgba(208,228,255,.82) 57% 58%,transparent 59%);filter:drop-shadow(0 0 6px rgba(178,210,255,.8));animation:fx-flicker 2.7s steps(1,end) infinite}.effect-lightning::after{inset:0;box-shadow:inset 0 0 25px rgba(190,218,255,.32);animation:fx-pulse 2.7s infinite}
+/* 34 */ .effect-electric-pulse::before{inset:9%;border:2px solid rgba(194,230,255,.72);border-radius:17px;box-shadow:0 0 0 0 rgba(178,214,255,.5);animation:fx-pulse 1.8s ease-out infinite}.effect-electric-pulse::after{inset:0;background:repeating-linear-gradient(90deg,transparent 0 21px,rgba(255,255,255,.16) 22px 23px);animation:fx-wave 2s linear infinite}
+/* 35 */ .effect-magma::before{inset:-20%;background:radial-gradient(circle at 18% 75%,rgba(255,213,92,.72) 0 3%,rgba(223,83,53,.5) 8%,transparent 19%),radial-gradient(circle at 74% 35%,rgba(255,180,57,.66) 0 4%,rgba(166,53,49,.45) 10%,transparent 22%),radial-gradient(circle at 57% 91%,rgba(255,222,110,.6) 0 3%,rgba(205,70,46,.4) 9%,transparent 21%);filter:blur(2px);animation:fx-drift 3.3s ease-in-out infinite alternate}
+/* 36 */ .effect-frost-aura::before{inset:-18%;background:radial-gradient(circle at 10% 10%,rgba(231,251,255,.73),transparent 28%),radial-gradient(circle at 92% 15%,rgba(203,236,255,.58),transparent 30%),radial-gradient(circle at 52% 92%,rgba(219,246,255,.58),transparent 35%);filter:blur(7px);animation:fx-breathe 3.8s infinite}.effect-frost-aura::after{inset:5px;border:1px solid rgba(240,253,255,.8);border-radius:17px;box-shadow:inset 0 0 24px rgba(213,244,255,.43)}
+/* 37 */ .effect-ice-shards::before{inset:-25%;background:conic-gradient(from 12deg at 22% 30%,transparent 0 12%,rgba(225,247,255,.6) 13% 15%,transparent 16% 100%),conic-gradient(from 198deg at 79% 69%,transparent 0 18%,rgba(190,227,249,.55) 19% 22%,transparent 23% 100%);animation:fx-shake-light 2.8s linear infinite}.effect-ice-shards::after{inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.46) 41% 42%,transparent 43% 60%,rgba(209,242,255,.4) 61% 62%,transparent 63%)}
+/* 38 */ .effect-shadow-smoke::before{inset:-25%;background:radial-gradient(ellipse at 30% 75%,rgba(32,28,39,.5),transparent 45%),radial-gradient(ellipse at 75% 30%,rgba(88,68,99,.36),transparent 42%),radial-gradient(ellipse at 54% 65%,rgba(25,22,31,.38),transparent 37%);filter:blur(13px);animation:fx-smoke 6s ease-in-out infinite alternate}
+/* 39 */ .effect-void-runes::before{content:"◇  △  ○  ⟡";inset:10%;color:rgba(215,191,244,.42);font-size:16px;letter-spacing:27px;line-height:5.5;text-shadow:0 0 9px rgba(185,130,244,.5);animation:fx-rotate 17s linear infinite}.effect-void-runes::after{inset:7px;border:1px dashed rgba(201,167,235,.4);border-radius:17px;animation:fx-pulse 4s infinite}
+/* 40 */ .effect-secret-glitch::before{inset:0;background:linear-gradient(90deg,transparent,rgba(255,111,153,.22),transparent 42%,rgba(119,206,255,.2),transparent);animation:fx-glitch 2.4s steps(1,end) infinite}.effect-secret-glitch::after{inset:0;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(255,255,255,.08) 6px 7px);animation:fx-flicker 3.2s infinite}
+/* 41 */ .effect-pixel-spark{background-image:linear-gradient(90deg,rgba(255,255,255,.68) 3px,transparent 3px),linear-gradient(rgba(255,235,171,.55) 3px,transparent 3px);background-size:41px 47px,53px 59px;background-position:7px 10px,23px 29px;animation:fx-twinkle 1.8s steps(2,end) infinite}
+/* 42 */ .effect-scanlines::before{inset:0;background:repeating-linear-gradient(0deg,transparent 0 4px,rgba(255,255,255,.12) 5px 6px)}.effect-scanlines::after{left:0;right:0;height:22%;top:-25%;background:linear-gradient(180deg,transparent,rgba(190,232,255,.36),transparent);animation:fx-scan 2.9s linear infinite}
+/* 43 */ .effect-crystal-facets::before{inset:0;background:linear-gradient(28deg,transparent 0 31%,rgba(255,255,255,.28) 32% 34%,transparent 35%),linear-gradient(151deg,transparent 0 45%,rgba(214,237,255,.26) 46% 48%,transparent 49%),linear-gradient(78deg,transparent 0 58%,rgba(255,226,246,.25) 59% 61%,transparent 62%);animation:fx-breathe 3.6s infinite}.effect-crystal-facets::after{inset:-50%;background:conic-gradient(transparent,rgba(255,255,255,.22),transparent 18% 63%,rgba(207,234,255,.24),transparent 82%);animation:fx-rotate 11s linear infinite}
+/* 44 */ .effect-diamond-dust{background-image:radial-gradient(ellipse at center,rgba(255,255,255,.97) 0 1px,transparent 2.7px),radial-gradient(ellipse at center,rgba(210,238,255,.86) 0 1.2px,transparent 3px);background-size:29px 37px,43px 51px;animation:fx-twinkle 2.2s ease-in-out infinite}.effect-diamond-dust::after{inset:-65% -35%;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.5) 50%,transparent 62%);animation:fx-sweep 5.2s infinite}
+/* 45 */ .effect-liquid-metal::before{inset:-35%;background:radial-gradient(ellipse at 30% 40%,rgba(255,255,255,.52),transparent 31%),radial-gradient(ellipse at 70% 62%,rgba(162,177,190,.38),transparent 37%),linear-gradient(125deg,transparent,rgba(255,255,255,.28),transparent);filter:blur(4px);mix-blend-mode:screen;animation:fx-drift 4.6s ease-in-out infinite alternate}
+/* 46 */ .effect-royal-velvet::before{inset:0;background:radial-gradient(circle at 50% 45%,rgba(255,235,183,.28),transparent 32%),repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 2px,transparent 2px 9px);animation:fx-breathe 4.5s infinite}.effect-royal-velvet::after{inset:7px;border:1px solid rgba(255,226,159,.54);border-radius:17px;box-shadow:inset 0 0 22px rgba(109,55,104,.3)}
+/* 47 */ .effect-golden-confetti::before{content:"◆  ✦  ●  ▪";left:-18%;top:-18%;width:145%;color:rgba(255,225,136,.9);font-size:10px;letter-spacing:25px;text-shadow:26px 61px 0 rgba(255,247,196,.8),-8px 118px 0 rgba(236,187,75,.72),42px 174px 0 rgba(255,231,145,.7);animation:fx-fall 5.3s linear infinite}
+/* 48 */ .effect-heart-burst::before{content:"♡";left:50%;top:48%;font-size:76px;color:rgba(255,211,224,.38);transform:translate(-50%,-50%);text-shadow:0 0 19px rgba(255,184,207,.5);animation:fx-heart 2.5s ease-in-out infinite}.effect-heart-burst::after{inset:0;background:radial-gradient(circle at 18% 24%,rgba(255,255,255,.7) 0 1px,transparent 2px),radial-gradient(circle at 83% 71%,rgba(255,220,230,.75) 0 1.5px,transparent 2.7px);animation:fx-twinkle 2s infinite}
+/* 49 */ .effect-candy-swirls::before{inset:-42%;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,190,207,.4) 0 9deg,rgba(255,245,226,.22) 9deg 18deg,rgba(187,222,246,.4) 18deg 27deg,rgba(215,235,197,.25) 27deg 36deg);filter:blur(3px);animation:fx-rotate 13s linear infinite}.effect-candy-swirls::after{inset:0;background:radial-gradient(circle at 50% 50%,transparent 38%,rgba(255,255,255,.2) 70%);animation:fx-pulse 4s infinite}
+/* 50 */ .effect-godly-awakening::before{inset:-65%;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.58) 0 3deg,transparent 3deg 10deg,rgba(255,222,126,.31) 10deg 12deg,transparent 12deg 20deg);filter:drop-shadow(0 0 8px rgba(255,235,163,.52));animation:fx-rotate 10s linear infinite}.effect-godly-awakening::after{inset:3px;border:2px solid rgba(255,255,255,.8);border-radius:18px;box-shadow:inset 0 0 32px rgba(255,255,255,.55),0 0 23px rgba(255,218,112,.44);background:radial-gradient(circle at 50% 48%,rgba(255,255,255,.22),transparent 52%);animation:fx-pulse 2.2s ease-in-out infinite}
+
+/* Box prices */
+.box-tile{isolation:isolate}.box-price-badge{position:absolute;left:29px;top:29px;z-index:5;display:inline-flex;align-items:center;gap:6px;min-height:31px;padding:0 11px;border:1px solid rgba(255,255,255,.9);border-radius:999px;background:rgba(255,253,250,.9);backdrop-filter:blur(10px);box-shadow:0 7px 18px rgba(86,65,80,.12);color:#655d65;font-size:.7rem;font-weight:950}.box-price-badge.free{color:#4f755d;background:rgba(241,249,243,.93)}.box-modal-price{color:var(--rose-deep)!important;background:#fff0f2!important}.price-field{position:relative;grid-column:1/-1}.price-field input{padding-right:42px!important}.price-field>span{position:absolute;right:14px;top:39px;color:var(--rose-deep);font-size:.78rem;font-weight:950}.field-note{color:var(--muted);font-size:.64rem;font-weight:600}.effect-count-note{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:-6px;padding:9px 11px;border-radius:12px;background:#f7f1ee;color:#746a73;font-size:.65rem;font-weight:750}.effect-count-note b{color:var(--rose-deep)}
+@media(prefers-reduced-motion:reduce){.fx-layer,.fx-layer::before,.fx-layer::after{animation-duration:.001ms!important;animation-iteration-count:1!important}}
+
 </style>
 </head>
 <body>
@@ -254,14 +336,59 @@ body{
 <label>Karteneffekt
               <select name="effect" required="">
 <option value="auto">Automatisch nach Rarity</option>
-<option value="soft-shine">Sanfter Glanz</option>
-<option value="sparkles">Funkelnde Partikel</option>
-<option value="holographic">Holografischer Schimmer</option>
-<option value="sakura">Sakura-Blüten</option>
-<option value="cosmic">Kosmische Tiefe</option>
-<option value="divine">Göttlicher Schein</option>
+<option value="soft-shine">01 · Satin Sweep</option>
+<option value="sparkles">02 · Star Sparkles</option>
+<option value="holographic">03 · Holographic Veil</option>
+<option value="prism-sweep">04 · Prism Sweep</option>
+<option value="aurora">05 · Aurora Bloom</option>
+<option value="stardust">06 · Stardust Rise</option>
+<option value="moon-glow">07 · Moon Glow</option>
+<option value="solar-flare">08 · Solar Flare</option>
+<option value="cosmic">09 · Cosmic Depth</option>
+<option value="galaxy-drift">10 · Galaxy Drift</option>
+<option value="nebula">11 · Nebula Clouds</option>
+<option value="meteor-shower">12 · Meteor Shower</option>
+<option value="constellation">13 · Constellation</option>
+<option value="black-hole">14 · Black Hole</option>
+<option value="quantum-grid">15 · Quantum Grid</option>
+<option value="divine">16 · Divine Glow</option>
+<option value="halo-rings">17 · Halo Rings</option>
+<option value="angel-feathers">18 · Angel Feathers</option>
+<option value="holy-rays">19 · Holy Rays</option>
+<option value="crown-glow">20 · Crown Glow</option>
+<option value="sakura">21 · Sakura Petals</option>
+<option value="rose-petals">22 · Rose Petals</option>
+<option value="snow-crystals">23 · Snow Crystals</option>
+<option value="rain-drops">24 · Crystal Rain</option>
+<option value="fireflies">25 · Fireflies</option>
+<option value="ocean-waves">26 · Ocean Waves</option>
+<option value="forest-spores">27 · Forest Spores</option>
+<option value="butterfly-dream">28 · Butterfly Dream</option>
+<option value="cloud-drift">29 · Cloud Drift</option>
+<option value="rainbow-mist">30 · Rainbow Mist</option>
+<option value="flame-aura">31 · Flame Aura</option>
+<option value="blue-flame">32 · Blue Flame</option>
+<option value="lightning">33 · Lightning Strike</option>
+<option value="electric-pulse">34 · Electric Pulse</option>
+<option value="magma">35 · Magma Core</option>
+<option value="frost-aura">36 · Frost Aura</option>
+<option value="ice-shards">37 · Ice Shards</option>
+<option value="shadow-smoke">38 · Shadow Smoke</option>
+<option value="void-runes">39 · Void Runes</option>
+<option value="secret-glitch">40 · Secret Glitch</option>
+<option value="pixel-spark">41 · Pixel Spark</option>
+<option value="scanlines">42 · Energy Scanlines</option>
+<option value="crystal-facets">43 · Crystal Facets</option>
+<option value="diamond-dust">44 · Diamond Dust</option>
+<option value="liquid-metal">45 · Liquid Metal</option>
+<option value="royal-velvet">46 · Royal Velvet</option>
+<option value="golden-confetti">47 · Golden Confetti</option>
+<option value="heart-burst">48 · Heart Burst</option>
+<option value="candy-swirls">49 · Candy Swirls</option>
+<option value="godly-awakening">50 · Godly Awakening</option>
 </select>
 </label>
+<div class="effect-count-note"><span>Alle Effekte werden direkt in der Live-Vorschau animiert.</span><b>50 Effekte</b></div>
 <label>Beschreibung / Inhalt
               <textarea maxlength="220" name="description" placeholder="Was macht diese Karte besonders?" rows="4"></textarea>
 </label>
@@ -285,6 +412,11 @@ body{
 </label>
 <label>Karten pro Öffnung
               <input max="10" min="1" name="cardsPerOpen" required="" type="number" value="1"/>
+</label>
+<label class="price-field">Preis der Kartenbox
+              <input min="0" name="price" required="" step="0.01" type="number" value="0"/>
+              <span>$</span>
+              <small class="field-note">0 $ = kostenlos · keine Obergrenze</small>
 </label>
 </div>
 <label>Beschreibung
@@ -352,6 +484,7 @@ body{
 <div class="box-meta-row">
 <span id="boxModalPulls">1 Karte</span>
 <span id="boxModalCardCount">0 mögliche Karten</span>
+<span class="box-modal-price" id="boxModalPrice">Kostenlos</span>
 </div>
 <div class="chance-list" id="chanceList"></div>
 <button class="primary-button full" hidden="" id="openAgainButton" type="button">Noch einmal öffnen</button>
@@ -755,10 +888,11 @@ if (["http:", "https:"].includes(location.protocol)) {
 
         if (name === "open_box") {
           const boxId = String(params.p_box_id || "");
-          const [boxSnapshot, entriesSnapshot, cardsMap] = await Promise.all([
+          const [boxSnapshot, entriesSnapshot, cardsMap, incomeRate] = await Promise.all([
             get(dbRef(firebaseDatabase, `card_boxes/${boxId}`)),
             get(dbRef(firebaseDatabase, `box_cards/${boxId}`)),
-            readCardsMap()
+            readCardsMap(),
+            calculateIncomeRate(uid)
           ]);
           if (!boxSnapshot.exists()) throw new Error("box_not_found");
           const entries = Object.entries(entriesSnapshot.val() || {}).map(([cardId, entry]) => ({
@@ -767,7 +901,26 @@ if (["http:", "https:"].includes(location.protocol)) {
             card: cardsMap[cardId]
           })).filter((entry) => entry.card);
           if (!entries.length) throw new Error("empty_box");
-          const pullsCount = Math.max(1, Math.min(10, Number(boxSnapshot.val()?.cards_per_open || 1)));
+          const boxData = boxSnapshot.val() || {};
+          const price = Math.max(0, Number(boxData.price || 0));
+          const now = Date.now();
+          let insufficientFunds = false;
+          let chargedBalance = 0;
+          const payment = await runTransaction(dbRef(firebaseDatabase, `profiles/${uid}`), (profile) => {
+            if (!profile) return profile;
+            const previous = Number(profile.balance_updated_at || profile.created_at || now);
+            const elapsed = Math.max(0, Math.min((now - previous) / 1000, 60 * 60 * 24 * 30));
+            const available = Number(profile.balance || 0) + Number(incomeRate || 0) * elapsed;
+            if (available + 0.000001 < price) {
+              insufficientFunds = true;
+              return;
+            }
+            chargedBalance = available - price;
+            return { ...profile, balance: chargedBalance, balance_updated_at: now, updated_at: now };
+          }, { applyLocally: false });
+          if (!payment.committed) throw new Error(insufficientFunds ? "insufficient_funds" : "payment_failed");
+
+          const pullsCount = Math.max(1, Math.min(10, Number(boxData.cards_per_open || 1)));
           const pulls = [];
           const quantities = {};
           for (let slot = 1; slot <= pullsCount; slot += 1) {
@@ -795,13 +948,19 @@ if (["http:", "https:"].includes(location.protocol)) {
               drop_chance: selected.drop_chance
             });
           }
-          const now = Date.now();
-          await Promise.all(Object.entries(quantities).map(([cardId, amount]) => runTransaction(dbRef(firebaseDatabase, `inventories/${uid}/${cardId}`), (item) => ({
-            quantity: Number(item?.quantity || 0) + Number(amount),
-            obtained_at: item?.obtained_at || now,
-            updated_at: now
-          }), { applyLocally: false })));
-          return { data: pulls, error: null };
+          try {
+            await Promise.all(Object.entries(quantities).map(([cardId, amount]) => runTransaction(dbRef(firebaseDatabase, `inventories/${uid}/${cardId}`), (item) => ({
+              quantity: Number(item?.quantity || 0) + Number(amount),
+              obtained_at: item?.obtained_at || now,
+              updated_at: now
+            }), { applyLocally: false })));
+          } catch (inventoryError) {
+            if (price > 0) {
+              await runTransaction(dbRef(firebaseDatabase, `profiles/${uid}/balance`), (balance) => Number(balance || 0) + price, { applyLocally: false }).catch(() => {});
+            }
+            throw inventoryError;
+          }
+          return { data: pulls.map((pull) => ({ ...pull, box_price: price, balance_after: chargedBalance })), error: null };
         }
 
         if (name === "delete_my_account") {
@@ -926,6 +1085,8 @@ if (["http:", "https:"].includes(location.protocol)) {
     "Gib deinen Benutzernamen zur Bestätigung ein.":"Enter your username to confirm.",
     "Dauerhaft löschen":"Delete permanently",
     "Klicke auf die Box, um sie zu öffnen.":"Click the box to open it.",
+    "Klicke auf die Box, um sie kostenlos zu öffnen.":"Click the box to open it for free.",
+    "Der Boxpreis muss 0 $ oder höher sein.":"The box price must be 0 $ or higher.",
     "Kartenbox":"Card box",
     "Noch einmal öffnen":"Open again",
     "Schließen":"Close",
@@ -942,6 +1103,11 @@ if (["http:", "https:"].includes(location.protocol)) {
     "Effekt":"Effect",
     "Einkommen pro Sekunde ($/s)":"Income per second ($/s)",
     "Karten pro Öffnung":"Cards per opening",
+    "Preis der Kartenbox":"Card box price",
+    "0 $ = kostenlos · keine Obergrenze":"0 $ = free · no maximum",
+    "Kostenlos":"Free",
+    "Alle Effekte werden direkt in der Live-Vorschau animiert.":"Every effect is animated directly in the live preview.",
+    "50 Effekte":"50 effects",
     "Dropchance":"Drop chance",
     "Noch keine Karten erstellt.":"No cards created yet.",
     "Noch keine Boxen erstellt.":"No boxes created yet.",
@@ -950,6 +1116,8 @@ if (["http:", "https:"].includes(location.protocol)) {
     "Keine Karten passen zu deiner Suche oder diesem Filter.":"No cards match your search or this filter.",
     "Zum Öffnen musst du eingeloggt sein.":"You must be logged in to open this box.",
     "Die Box öffnet sich …":"The box is opening …",
+    "Nicht genug Guthaben für diese Kartenbox.":"Not enough balance for this card box.",
+    "Die Bezahlung der Kartenbox konnte nicht abgeschlossen werden.":"The card box payment could not be completed.",
     "Der Anmeldedienst ist noch nicht verbunden.":"The login service is not connected yet.",
     "Einloggen":"Log in"
   };
@@ -972,6 +1140,8 @@ if (["http:", "https:"].includes(location.protocol)) {
     if ((match = source.match(/^Mitglied seit (.+)$/))) return `Member since ${match[1]}`;
     if ((match = source.match(/^(\d+) Karte pro Öffnung$/))) return `${match[1]} card per opening`;
     if ((match = source.match(/^(\d+) Karten pro Öffnung$/))) return `${match[1]} cards per opening`;
+    if ((match = source.match(/^Klicke auf die Box, um sie für (.+) \$ zu öffnen\.$/))) return `Click the box to open it for ${match[1]} $.`;
+    if ((match = source.match(/^Nicht genug Guthaben\. Du benötigst (.+) \$\.$/))) return `Not enough balance. You need ${match[1]} $.`;
     return source;
   }
 
@@ -1080,6 +1250,16 @@ if (["http:", "https:"].includes(location.protocol)) {
     }).format(number);
   }
 
+  function boxPrice(box) {
+    const value = Number(box?.price ?? box?.cost ?? 0);
+    return Number.isFinite(value) ? Math.max(0, value) : 0;
+  }
+
+  function formatBoxPrice(box) {
+    const price = boxPrice(box);
+    return price <= 0 ? "Kostenlos" : `${formatMoney(price)} $`;
+  }
+
   function formatDate(value) {
     if (!value) return "—";
     return new Intl.DateTimeFormat(state.language === "de" ? "de-DE" : "en-US", {
@@ -1148,6 +1328,8 @@ if (["http:", "https:"].includes(location.protocol)) {
     if (lower.includes("login_required")) return "Du musst eingeloggt sein.";
     if (lower.includes("box_not_found")) return "Diese Kartenbox wurde nicht gefunden.";
     if (lower.includes("empty_box")) return "In dieser Box befinden sich noch keine Karten.";
+    if (lower.includes("insufficient_funds")) return "Nicht genug Guthaben für diese Kartenbox.";
+    if (lower.includes("payment_failed")) return "Die Bezahlung der Kartenbox konnte nicht abgeschlossen werden.";
     return raw.replace(/^Firebase:\s*/i, "");
   }
 
@@ -1205,7 +1387,7 @@ if (["http:", "https:"].includes(location.protocol)) {
       : `<div class="card-placeholder">${escapeHtml((card.name || "?").trim().charAt(0).toUpperCase() || "?")}</div>`;
 
     return `
-      <article class="collect-card" data-rarity="${escapeHtml(rarity)}">
+      <article class="collect-card" data-rarity="${escapeHtml(rarity)}" data-effect="${escapeHtml(effectFor(card))}">
         <div class="fx-layer effect-${escapeHtml(effectFor(card))}"></div>
         <div class="card-inner">
           <div class="card-top">
@@ -1733,6 +1915,7 @@ if (["http:", "https:"].includes(location.protocol)) {
         : `<div class="default-pack"><span>♡</span></div>`;
       return `
         <article class="box-tile">
+          <span class="box-price-badge ${boxPrice(box) <= 0 ? "free" : ""}">${escapeHtml(formatBoxPrice(box))}</span>
           <div class="box-cover">${cover}</div>
           <div class="box-content">
             <h3>${escapeHtml(box.name)}</h3>
@@ -1740,6 +1923,7 @@ if (["http:", "https:"].includes(location.protocol)) {
             <div class="box-info">
               <span>${entries.length} mögliche Karten</span>
               <span>${Number(box.cards_per_open) || 1} pro Öffnung</span>
+              <span>${escapeHtml(formatBoxPrice(box))}</span>
             </div>
           </div>
           <button class="box-open-button" type="button" data-open-box="${escapeHtml(box.id)}" aria-label="${escapeHtml(box.name)} öffnen">✦</button>
@@ -1804,6 +1988,7 @@ if (["http:", "https:"].includes(location.protocol)) {
     $("#boxModalPulls").textContent = `${Number(box.cards_per_open) || 1} ${Number(box.cards_per_open) === 1 ? "Karte" : "Karten"} pro Öffnung`;
     const entries = state.boxCards.filter((item) => item.box_id === box.id && item.card);
     $("#boxModalCardCount").textContent = `${entries.length} mögliche Karten`;
+    $("#boxModalPrice").textContent = formatBoxPrice(box);
     $("#chanceList").innerHTML = entries.length ? entries
       .sort((a, b) => Number(b.drop_chance) - Number(a.drop_chance))
       .map((entry) => {
@@ -1828,7 +2013,14 @@ if (["http:", "https:"].includes(location.protocol)) {
     pack.classList.remove("opening");
     $("#revealGrid").innerHTML = "";
     $("#openingHint").hidden = false;
-    $("#openingHint").textContent = state.user ? "Klicke auf die Box, um sie zu öffnen." : "Zum Öffnen musst du eingeloggt sein.";
+    const price = boxPrice(state.activeBox);
+    if (!state.user) {
+      $("#openingHint").textContent = "Zum Öffnen musst du eingeloggt sein.";
+    } else if (price > 0) {
+      $("#openingHint").textContent = `Klicke auf die Box, um sie für ${formatMoney(price)} $ zu öffnen.`;
+    } else {
+      $("#openingHint").textContent = "Klicke auf die Box, um sie kostenlos zu öffnen.";
+    }
     $("#openAgainButton").hidden = true;
     const art = $("#openingPackArt");
     if (state.activeBox?.image_url) {
@@ -1866,6 +2058,11 @@ if (["http:", "https:"].includes(location.protocol)) {
     }
     const entries = state.boxCards.filter((item) => item.box_id === state.activeBox.id);
     if (!entries.length) return toast("Diese Box enthält noch keine Karten.", "error");
+    const price = boxPrice(state.activeBox);
+    const estimatedBalance = state.balance + state.incomeRate * Math.max(0, (Date.now() - state.balanceSyncedAt) / 1000);
+    if (price > 0 && estimatedBalance + 0.000001 < price) {
+      return toast(`Nicht genug Guthaben. Du benötigst ${formatMoney(price)} $.`, "error");
+    }
 
     state.opening = true;
     const pack = $("#openingPack");
@@ -2000,7 +2197,7 @@ if (["http:", "https:"].includes(location.protocol)) {
       const count = state.boxCards.filter((item) => item.box_id === box.id).length;
       return `<div class="manage-item">
         <span class="manage-thumb">${thumb}</span>
-        <div><strong>${escapeHtml(box.name)}</strong><small>${count} Karten · ${Number(box.cards_per_open) || 1} pro Öffnung</small></div>
+        <div><strong>${escapeHtml(box.name)}</strong><small>${count} Karten · ${Number(box.cards_per_open) || 1} pro Öffnung · ${escapeHtml(formatBoxPrice(box))}</small></div>
         <button class="icon-danger" type="button" data-delete-box="${escapeHtml(box.id)}" title="Box löschen">×</button>
       </div>`;
     }).join("") : `<div class="selector-empty">Noch keine Boxen erstellt.</div>`;
@@ -2063,6 +2260,9 @@ if (["http:", "https:"].includes(location.protocol)) {
       return toast("Jede Dropchance muss zwischen 1 und 100 % liegen.", "error");
     }
 
+    const price = Number(values.get("price") || 0);
+    if (!Number.isFinite(price) || price < 0) return toast("Der Boxpreis muss 0 $ oder höher sein.", "error");
+
     const file = form.elements.image.files?.[0];
     let uploaded = null;
     let createdBoxId = null;
@@ -2074,6 +2274,7 @@ if (["http:", "https:"].includes(location.protocol)) {
         description: String(values.get("description") || "").trim(),
         image_url: uploaded?.url || null,
         cards_per_open: Number(values.get("cardsPerOpen") || 1),
+        price,
         created_by: state.user.id
       }).select("id").single();
       if (boxError) throw boxError;
@@ -2088,6 +2289,7 @@ if (["http:", "https:"].includes(location.protocol)) {
 
       form.reset();
       form.elements.cardsPerOpen.value = "1";
+      form.elements.price.value = "0";
       await loadPublicData();
       toast("Die Kartenbox wurde erstellt.", "success");
     } catch (error) {
