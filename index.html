@@ -393,8 +393,8 @@ button,input,textarea,select{max-width:100%}
 .announcement-bar{display:none;align-items:center;gap:12px;width:min(1320px,calc(100% - 28px));margin:14px auto 0;padding:13px 16px;border:1px solid rgba(230,182,111,.35);border-radius:18px;background:linear-gradient(135deg,rgba(255,249,228,.96),rgba(255,238,225,.94));box-shadow:var(--soft-shadow)}.announcement-bar.active{display:flex}.announcement-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:#fff7df}.announcement-copy{min-width:0;flex:1}.announcement-copy strong,.announcement-copy span{display:block}.announcement-copy span{margin-top:2px;color:#756a70;font-size:.82rem}.announcement-timer{padding:7px 10px;border-radius:999px;background:#fff;color:#9c7650;font-size:.68rem;font-weight:900}
 .social-shell{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px}.surface-card{border:1px solid rgba(255,255,255,.94);border-radius:26px;background:var(--social-card);box-shadow:var(--social-shadow);backdrop-filter:blur(16px)}
 .chat-room{display:flex;min-height:650px;max-height:calc(100vh - 220px);flex-direction:column;overflow:hidden}.chat-room-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line)}.chat-room-title{display:flex;align-items:center;gap:11px}.live-dot{width:10px;height:10px;border-radius:50%;background:#83bb93;box-shadow:0 0 0 6px rgba(131,187,147,.14);animation:presence-pulse 2.2s ease-in-out infinite}.live-dot.offline{background:#c6b6bd;box-shadow:none;animation:none}@keyframes presence-pulse{50%{box-shadow:0 0 0 10px rgba(131,187,147,0)}}.chat-room-title strong,.chat-room-title small{display:block}.chat-room-title small{margin-top:3px;color:var(--muted);font-size:.68rem}.online-pill{display:flex;align-items:center;gap:7px;padding:8px 11px;border-radius:999px;background:#eef8f1;color:#547761;font-size:.69rem;font-weight:900}
-.chat-messages{flex:1;min-height:0;overflow-y:auto;padding:18px 19px 8px;scroll-behavior:smooth}.chat-empty{display:grid;min-height:100%;place-items:center;text-align:center;color:var(--muted)}.chat-message{display:grid;grid-template-columns:42px minmax(0,1fr);gap:10px;margin:0 0 15px;animation:message-in .3s var(--ease)}@keyframes message-in{from{opacity:0;transform:translateY(8px)}}.chat-avatar{width:42px;height:42px;border:2px solid var(--rank-border,#fff);border-radius:14px;background:#f0d9de center/cover;color:#fff;display:grid;place-items:center;font-weight:900;cursor:pointer;box-shadow:0 0 0 2px rgba(255,255,255,.8),0 0 18px var(--rank-glow,transparent)}.chat-message-main{min-width:0}.chat-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:5px}.chat-name{border:0;background:transparent;padding:0;font-weight:950;cursor:pointer;color:var(--chat-color,var(--ink));font-family:var(--chat-font,inherit)}.chat-time{color:#a1959e;font-size:.63rem}.admin-chip,.rank-chip,.badge-chip{display:inline-flex;align-items:center;gap:4px;max-width:160px;min-height:21px;padding:2px 7px;border:1px solid var(--chip-border,#eadfda);border-radius:999px;background:linear-gradient(135deg,var(--chip-from,#fff),var(--chip-to,#f7eeeb));box-shadow:0 0 12px var(--chip-glow,transparent);font-size:.57rem;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.admin-chip{--chip-from:#fff2d7;--chip-to:#f7d8a4;--chip-border:#e7bd71;color:#805c24}.badge-chip img,.rank-chip img{width:14px;height:14px;object-fit:contain}.chat-bubble{position:relative;display:inline-block;max-width:min(720px,95%);padding:10px 13px;border:1px solid var(--line);border-radius:8px 17px 17px 17px;background:#fff;box-shadow:0 7px 18px rgba(81,62,75,.06);font-family:var(--chat-font,inherit);color:var(--chat-color,var(--ink));word-break:break-word;white-space:pre-wrap}.chat-reply-quote{display:block;margin:-3px -4px 8px;padding:7px 9px;border-left:3px solid var(--rose);border-radius:8px;background:#faf3f1;color:#756a72;font-size:.68rem}.message-actions{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:5px}.message-action{min-height:25px;padding:0 8px;border:1px solid var(--line);border-radius:999px;background:#fff;color:#817680;font-size:.61rem;font-weight:850;cursor:pointer}.message-action:hover{background:#f8f0ed}.reaction-pill{display:inline-flex;align-items:center;gap:4px;min-height:27px;padding:0 8px;border:1px solid #eadfda;border-radius:999px;background:#fff;font-size:.72rem;cursor:pointer}.reaction-pill.mine{border-color:#dfa9b2;background:#fff1f3}.reaction-pill img{width:16px;height:16px;object-fit:contain}.chat-reply-bar{display:flex;align-items:center;gap:10px;margin:0 16px;padding:9px 12px;border-radius:13px;background:#f8efed;color:#72666e;font-size:.7rem}.chat-reply-bar[hidden]{display:none}.chat-reply-bar button{margin-left:auto;border:0;background:transparent;cursor:pointer}.chat-composer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:end;gap:8px;padding:13px 15px calc(13px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(255,254,251,.94)}.chat-composer textarea{min-height:45px;max-height:128px;resize:none;padding:12px 14px;border:1px solid var(--line);border-radius:15px;background:#fff}.chat-tool-button,.send-circle{width:45px;height:45px;border:1px solid var(--line);border-radius:15px;background:#fff;cursor:pointer}.send-circle{border:0;background:linear-gradient(135deg,#ca7f8c,#b66c79);color:#fff;font-size:17px;box-shadow:0 8px 18px rgba(181,105,119,.24)}
-.social-sidebar{display:grid;align-content:start;gap:14px}.side-card{padding:17px;border-radius:22px;background:rgba(255,254,251,.88);border:1px solid rgba(255,255,255,.94);box-shadow:var(--soft-shadow)}.side-card h3{margin:0 0 11px;font-size:.92rem}.side-card p{margin:0;color:var(--muted);font-size:.76rem;line-height:1.55}.compact-search{display:flex;gap:7px}.compact-search input{min-width:0;flex:1;padding:10px 11px;border:1px solid var(--line);border-radius:12px;background:#fff}.compact-search button{padding:0 11px;border:0;border-radius:12px;background:#f2e4e5;cursor:pointer;font-weight:900}.quick-results{display:grid;gap:7px;margin-top:10px}.mini-player{display:flex;align-items:center;gap:9px;padding:8px;border-radius:13px;background:#fff;border:1px solid var(--line);cursor:pointer}.mini-player-avatar{width:34px;height:34px;border-radius:11px;background:#edd0d5 center/cover;display:grid;place-items:center}.mini-player div{min-width:0}.mini-player strong,.mini-player small{display:block;overflow:hidden;text-overflow:ellipsis}.mini-player small{color:var(--muted);font-size:.62rem}.reaction-library{display:flex;flex-wrap:wrap;gap:7px}.reaction-choice{display:grid;place-items:center;width:35px;height:35px;border:1px solid var(--line);border-radius:11px;background:#fff;cursor:pointer;font-size:18px}.reaction-choice.locked{opacity:.45;filter:grayscale(.7)}.reaction-choice img{width:22px;height:22px;object-fit:contain}
+.chat-messages{flex:1;min-height:0;overflow-y:auto;padding:18px 19px 8px;scroll-behavior:smooth}.chat-empty{display:grid;min-height:100%;place-items:center;text-align:center;color:var(--muted)}.chat-message{display:grid;grid-template-columns:42px minmax(0,1fr);gap:10px;margin:0 0 15px;animation:message-in .3s var(--ease)}@keyframes message-in{from{opacity:0;transform:translateY(8px)}}.chat-avatar{width:42px;height:42px;border:2px solid var(--rank-border,#fff);border-radius:14px;background:#f0d9de center/cover;color:#fff;display:grid;place-items:center;font-weight:900;cursor:pointer;box-shadow:0 0 0 2px rgba(255,255,255,.8),0 0 18px var(--rank-glow,transparent)}.chat-message-main{min-width:0}.chat-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:5px}.chat-name{border:0;background:transparent;padding:0;font-weight:950;cursor:pointer;color:var(--chat-color,var(--ink));font-family:var(--chat-font,inherit)}.chat-time{color:#a1959e;font-size:.63rem}.admin-chip,.rank-chip,.badge-chip{display:inline-flex;align-items:center;gap:4px;max-width:160px;min-height:21px;padding:2px 7px;border:1px solid var(--chip-border,#eadfda);border-radius:999px;background:linear-gradient(135deg,var(--chip-from,#fff),var(--chip-to,#f7eeeb));box-shadow:0 0 12px var(--chip-glow,transparent);font-size:.57rem;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.admin-chip{--chip-from:#fff2d7;--chip-to:#f7d8a4;--chip-border:#e7bd71;color:#805c24}.badge-chip img,.rank-chip img{width:14px;height:14px;object-fit:contain}.chat-bubble{position:relative;display:inline-block;max-width:min(720px,95%);padding:10px 13px;border:1px solid var(--line);border-radius:8px 17px 17px 17px;background:#fff;box-shadow:0 7px 18px rgba(81,62,75,.06);font-family:var(--chat-font,inherit);color:var(--chat-color,var(--ink));word-break:break-word;white-space:pre-wrap}.chat-reply-quote{display:block;margin:-3px -4px 8px;padding:7px 9px;border-left:3px solid var(--rose);border-radius:8px;background:#faf3f1;color:#756a72;font-size:.68rem}.message-actions{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:5px}.message-action{min-height:25px;padding:0 8px;border:1px solid var(--line);border-radius:999px;background:#fff;color:#817680;font-size:.61rem;font-weight:850;cursor:pointer}.message-action:hover{background:#f8f0ed}.reaction-pill{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:3px 10px;border:1px solid #eadfda;border-radius:999px;background:#fff;font-size:1.05rem;line-height:1;cursor:pointer;box-shadow:0 4px 12px rgba(90,68,83,.05)}.reaction-pill.mine{border-color:#dfa9b2;background:#fff1f3}.reaction-pill img{width:25px;height:25px;object-fit:contain}.reaction-pill span{font-size:.72rem;font-weight:950;line-height:1}.chat-reply-bar{display:flex;align-items:center;gap:10px;margin:0 16px;padding:9px 12px;border-radius:13px;background:#f8efed;color:#72666e;font-size:.7rem}.chat-reply-bar[hidden]{display:none}.chat-reply-bar button{margin-left:auto;border:0;background:transparent;cursor:pointer}.chat-composer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:end;gap:8px;padding:13px 15px calc(13px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(255,254,251,.94)}.chat-composer textarea{min-height:45px;max-height:128px;resize:none;padding:12px 14px;border:1px solid var(--line);border-radius:15px;background:#fff}.chat-tool-button,.send-circle{width:45px;height:45px;border:1px solid var(--line);border-radius:15px;background:#fff;cursor:pointer}.send-circle{border:0;background:linear-gradient(135deg,#ca7f8c,#b66c79);color:#fff;font-size:17px;box-shadow:0 8px 18px rgba(181,105,119,.24)}
+.social-sidebar{display:grid;align-content:start;gap:14px}.side-card{padding:17px;border-radius:22px;background:rgba(255,254,251,.88);border:1px solid rgba(255,255,255,.94);box-shadow:var(--soft-shadow)}.side-card h3{margin:0 0 11px;font-size:.92rem}.side-card p{margin:0;color:var(--muted);font-size:.76rem;line-height:1.55}.compact-search{display:flex;gap:7px}.compact-search input{min-width:0;flex:1;padding:10px 11px;border:1px solid var(--line);border-radius:12px;background:#fff}.compact-search button{padding:0 11px;border:0;border-radius:12px;background:#f2e4e5;cursor:pointer;font-weight:900}.quick-results{display:grid;gap:7px;margin-top:10px}.mini-player{display:flex;align-items:center;gap:9px;padding:8px;border-radius:13px;background:#fff;border:1px solid var(--line);cursor:pointer}.mini-player-avatar{width:34px;height:34px;border-radius:11px;background:#edd0d5 center/cover;display:grid;place-items:center}.mini-player div{min-width:0}.mini-player strong,.mini-player small{display:block;overflow:hidden;text-overflow:ellipsis}.mini-player small{color:var(--muted);font-size:.62rem}.reaction-library{display:flex;flex-wrap:wrap;gap:8px}.reaction-choice{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--line);border-radius:13px;background:#fff;cursor:pointer;font-size:24px;box-shadow:0 4px 12px rgba(90,68,83,.05)}.reaction-choice.locked{opacity:.45;filter:grayscale(.7)}.reaction-choice img{width:29px;height:29px;object-fit:contain}
 .friends-layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:18px}.friend-sidebar{padding:15px}.friend-tabs{display:flex;gap:6px;padding:4px;border-radius:14px;background:#f5eeeb}.friend-tab{flex:1;min-height:37px;border:0;border-radius:10px;background:transparent;font-weight:850;cursor:pointer}.friend-tab.active{background:#fff;box-shadow:0 5px 13px rgba(93,71,85,.08)}.friend-list{display:grid;gap:8px;margin-top:12px;max-height:570px;overflow:auto}.friend-row{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:10px;padding:9px;border:1px solid var(--line);border-radius:15px;background:#fff}.friend-row.active{border-color:#dca4ad;background:#fff5f6}.friend-row-avatar{width:42px;height:42px;border-radius:14px;background:#e9ccd2 center/cover;display:grid;place-items:center}.friend-row strong,.friend-row small{display:block}.friend-row small{color:var(--muted);font-size:.63rem}.friend-actions{display:flex;gap:5px}.micro-button{min-height:31px;padding:0 9px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:.62rem;font-weight:900;cursor:pointer}.micro-button.primary{border:0;background:#bd7480;color:#fff}.micro-button.danger{color:#a34d59;background:#fff1f2}.private-chat-card{display:flex;min-height:650px;max-height:calc(100vh - 220px);flex-direction:column;overflow:hidden}.private-chat-placeholder{display:grid;flex:1;place-items:center;text-align:center;color:var(--muted);padding:30px}.private-chat-head{display:flex;align-items:center;gap:10px;padding:15px 18px;border-bottom:1px solid var(--line)}
 .gallery-toolbar,.auction-toolbar,.shop-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:17px}.gallery-compose{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px}.gallery-compose select,.auction-create input,.auction-create select{min-height:45px;padding:0 12px;border:1px solid var(--line);border-radius:13px;background:#fff}.gallery-grid,.auction-grid,.shop-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.gallery-post,.auction-card,.shop-item{overflow:hidden;border:1px solid rgba(255,255,255,.94);border-radius:24px;background:rgba(255,254,251,.9);box-shadow:var(--soft-shadow)}.gallery-user{display:flex;align-items:center;gap:9px;padding:12px 13px}.gallery-user-avatar{width:35px;height:35px;border-radius:12px;background:#ebd0d4 center/cover;display:grid;place-items:center}.gallery-user strong,.gallery-user small{display:block}.gallery-user small{color:var(--muted);font-size:.61rem}.gallery-card-wrap{padding:0 13px}.gallery-actions{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:12px 13px}.gallery-countdown{color:var(--muted);font-size:.72rem}.auction-create{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(120px,.6fr) minmax(90px,.4fr) auto;gap:8px;margin-bottom:18px;padding:14px;border-radius:20px;background:rgba(255,254,251,.84);border:1px solid rgba(255,255,255,.9);box-shadow:var(--soft-shadow)}.auction-image{aspect-ratio:1.34;background:#f3ece9;overflow:hidden}.auction-image img{width:100%;height:100%;object-fit:cover}.auction-body{padding:14px}.auction-body h3{margin:0}.auction-meta{display:flex;justify-content:space-between;gap:8px;margin:8px 0;color:var(--muted);font-size:.69rem}.auction-price{font-size:1.18rem;font-weight:950;color:var(--rose-deep)}
 .inventory-toolbar{display:flex;flex-wrap:wrap;gap:9px}.inventory-toolbar .search-field{flex:1;min-width:210px}.inventory-sort,.advanced-filter{min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:13px;background:#fff;color:#6f6570;font-weight:750}.inventory-actions{display:flex;gap:6px;margin-top:9px}.inventory-actions button{flex:1;min-height:34px;border:1px solid var(--line);border-radius:11px;background:#fff;font-size:.66rem;font-weight:900;cursor:pointer}.inventory-actions button.active{background:#fff1f3;border-color:#e0a5ae;color:#ad5f6c}.condition-line,.signature-line,.passive-line{display:flex;align-items:center;gap:6px;margin-top:5px;color:#7d727c;font-size:.63rem}.signed-seal{position:absolute;right:12px;bottom:12px;z-index:5;padding:5px 8px;border-radius:999px;background:linear-gradient(135deg,#fff6d8,#efc86d);color:#7d5d1f;font-size:.55rem;font-weight:950;transform:rotate(-4deg);box-shadow:0 4px 12px rgba(126,93,31,.18)}.favorite-star{position:absolute;left:12px;top:12px;z-index:8;width:31px;height:31px;border:0;border-radius:10px;background:rgba(255,255,255,.88);cursor:pointer;font-size:17px;box-shadow:0 5px 13px rgba(82,61,75,.12)}
@@ -868,7 +868,7 @@ button,input,textarea,select{max-width:100%}
 </div>
 <div class="admin-panel" data-admin-panel="players">
   <section class="admin-subcard"><h3>Spieler suchen & verwalten</h3><div class="compact-search"><input id="adminPlayerSearch" type="search" placeholder="Benutzername suchen …"><button id="adminPlayerSearchButton" type="button">Suchen</button></div><div class="admin-user-list" id="adminPlayerList"></div></section>
-  <section class="admin-subcard" id="selectedPlayerAdmin" style="margin-top:16px" hidden><h3 id="selectedPlayerAdminTitle">Spieler verwalten</h3><div class="admin-grid-two"><label>Rang zuteilen<select id="adminAssignRank"><option value="">Rang auswählen …</option></select></label><label>Badge zuteilen<select id="adminAssignBadge"><option value="">Badge auswählen …</option></select></label></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="secondary-button" id="assignRankButton" type="button">Rang vergeben</button><button class="secondary-button" id="assignBadgeButton" type="button">Badge vergeben</button><button class="danger-button" id="mutePlayerButton" type="button">Nutzer 60 Minuten stummschalten</button></div></section>
+  <section class="admin-subcard" id="selectedPlayerAdmin" style="margin-top:16px" hidden><h3 id="selectedPlayerAdminTitle">Spieler verwalten</h3><div class="admin-grid-two"><label>Rang zuteilen<select id="adminAssignRank"><option value="">Rang auswählen …</option></select></label><label>Badge zuteilen<select id="adminAssignBadge"><option value="">Badge auswählen …</option></select></label></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="secondary-button" id="assignRankButton" type="button">Rang vergeben</button><button class="secondary-button" id="assignBadgeButton" type="button">Badge vergeben</button><button class="danger-button" id="mutePlayerButton" type="button">Nutzer 60 Minuten stummschalten</button><button class="danger-button" id="resetPlayerAccountButton" type="button">Spielerkonto zurücksetzen</button></div><p class="admin-reset-note">Löscht alle Nexo-Cards-Daten dieses Spielers und zwingt ihn beim nächsten Login zu einer neuen Profilregistrierung. Das Firebase-Auth-Konto selbst kann nur über eine sichere Cloud Function vollständig entfernt werden.</p></section>
 </div>
 <div class="admin-panel" data-admin-panel="moderation">
   <div class="admin-grid-two"><section class="admin-subcard"><h3>Live-Chat moderieren</h3><p>Nachrichten können gelöscht werden. Nutzer lassen sich über das Profil oder die Spielerverwaltung stummschalten.</p><div class="moderation-list" id="moderationChatList"></div></section><section class="admin-subcard"><h3>Aktive Stummschaltungen</h3><div class="moderation-list" id="activeMutesList"></div></section></div>
@@ -1040,7 +1040,8 @@ if (["http:", "https:"].includes(location.protocol)) {
     passwordVisible: false,
     language: localStorage.getItem("nexo-cards-language") || "en",
     soundEnabled: localStorage.getItem("card-garden-sound") !== "off",
-    audioContext: null
+    audioContext: null,
+    reRegistrationRequired: false
   };
   state.navUnread = { chat: 0, friends: 0, gallery: 0 };
 
@@ -1158,6 +1159,7 @@ if (["http:", "https:"].includes(location.protocol)) {
           updated_at: now
         });
         if (username === "MrNexo") await set(dbRef(firebaseDatabase, `admins/${user.uid}`), true);
+        await remove(dbRef(firebaseDatabase, `deleted_users/${user.uid}`)).catch(() => {});
       } catch (error) {
         await remove(usernameReference).catch(() => {});
         throw error;
@@ -1299,17 +1301,25 @@ if (["http:", "https:"].includes(location.protocol)) {
       },
       async signUp({ email, password, options }) {
         let credential = null;
+        let createdNewAuthUser = false;
         try {
           const username = String(options?.data?.username || "").trim();
-          pendingRegistration = (async () => {
-            credential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
-            await registerProfile(credential.user, username, email);
-            return credential;
-          })();
+          const currentUser = firebaseAuth.currentUser;
+          const resetSnapshot = currentUser ? await get(dbRef(firebaseDatabase, `deleted_users/${currentUser.uid}`)).catch(() => null) : null;
+          if (currentUser && resetSnapshot?.exists()) {
+            pendingRegistration = registerProfile(currentUser, username, currentUser.email || email).then(() => ({ user: currentUser }));
+          } else {
+            pendingRegistration = (async () => {
+              credential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+              createdNewAuthUser = true;
+              await registerProfile(credential.user, username, email);
+              return credential;
+            })();
+          }
           credential = await pendingRegistration;
           return { data: { session: { user: normalizeFirebaseUser(credential.user) } }, error: null };
         } catch (error) {
-          if (credential?.user) await deleteUser(credential.user).catch(() => {});
+          if (createdNewAuthUser && credential?.user) await deleteUser(credential.user).catch(() => {});
           return { data: null, error };
         } finally {
           pendingRegistration = null;
@@ -2205,7 +2215,7 @@ if (["http:", "https:"].includes(location.protocol)) {
     if (target === "admin" && !state.isAdmin) target = "boxes";
     state.currentView = target;
 
-    if (target === "chat" || target === "gallery") {
+    if (target === "chat" || target === "gallery" || target === "friends") {
       window.NexoSocialNavigation?.markSeen?.(target);
     }
 
@@ -2354,6 +2364,28 @@ if (["http:", "https:"].includes(location.protocol)) {
     $$(".auth-tab").forEach((button) => button.classList.toggle("active", button.dataset.authTab === tab));
   }
 
+  function setReRegistrationMode(enabled) {
+    state.reRegistrationRequired = Boolean(enabled);
+    const emailInput = $("#registerForm [name='email']");
+    const passwordInput = $("#registerForm [name='password']");
+    const passwordLabel = passwordInput?.closest("label");
+    const submit = $("#registerForm button[type='submit']");
+    if (enabled) {
+      switchAuthTab("register");
+      $("#authTitle").textContent = state.language === "de" ? "Profil neu registrieren" : "Re-register profile";
+      if (emailInput) { emailInput.value = state.user?.email || ""; emailInput.readOnly = true; }
+      if (passwordInput) { passwordInput.required = false; passwordInput.value = ""; }
+      if (passwordLabel) passwordLabel.hidden = true;
+      if (submit) submit.textContent = state.language === "de" ? "Profil neu registrieren" : "Re-register profile";
+      toast(state.language === "de" ? "Dieses Nexo-Cards-Konto wurde zurückgesetzt. Erstelle dein Profil neu." : "This Nexo Cards account was reset. Create your profile again.", "error");
+    } else {
+      if (emailInput) emailInput.readOnly = false;
+      if (passwordInput) passwordInput.required = true;
+      if (passwordLabel) passwordLabel.hidden = false;
+      if (submit) submit.textContent = state.language === "de" ? "Account erstellen" : "Create account";
+    }
+  }
+
   async function login(event) {
     event.preventDefault();
     if (!state.configured) return toast("Der Anmeldedienst ist noch nicht verbunden.", "error");
@@ -2392,9 +2424,14 @@ if (["http:", "https:"].includes(location.protocol)) {
     setButtonLoading(button, false);
 
     if (error) return toast(translateError(error), "error");
+    const wasReRegistration = state.reRegistrationRequired;
     event.currentTarget.reset();
-    if (data.session) toast("Dein Account wurde erstellt!", "success");
-    else toast("Dein Account wurde erstellt!", "success");
+    setReRegistrationMode(false);
+    if (wasReRegistration && data?.session) {
+      await loadPublicData();
+      await handleSession(data.session);
+    }
+    toast(state.language === "de" ? "Dein Profil wurde erstellt!" : "Your profile was created!", "success");
   }
 
   async function logout() {
@@ -2441,13 +2478,22 @@ if (["http:", "https:"].includes(location.protocol)) {
 
   async function saveAvatar(value) {
     if (!state.user) return;
-    const { error } = await state.db.from("profiles").update({ avatar_url: value, updated_at: new Date().toISOString() }).eq("id", state.user.id);
-    if (error) return toast(translateError(error), "error");
-    state.profile.avatar_url = value;
-    renderUserChrome();
-    renderProfile();
-    $("#avatarPicker").hidden = true;
-    toast("Profilicon gespeichert.", "success");
+    try {
+      const timestamp = Date.now();
+      await update(dbRef(firebaseDatabase), {
+        [`profiles/${state.user.id}/avatar_url`]: value,
+        [`profiles/${state.user.id}/avatar_path`]: "",
+        [`profiles/${state.user.id}/updated_at`]: timestamp,
+        [`public_profiles/${state.user.id}/avatar_url`]: value,
+        [`public_profiles/${state.user.id}/updated_at`]: timestamp
+      });
+      state.profile.avatar_url = value;
+      state.profile.avatar_path = "";
+      renderUserChrome();
+      renderProfile();
+      $("#avatarPicker").hidden = true;
+      toast(state.language === "de" ? "Profilicon gespeichert." : "Profile icon saved.", "success");
+    } catch (error) { toast(translateError(error), "error"); }
   }
 
   function validateImage(file) {
@@ -2463,18 +2509,37 @@ if (["http:", "https:"].includes(location.protocol)) {
     if (file.type === "image/gif") return file;
     const maxSide = Number(options.maxSide || 1600);
     const quality = Number(options.quality || 0.82);
-    const bitmap = await createImageBitmap(file);
-    const ratio = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
-    const width = Math.max(1, Math.round(bitmap.width * ratio));
-    const height = Math.max(1, Math.round(bitmap.height * ratio));
+    let source = null;
+    let cleanup = () => {};
+    try {
+      if (typeof createImageBitmap === "function") {
+        source = await createImageBitmap(file);
+        cleanup = () => source?.close?.();
+      }
+    } catch {}
+    if (!source) {
+      const objectUrl = URL.createObjectURL(file);
+      source = await new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("image_decode_failed"));
+        image.src = objectUrl;
+      });
+      cleanup = () => URL.revokeObjectURL(objectUrl);
+    }
+    const sourceWidth = Number(source.width || source.naturalWidth || 1);
+    const sourceHeight = Number(source.height || source.naturalHeight || 1);
+    const ratio = Math.min(1, maxSide / Math.max(sourceWidth, sourceHeight));
+    const width = Math.max(1, Math.round(sourceWidth * ratio));
+    const height = Math.max(1, Math.round(sourceHeight * ratio));
     const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
     const context = canvas.getContext("2d", { alpha: true });
     context.imageSmoothingEnabled = true;
     context.imageSmoothingQuality = "high";
-    context.drawImage(bitmap, 0, 0, width, height);
-    bitmap.close?.();
+    context.drawImage(source, 0, 0, width, height);
+    cleanup();
     const outputType = file.type === "image/png" && file.size < 900000 ? "image/png" : "image/webp";
     const blob = await new Promise((resolve, reject) => canvas.toBlob((result) => result ? resolve(result) : reject(new Error("image_compression_failed")), outputType, quality));
     if (blob.size >= file.size && ratio === 1) return file;
@@ -2515,32 +2580,56 @@ if (["http:", "https:"].includes(location.protocol)) {
     }
   }
 
+  async function avatarDataUrlFallback(file) {
+    if (file.type === "image/gif") {
+      if (file.size > 650000) throw new Error("GIF profile images require Firebase Storage permission or must be smaller than 650 KB.");
+      return await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(String(reader.result || "")); reader.onerror = reject; reader.readAsDataURL(file); });
+    }
+    const optimized = await compressImageFile(file, { maxSide: 420, quality: 0.76 });
+    const value = await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(String(reader.result || "")); reader.onerror = reject; reader.readAsDataURL(optimized); });
+    if (value.length > 600000) throw new Error("profile_image_too_large");
+    return value;
+  }
+
   async function uploadAvatar(event) {
     const file = event.target.files?.[0];
     if (!file || !state.user) return;
     const validation = validateImage(file);
-    if (validation) {
-      event.target.value = "";
-      return toast(validation, "error");
-    }
+    if (validation) { event.target.value = ""; return toast(validation, "error"); }
 
-    const oldPath = storagePathFromPublicUrl(state.profile?.avatar_url, "avatars");
+    const oldPath = state.profile?.avatar_path || storagePathFromPublicUrl(state.profile?.avatar_url, "avatars");
+    let uploadedPath = "";
     try {
-      toast("Profilbild wird hochgeladen …");
-      const uploaded = await uploadMedia("avatars", file, state.user.id);
-      const { error } = await state.db.from("profiles").update({ avatar_url: uploaded.url, updated_at: new Date().toISOString() }).eq("id", state.user.id);
-      if (error) throw error;
-      if (oldPath) await state.db.storage.from("avatars").remove([oldPath]);
-      state.profile.avatar_url = uploaded.url;
+      toast(state.language === "de" ? "Profilbild wird hochgeladen …" : "Uploading profile image …");
+      let avatarUrl = "";
+      try {
+        const uploaded = await uploadMedia("avatars", file, state.user.id);
+        avatarUrl = uploaded.url;
+        uploadedPath = uploaded.path;
+      } catch (storageError) {
+        avatarUrl = await avatarDataUrlFallback(file);
+        uploadedPath = "";
+        console.warn("Firebase Storage upload failed; using compressed database fallback.", storageError);
+      }
+      const timestamp = Date.now();
+      await update(dbRef(firebaseDatabase), {
+        [`profiles/${state.user.id}/avatar_url`]: avatarUrl,
+        [`profiles/${state.user.id}/avatar_path`]: uploadedPath,
+        [`profiles/${state.user.id}/updated_at`]: timestamp,
+        [`public_profiles/${state.user.id}/avatar_url`]: avatarUrl,
+        [`public_profiles/${state.user.id}/updated_at`]: timestamp
+      });
+      if (oldPath && oldPath !== uploadedPath) await state.db.storage.from("avatars").remove([oldPath]).catch(() => {});
+      state.profile.avatar_url = avatarUrl;
+      state.profile.avatar_path = uploadedPath;
       renderUserChrome();
       renderProfile();
       $("#avatarPicker").hidden = true;
-      toast("Profilbild gespeichert.", "success");
+      toast(state.language === "de" ? "Profilbild gespeichert." : "Profile image saved.", "success");
     } catch (error) {
+      if (uploadedPath) await state.db.storage.from("avatars").remove([uploadedPath]).catch(() => {});
       toast(translateError(error), "error");
-    } finally {
-      event.target.value = "";
-    }
+    } finally { event.target.value = ""; }
   }
 
   async function deleteAccount() {
@@ -3226,11 +3315,21 @@ if (["http:", "https:"].includes(location.protocol)) {
 
     if (state.user) {
       try {
+        const resetSnapshot = await get(dbRef(firebaseDatabase, `deleted_users/${state.user.id}`)).catch(() => null);
+        if (resetSnapshot?.exists()) {
+          state.profile = null;
+          renderUserChrome();
+          setReRegistrationMode(true);
+          return;
+        }
+        setReRegistrationMode(false);
         await loadPrivateData();
       } catch (error) {
         toast(`Profil konnte nicht geladen werden: ${translateError(error)}`, "error");
+        renderUserChrome();
       }
     } else {
+      setReRegistrationMode(false);
       renderUserChrome();
       renderInventory();
     }
@@ -3255,6 +3354,13 @@ if (["http:", "https:"].includes(location.protocol)) {
   }
 
   window.NexoCore = {
+    async forceAccountReset() {
+      await state.db?.auth?.signOut?.();
+      state.profile = null;
+      renderUserChrome();
+      showAuth("login");
+      toast(state.language === "de" ? "Dein Nexo-Cards-Konto wurde vom Admin zurückgesetzt." : "Your Nexo Cards account was reset by an admin.", "error");
+    },
     refreshInventory,
     claimIncome,
     renderInventory,
@@ -3273,7 +3379,7 @@ if (["http:", "https:"].includes(location.protocol)) {
 <script type="module">
 import { getApps, getApp, initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-import { getDatabase, ref, get, set, update, remove, push, runTransaction, onValue, onDisconnect, query, limitToLast } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+import { getDatabase, ref, get, set, update, remove, push, runTransaction, onValue, onDisconnect, query, limitToLast, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
 
 const socialFirebaseConfig = {
@@ -3310,7 +3416,17 @@ const BUILTIN_COLORS = [
   { id:"peach", name:"Peach Cream", color:"#b66f50", gradient:"linear-gradient(135deg,#f3c3a7,#b66f50)", price:3000, description:"A warm peach tone." },
   { id:"gold", name:"Collector Gold", color:"#9a732f", gradient:"linear-gradient(135deg,#f2da91,#9a732f)", price:5000, description:"Elegant collector gold." },
   { id:"berry", name:"Berry Velvet", color:"#8e4f70", gradient:"linear-gradient(135deg,#dca1bd,#8e4f70)", price:5000, description:"A deep berry accent." },
-  { id:"midnight", name:"Midnight Ink", color:"#4f536d", gradient:"linear-gradient(135deg,#9da6c8,#4f536d)", price:6000, description:"Professional midnight lettering." }
+  { id:"midnight", name:"Midnight Ink", color:"#4f536d", gradient:"linear-gradient(135deg,#9da6c8,#4f536d)", price:6000, description:"Professional midnight lettering." },
+  { id:"sakura_mist", name:"Sakura Mist", color:"#c35f86", gradient:"linear-gradient(135deg,#ffd5e3,#c35f86)", price:3200, description:"Soft cherry blossom pink." },
+  { id:"ocean_pearl", name:"Ocean Pearl", color:"#347f9b", gradient:"linear-gradient(135deg,#bcecf2,#347f9b)", price:3800, description:"A fresh pearly ocean blue." },
+  { id:"forest_tea", name:"Forest Tea", color:"#49745b", gradient:"linear-gradient(135deg,#c7dfc8,#49745b)", price:3800, description:"Calm forest green lettering." },
+  { id:"plum_dream", name:"Plum Dream", color:"#765184", gradient:"linear-gradient(135deg,#e0bfe5,#765184)", price:4200, description:"Dreamy plum-purple chat color." },
+  { id:"caramel", name:"Caramel Latte", color:"#9a6849", gradient:"linear-gradient(135deg,#efd2ad,#9a6849)", price:3500, description:"Warm caramel collector tone." },
+  { id:"ruby", name:"Ruby Heart", color:"#a83f58", gradient:"linear-gradient(135deg,#f2a2b2,#a83f58)", price:5500, description:"Rich ruby red with a soft finish." },
+  { id:"royal_blue", name:"Royal Blue", color:"#465f9f", gradient:"linear-gradient(135deg,#a9bce9,#465f9f)", price:5500, description:"A refined royal blue." },
+  { id:"silver", name:"Silver Cloud", color:"#66727d", gradient:"linear-gradient(135deg,#e0e7ec,#66727d)", price:4800, description:"Clean silver-gray lettering." },
+  { id:"sunset", name:"Sunset Coral", color:"#bd665b", gradient:"linear-gradient(135deg,#ffc5ad,#bd665b)", price:4600, description:"A warm coral sunset accent." },
+  { id:"cosmic", name:"Cosmic Violet", color:"#604c9b", gradient:"linear-gradient(135deg,#c5b3ff,#604c9b)", price:6500, description:"Deep cosmic violet lettering." }
 ];
 const BUILTIN_FONTS = [
   { id:"rounded", name:"Rounded", font:'"Trebuchet MS","Segoe UI",sans-serif', price:2500, description:"Friendly and rounded." },
@@ -3318,7 +3434,17 @@ const BUILTIN_FONTS = [
   { id:"mono", name:"Collector Mono", font:'"Courier New",monospace', price:3500, description:"Clean and technical." },
   { id:"elegant", name:"Elegant", font:'Palatino,"Book Antiqua",serif', price:4000, description:"Soft and refined." },
   { id:"compact", name:"Compact", font:'Arial Narrow,"Segoe UI",sans-serif', price:4500, description:"Modern compact lettering." },
-  { id:"storybook", name:"Storybook", font:'"Comic Sans MS","Trebuchet MS",cursive', price:5000, description:"Playful storybook lettering." }
+  { id:"storybook", name:"Storybook", font:'"Comic Sans MS","Trebuchet MS",cursive', price:5000, description:"Playful storybook lettering." },
+  { id:"modern", name:"Modern Clean", font:'Inter,"Segoe UI",Arial,sans-serif', price:2800, description:"Clean modern UI lettering." },
+  { id:"soft", name:"Soft Humanist", font:'Calibri,Candara,"Segoe UI",sans-serif', price:3200, description:"Friendly and easy to read." },
+  { id:"royal", name:"Royal Serif", font:'Garamond,"Times New Roman",serif', price:4200, description:"Elegant royal collector style." },
+  { id:"editorial", name:"Editorial", font:'Baskerville,Georgia,serif', price:4500, description:"A polished editorial look." },
+  { id:"handwritten", name:"Handwritten", font:'"Segoe Print","Bradley Hand",cursive', price:5200, description:"Warm handwritten lettering." },
+  { id:"marker", name:"Cute Marker", font:'"Comic Sans MS","Segoe Print",cursive', price:4800, description:"Bold playful marker style." },
+  { id:"terminal", name:"Pixel Terminal", font:'Consolas,"Lucida Console",monospace', price:4200, description:"Crisp digital collector font." },
+  { id:"typewriter", name:"Typewriter", font:'"Courier Prime","Courier New",monospace', price:3900, description:"Classic typewriter appearance." },
+  { id:"wide", name:"Wide Display", font:'Verdana,Geneva,sans-serif', price:4300, description:"Wide and highly readable." },
+  { id:"luxury", name:"Luxury Book", font:'Didot,"Bodoni MT",serif', price:6000, description:"A luxury fashion-inspired serif." }
 ];
 const DEFAULT_REACTIONS = [
   { id:"heart", name:"Heart", symbol:"♡", price:0, type:"reaction", description:"A friendly heart." },
@@ -3331,7 +3457,7 @@ const social = {
   user:null, profile:null, isAdmin:false, cards:{}, inventory:{}, publicProfiles:{}, presence:{}, friends:{}, requests:{}, notifications:{}, publicMessages:{}, privateMessages:{}, activePrivateUid:"", privateUnsubscribe:null,
   catalog:{ ranks:{}, badges:{}, reactions:{}, backgrounds:{}, chat_colors:{}, fonts:{} },
   gallery:{}, auctions:{}, cardReactions:{}, announcements:{}, mutes:{},
-  replyPublic:null, replyPrivate:null, friendTab:"friends", shopFilter:"all", shopPreview:null, giftCardId:"", selectedAdminUid:"", watchers:[], connectionUnsubscribe:null, lastPublicMessageAt:0, lastPrivateMessageAt:0, seenPublicChatAt:Number(localStorage.getItem("nexo-seen-public-chat")||0), seenGalleryAt:Number(localStorage.getItem("nexo-seen-gallery")||0), syncTimer:null, galleryTimer:null, auctionTimer:null, announcementTimer:null
+  replyPublic:null, replyPrivate:null, friendTab:"friends", shopFilter:"all", shopPreview:null, giftCardId:"", selectedAdminUid:"", watchers:[], connectionUnsubscribe:null, lastPublicMessageAt:0, lastPrivateMessageAt:0, seenPublicChatAt:Number(localStorage.getItem("nexo-seen-public-chat")||0), seenGalleryAt:Number(localStorage.getItem("nexo-seen-gallery")||0), syncTimer:null, galleryTimer:null, auctionTimer:null, announcementTimer:null, presenceTimer:null, presenceVisibilityHandler:null
 };
 
 function showToast(message, type = "normal") {
@@ -3363,7 +3489,7 @@ function ownedIds(type) { return Object.keys(social.profile?.owned?.[type] || {}
 function catalogItem(type, id) { return social.catalog[type]?.[id] || null; }
 function typeOwnedKey(type) { return ({ rank:"ranks", badge:"badges", reaction:"reactions", chat_color:"chat_colors", background:"backgrounds", font:"fonts" })[type] || `${type}s`; }
 function currentProfile(uid) { return social.publicProfiles[uid] || (uid === social.user?.uid ? social.profile : null) || {}; }
-function isOnline(uid) { const item = social.presence[uid]; return Boolean(item?.online && Number(item.last_seen || now()) > now() - 120000); }
+function isOnline(uid) { const item = social.presence[uid]; if (!item?.online) return false; const seen = Number(item.last_seen || 0); return !seen || seen > now() - 95000; }
 function isFriend(uid) { return Boolean(social.friends?.[uid]); }
 function ownInventoryRows() { return Object.entries(social.inventory || {}).filter(([,item]) => Number(item?.quantity || 0) > 0).map(([cardId,item]) => ({ cardId, item, card:social.cards[cardId] })).filter((row) => row.card); }
 function reactionItem(id) { return social.catalog.reactions[id] || DEFAULT_REACTIONS.find((item) => item.id === id) || { id, name:id, symbol:"♡" }; }
@@ -3479,7 +3605,8 @@ async function sendPublicMessage(event) {
 function setNavBadge(id,count){const badge=$s(id); if(!badge) return; const value=Math.max(0,Number(count||0)); badge.hidden=!value; badge.textContent=String(Math.min(99,value));}
 function updateNavigationBadges(){
   const chatCount=rows(social.publicMessages).filter((item)=>Number(item.created_at||0)>Number(social.seenPublicChatAt||0) && item.uid!==social.user?.uid).length;
-  const friendCount=Object.keys(social.requests||{}).length;
+  const unreadPrivateMessages = rows(social.notifications).filter((item)=>!item.read && item.type==="message").length;
+  const friendCount=Object.keys(social.requests||{}).length + unreadPrivateMessages;
   const galleryCount=rows(social.gallery).filter((item)=>Number(item.created_at||0)>Number(social.seenGalleryAt||0) && item.uid!==social.user?.uid).length;
   setNavBadge("#chatNavBadge",chatCount);
   setNavBadge("#friendsNavBadge",friendCount);
@@ -3496,6 +3623,11 @@ window.NexoSocialNavigation = {
     if (view === "gallery") {
       social.seenGalleryAt = timestamp;
       localStorage.setItem("nexo-seen-gallery", String(timestamp));
+    }
+    if (view === "friends" && social.user) {
+      const changes = {};
+      rows(social.notifications).filter((item)=>!item.read && item.type==="message").forEach((item)=>{ changes[`notifications/${social.user.uid}/${item.id}/read`] = true; });
+      if (Object.keys(changes).length) update(ref(socialDb), changes).catch(()=>{});
     }
     updateNavigationBadges();
   }
@@ -3552,7 +3684,9 @@ function privateChatId(a,b){return [a,b].sort().join("__");}
 function closePrivateChat(){social.privateUnsubscribe?.();social.privateUnsubscribe=null;social.activePrivateUid="";social.privateMessages={};$s("#privateChatPlaceholder").hidden=false;$s("#privateChatHead").hidden=true;$s("#privateChatMessages").hidden=true;$s("#privateChatForm").hidden=true;renderFriends();}
 function openPrivateChat(uid){
   if(!isFriend(uid))return showToast(tr("Privat-Chats sind nur zwischen Freunden möglich.","Private chats are only available between friends."),"error");
-  social.activePrivateUid=uid; social.privateUnsubscribe?.(); const p=currentProfile(uid); setAvatar($s("#privateChatAvatar"),profileAvatarValue(p),(p.username||"?").charAt(0).toUpperCase());$s("#privateChatName").textContent=p.username||"Unknown";$s("#privateChatStatus").textContent=isOnline(uid)?tr("Online","Online"):tr("Offline","Offline");$s("#privateChatPlaceholder").hidden=true;$s("#privateChatHead").hidden=false;$s("#privateChatMessages").hidden=false;$s("#privateChatForm").hidden=false;
+  social.activePrivateUid=uid; social.privateUnsubscribe?.();
+  const readChanges={}; rows(social.notifications).filter((item)=>!item.read && item.type==="message" && item.chat_uid===uid).forEach((item)=>{readChanges[`notifications/${social.user.uid}/${item.id}/read`]=true;}); if(Object.keys(readChanges).length)update(ref(socialDb),readChanges).catch(()=>{});
+  const p=currentProfile(uid); setAvatar($s("#privateChatAvatar"),profileAvatarValue(p),(p.username||"?").charAt(0).toUpperCase());$s("#privateChatName").textContent=p.username||"Unknown";$s("#privateChatStatus").textContent=isOnline(uid)?tr("Online","Online"):tr("Offline","Offline");$s("#privateChatPlaceholder").hidden=true;$s("#privateChatHead").hidden=false;$s("#privateChatMessages").hidden=false;$s("#privateChatForm").hidden=false;
   const id=privateChatId(social.user.uid,uid);const members={};members[`private_chat_members/${id}/${social.user.uid}`]=true;members[`private_chat_members/${id}/${uid}`]=true;update(ref(socialDb),members).catch(()=>{});social.privateUnsubscribe=onValue(query(ref(socialDb,`private_chats/${id}/messages`),limitToLast(20)),(snapshot)=>{const oldLast=social.lastPrivateMessageAt;social.privateMessages=snapshot.val()||{};const newest=Math.max(0,...Object.values(social.privateMessages).map((m)=>Number(m.created_at||0)));renderPrivateChat();if(oldLast&&newest>oldLast&&Object.values(social.privateMessages).some((m)=>Number(m.created_at||0)===newest&&m.uid!==social.user.uid))audio("messageSound");social.lastPrivateMessageAt=newest;});renderFriends();
 }
 function renderPrivateChat(){const c=$s("#privateChatMessages");if(!c)return;const path=`private_chats/${privateChatId(social.user.uid,social.activePrivateUid)}/messages`;const messages=rows(social.privateMessages).sort((a,b)=>Number(a.created_at||0)-Number(b.created_at||0)).slice(-20);c.innerHTML=messages.length?messages.map((m)=>messageMarkup(m,path)).join(""):`<div class="chat-empty">${tr("Schreibe die erste private Nachricht.","Write the first private message.")}</div>`;requestAnimationFrame(()=>c.scrollTop=c.scrollHeight);}
@@ -3628,18 +3762,55 @@ async function unmutePlayer(uid){await remove(ref(socialDb,`mutes/${uid}`));}
 function renderModeration(){const chat=$s("#moderationChatList"),mutes=$s("#activeMutesList");if(chat)chat.innerHTML=rows(social.publicMessages).sort((a,b)=>Number(b.created_at)-Number(a.created_at)).map((m)=>`<div class="moderation-row"><span class="catalog-icon">💬</span><div><strong>${esc(currentProfile(m.uid).username||"Unknown")}</strong><small>${esc(String(m.text||"").slice(0,80))}</small></div><button class="icon-danger" type="button" data-admin-delete-message="${esc(m.id)}">×</button></div>`).join("")||`<div class="selector-empty">${tr("Keine Chatnachrichten.","No chat messages.")}</div>`;if(mutes)mutes.innerHTML=Object.entries(social.mutes||{}).filter(([,m])=>Number(m.until||0)>now()).map(([uid,m])=>`<div class="moderation-row"><span class="catalog-icon">×</span><div><strong>${esc(currentProfile(uid).username||uid)}</strong><small>${tr("Bis","Until")} ${esc(dateTime(m.until))}</small></div><button class="micro-button" type="button" data-unmute-player="${esc(uid)}">${tr("Aufheben","Unmute")}</button></div>`).join("")||`<div class="selector-empty">${tr("Keine aktiven Stummschaltungen.","No active mutes.")}</div>`;}
 async function createAnnouncement(event){event.preventDefault();if(!social.isAdmin)return;const f=new FormData(event.currentTarget),duration=Math.max(1,Number(f.get("duration")||1)),unit=String(f.get("unit")||"minutes"),factor=unit==="days"?86400000:unit==="hours"?3600000:60000,target=push(ref(socialDb,"announcements"));await set(target,{title:String(f.get("title")||"").trim(),message:String(f.get("message")||"").trim(),created_at:now(),expires_at:now()+duration*factor,created_by:social.user.uid});event.currentTarget.reset();showToast(tr("Ankündigung veröffentlicht.","Announcement published."),"success");}
 function renderAnnouncements(){const list=rows(social.announcements).sort((a,b)=>Number(b.created_at)-Number(a.created_at));const adminList=$s("#announcementAdminList");if(adminList)adminList.innerHTML=list.map((a)=>`<div class="announcement-row"><span class="catalog-icon">✦</span><div><strong>${esc(a.title)}</strong><small>${esc(a.message)} · ${a.expires_at>now()?tr("aktiv","active"):tr("abgelaufen","expired")}</small></div><button class="icon-danger" type="button" data-delete-announcement="${esc(a.id)}">×</button></div>`).join("")||`<div class="selector-empty">${tr("Keine Ankündigungen.","No announcements.")}</div>`;const active=list.filter((a)=>Number(a.expires_at)>now()).sort((a,b)=>Number(b.created_at)-Number(a.created_at))[0];const bar=$s("#announcementBar");if(!bar)return;if(!active){bar.classList.remove("active");return;}bar.classList.add("active");$s("#announcementTitle").textContent=active.title;$s("#announcementText").textContent=active.message;const remaining=Math.max(0,Number(active.expires_at)-now());$s("#announcementTimer").textContent=remaining>86400000?`${Math.ceil(remaining/86400000)}d`:remaining>3600000?`${Math.ceil(remaining/3600000)}h`:`${Math.ceil(remaining/60000)}m`;}
+async function resetPlayerAccount(uid){
+  if(!social.isAdmin||!uid)return;
+  const profile=currentProfile(uid);if(profile.username==="MrNexo"||uid===social.user?.uid)return showToast(tr("Der Admin-Account kann hier nicht zurückgesetzt werden.","The admin account cannot be reset here."),"error");
+  const typed=prompt(`${tr("Zum Zurücksetzen den Benutzernamen eingeben:","Type the username to reset:")} ${profile.username||"Unknown"}`);if(typed!==(profile.username||""))return;
+  if(!confirm(tr("Alle Karten, Freunde, Nachrichten, Käufe und Profildaten dieses Spielers löschen?","Delete all cards, friends, messages, purchases and profile data for this player?")))return;
+  try{
+    const [fullProfile,friendsSnap,requestsSnap,chatSnap,gallerySnap,auctionSnap]=await Promise.all([
+      get(ref(socialDb,`profiles/${uid}`)),get(ref(socialDb,"friends")),get(ref(socialDb,"friend_requests")),get(ref(socialDb,"public_chat")),get(ref(socialDb,"gallery")),get(ref(socialDb,"auctions"))
+    ]);
+    const data=fullProfile.val()||profile;const usernameLower=String(data.username_lower||data.username||"").toLowerCase();const changes={};
+    changes[`deleted_users/${uid}`]={deleted:true,deleted_at:now(),deleted_by:social.user.uid,previous_username:data.username||profile.username||""};
+    changes[`profiles/${uid}`]=null;changes[`public_profiles/${uid}`]=null;changes[`inventories/${uid}`]=null;changes[`notifications/${uid}`]=null;changes[`mutes/${uid}`]=null;changes[`presence/${uid}`]=null;changes[`admins/${uid}`]=null;changes[`gallery_last_post/${uid}`]=null;
+    if(usernameLower)changes[`usernames/${usernameLower}`]=null;
+    Object.entries(friendsSnap.val()||{}).forEach(([owner,map])=>{if(owner===uid)changes[`friends/${owner}`]=null;else if(map?.[uid])changes[`friends/${owner}/${uid}`]=null;});
+    Object.entries(requestsSnap.val()||{}).forEach(([receiver,map])=>{if(receiver===uid)changes[`friend_requests/${receiver}`]=null;else if(map?.[uid])changes[`friend_requests/${receiver}/${uid}`]=null;});
+    Object.entries(chatSnap.val()||{}).forEach(([id,msg])=>{if(msg?.uid===uid)changes[`public_chat/${id}`]=null;});
+    Object.entries(gallerySnap.val()||{}).forEach(([id,post])=>{if(post?.uid===uid)changes[`gallery/${id}`]=null;});
+    Object.entries(auctionSnap.val()||{}).forEach(([id,item])=>{if(item?.seller_uid===uid||item?.buyer_uid===uid)changes[`auctions/${id}`]=null;});
+    await update(ref(socialDb),changes);social.selectedAdminUid="";$s("#selectedPlayerAdmin").hidden=true;showToast(tr("Spielerkonto wurde zurückgesetzt.","Player account was reset."),"success");renderAdminPlayers($s("#adminPlayerSearch")?.value||"");
+  }catch(error){showToast(error.message,"error");}
+}
+
 async function renderAdminStats(){if(!social.isAdmin)return;const [cards,boxes,chat,friends,auctions,gallery]=await Promise.all([get(ref(socialDb,"cards")),get(ref(socialDb,"card_boxes")),get(ref(socialDb,"public_chat")),get(ref(socialDb,"friends")),get(ref(socialDb,"auctions")),get(ref(socialDb,"gallery"))]);$s("#statUsers").textContent=String(Object.keys(social.publicProfiles).length);$s("#statOnline").textContent=String(Object.keys(social.presence).filter((uid)=>isOnline(uid)).length);$s("#statCards").textContent=String(Object.keys(cards.val()||{}).length);$s("#statBoxes").textContent=String(Object.keys(boxes.val()||{}).length);$s("#statChat").textContent=String(Object.keys(chat.val()||{}).length);const friendshipEdges=Object.values(friends.val()||{}).reduce((sum,map)=>sum+Object.keys(map||{}).length,0);$s("#statFriends").textContent=String(Math.floor(friendshipEdges/2));$s("#statAuctions").textContent=String(Object.keys(auctions.val()||{}).length);$s("#statGallery").textContent=String(Object.keys(gallery.val()||{}).length);}
 
 function schedulePublicSync(){clearTimeout(social.syncTimer);social.syncTimer=setTimeout(syncPublicProfile,350);}
 async function syncPublicProfile(){if(!social.user||!social.profile)return;const cardCount=Object.values(social.inventory||{}).reduce((sum,item)=>sum+Number(item?.quantity||0),0);const incomeRate=Object.entries(social.inventory||{}).reduce((sum,[id,item])=>sum+Number(item?.quantity||0)*Number(social.cards[id]?.income_per_second||0),0);const badgeCount=ownedIds("badges").length;await set(ref(socialDb,`public_profiles/${social.user.uid}`),{username:social.profile.username||"User",username_lower:social.profile.username_lower||String(social.profile.username||"").toLowerCase(),avatar_url:social.profile.avatar_url||"",bio:social.profile.bio||"",selected_rank:social.profile.selected_rank||"",selected_badges:social.profile.selected_badges||{},chat_color:social.profile.chat_color||"",font_family:social.profile.font_family||"",profile_background:social.profile.profile_background||"",card_count:cardCount,income_rate:incomeRate,badge_count:badgeCount,created_at:social.profile.created_at||now(),updated_at:now()});}
 function renderOnline(){const count=Object.keys(social.presence||{}).filter((uid)=>isOnline(uid)).length;if($s("#onlineCount"))$s("#onlineCount").textContent=String(count);renderFriends();if(social.activePrivateUid&&$s("#privateChatStatus"))$s("#privateChatStatus").textContent=isOnline(social.activePrivateUid)?tr("Online","Online"):tr("Offline","Offline");}
-function startPresence(){social.connectionUnsubscribe?.();const connectionRef=ref(socialDb,".info/connected");social.connectionUnsubscribe=onValue(connectionRef,async(snapshot)=>{const connected=snapshot.val()===true;const dot=$s("#chatConnectionDot"),label=$s("#chatConnectionLabel"),toast=$s("#connectionToast");if(dot)dot.classList.toggle("offline",!connected);if(label)label.textContent=connected?tr("Verbunden","Connected"):tr("Verbindung wird wiederhergestellt …","Reconnecting …");if(toast)toast.hidden=connected;if(!connected||!social.user)return;const presenceRef=ref(socialDb,`presence/${social.user.uid}`);await onDisconnect(presenceRef).set({online:false,last_seen:now(),username:social.profile?.username||"User"});await set(presenceRef,{online:true,last_seen:now(),username:social.profile?.username||"User"});});}
-function clearWatchers(){social.watchers.forEach((unsub)=>{try{unsub?.();}catch{}});social.watchers=[];social.privateUnsubscribe?.();social.privateUnsubscribe=null;social.connectionUnsubscribe?.();social.connectionUnsubscribe=null;clearInterval(social.galleryTimer);clearInterval(social.auctionTimer);clearInterval(social.announcementTimer);}
+function startPresence(){
+  social.connectionUnsubscribe?.(); clearInterval(social.presenceTimer); if(social.presenceVisibilityHandler)document.removeEventListener("visibilitychange",social.presenceVisibilityHandler);
+  const connectionRef=ref(socialDb,".info/connected");
+  social.connectionUnsubscribe=onValue(connectionRef,async(snapshot)=>{
+    const connected=snapshot.val()===true;const dot=$s("#chatConnectionDot"),label=$s("#chatConnectionLabel"),toast=$s("#connectionToast");
+    if(dot)dot.classList.toggle("offline",!connected);if(label)label.textContent=connected?tr("Verbunden","Connected"):tr("Verbindung wird wiederhergestellt …","Reconnecting …");if(toast)toast.hidden=connected;
+    clearInterval(social.presenceTimer); if(!connected||!social.user)return;
+    const presenceRef=ref(socialDb,`presence/${social.user.uid}`);const username=social.profile?.username||"User";
+    await onDisconnect(presenceRef).set({online:false,last_seen:serverTimestamp(),username});
+    const heartbeat=()=>update(presenceRef,{online:true,last_seen:serverTimestamp(),username}).catch(()=>{});
+    await heartbeat(); social.presenceTimer=setInterval(heartbeat,30000);
+  });
+  social.presenceVisibilityHandler=()=>{if(document.visibilityState==="visible"&&social.user){update(ref(socialDb,`presence/${social.user.uid}`),{online:true,last_seen:serverTimestamp(),username:social.profile?.username||"User"}).catch(()=>{});}};
+  document.addEventListener("visibilitychange",social.presenceVisibilityHandler);
+}
+function clearWatchers(){social.watchers.forEach((unsub)=>{try{unsub?.();}catch{}});social.watchers=[];social.privateUnsubscribe?.();social.privateUnsubscribe=null;social.connectionUnsubscribe?.();social.connectionUnsubscribe=null;clearInterval(social.presenceTimer);social.presenceTimer=null;if(social.presenceVisibilityHandler)document.removeEventListener("visibilitychange",social.presenceVisibilityHandler);social.presenceVisibilityHandler=null;clearInterval(social.galleryTimer);clearInterval(social.auctionTimer);clearInterval(social.announcementTimer);}
 function watchValue(reference,callback){const unsub=onValue(reference,callback,(error)=>showToast(error.message,"error"));social.watchers.push(unsub);return unsub;}
 async function loadOwnProfileWithRetry(uid){for(let i=0;i<12;i++){const snap=await get(ref(socialDb,`profiles/${uid}`));if(snap.exists())return snap.val();await new Promise((resolve)=>setTimeout(resolve,250));}return null;}
 function watchSocialData(){
   const uid=social.user.uid;
   watchValue(ref(socialDb,`profiles/${uid}`),(snap)=>{social.profile=snap.val()||social.profile||{};social.isAdmin=social.profile?.username==="MrNexo"||social.isAdmin;renderProfileControls();renderReactionLibrary();renderShop();schedulePublicSync();if(social.isAdmin){ensureBuiltIns();renderAdminCatalogs();}});
+  watchValue(ref(socialDb,`deleted_users/${uid}`),(snap)=>{if(snap.exists())window.NexoCore?.forceAccountReset?.();});
   watchValue(ref(socialDb,"public_profiles"),(snap)=>{social.publicProfiles=snap.val()||{};renderPublicChat();renderFriends();renderGallery();renderAuctions();renderAdminPlayers($s("#adminPlayerSearch")?.value||"");renderOnline();});
   watchValue(ref(socialDb,"presence"),(snap)=>{social.presence=snap.val()||{};renderOnline();});
   watchValue(ref(socialDb,"cards"),(snap)=>{social.cards=snap.val()||{};renderGallerySelects();schedulePublicSync();});
@@ -3674,7 +3845,7 @@ function bindSocialEvents(){
   $s("#rankForm")?.addEventListener("submit",(e)=>saveCatalogForm(e,"ranks"));$s("#badgeForm")?.addEventListener("submit",(e)=>saveCatalogForm(e,"badges"));$s("#reactionForm")?.addEventListener("submit",(e)=>saveCatalogForm(e,"reactions"));$s("#backgroundForm")?.addEventListener("submit",(e)=>saveCatalogForm(e,"backgrounds"));
   ["rankCatalogList","badgeCatalogList","reactionCatalogList","backgroundCatalogList"].forEach((id)=>$s(`#${id}`)?.addEventListener("click",(event)=>{const b=event.target.closest("[data-delete-catalog]");if(b)deleteCatalog(b.dataset.deleteCatalog);}));
   $s("#chatColorPriceList")?.addEventListener("click",(event)=>{const b=event.target.closest("[data-save-price]");if(b)saveCatalogPrice(b.dataset.savePrice,b);});$s("#fontPriceList")?.addEventListener("click",(event)=>{const b=event.target.closest("[data-save-price]");if(b)saveCatalogPrice(b.dataset.savePrice,b);});
-  $s("#adminPlayerSearchButton")?.addEventListener("click",()=>renderAdminPlayers($s("#adminPlayerSearch").value));$s("#adminPlayerSearch")?.addEventListener("input",(e)=>renderAdminPlayers(e.target.value));$s("#adminPlayerList")?.addEventListener("click",(event)=>{const b=event.target.closest("[data-manage-player]");if(b)selectAdminPlayer(b.dataset.managePlayer);});$s("#assignRankButton")?.addEventListener("click",()=>assignEntitlement("ranks",$s("#adminAssignRank").value));$s("#assignBadgeButton")?.addEventListener("click",()=>assignEntitlement("badges",$s("#adminAssignBadge").value));$s("#mutePlayerButton")?.addEventListener("click",()=>mutePlayer(social.selectedAdminUid,60));
+  $s("#adminPlayerSearchButton")?.addEventListener("click",()=>renderAdminPlayers($s("#adminPlayerSearch").value));$s("#adminPlayerSearch")?.addEventListener("input",(e)=>renderAdminPlayers(e.target.value));$s("#adminPlayerList")?.addEventListener("click",(event)=>{const b=event.target.closest("[data-manage-player]");if(b)selectAdminPlayer(b.dataset.managePlayer);});$s("#assignRankButton")?.addEventListener("click",()=>assignEntitlement("ranks",$s("#adminAssignRank").value));$s("#assignBadgeButton")?.addEventListener("click",()=>assignEntitlement("badges",$s("#adminAssignBadge").value));$s("#mutePlayerButton")?.addEventListener("click",()=>mutePlayer(social.selectedAdminUid,60));$s("#resetPlayerAccountButton")?.addEventListener("click",()=>resetPlayerAccount(social.selectedAdminUid));
   $s("#moderationChatList")?.addEventListener("click",(event)=>{const b=event.target.closest("[data-admin-delete-message]");if(b)remove(ref(socialDb,`public_chat/${b.dataset.adminDeleteMessage}`));});$s("#activeMutesList")?.addEventListener("click",(event)=>{const b=event.target.closest("[data-unmute-player]");if(b)unmutePlayer(b.dataset.unmutePlayer);});
   $s("#announcementForm")?.addEventListener("submit",createAnnouncement);$s("#announcementAdminList")?.addEventListener("click",(event)=>{const b=event.target.closest("[data-delete-announcement]");if(b)remove(ref(socialDb,`announcements/${b.dataset.deleteAnnouncement}`));});
   $$s("[data-admin-tab]").forEach((button)=>button.addEventListener("click",()=>{if(button.dataset.adminTab==="stats")renderAdminStats();if(button.dataset.adminTab==="players")renderAdminPlayers();if(button.dataset.adminTab==="moderation")renderModeration();if(button.dataset.adminTab==="catalog"||button.dataset.adminTab==="shop")renderAdminCatalogs();}));
