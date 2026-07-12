@@ -2068,8 +2068,9 @@ if (["http:", "https:"].includes(location.protocol)) {
     if (target === "admin" && !state.isAdmin) target = "boxes";
     state.currentView = target;
 
-    if (target === "chat") { social.seenPublicChatAt = Date.now(); localStorage.setItem("nexo-seen-public-chat", String(social.seenPublicChatAt)); }
-    if (target === "gallery") { social.seenGalleryAt = Date.now(); localStorage.setItem("nexo-seen-gallery", String(social.seenGalleryAt)); }
+    if (target === "chat" || target === "gallery") {
+      window.NexoSocialNavigation?.markSeen?.(target);
+    }
 
     $$('[data-view]').forEach((view) => view.classList.toggle("active", view.dataset.view === target));
     $$('[data-view-nav]').forEach((button) => button.classList.toggle("active", button.dataset.viewNav === target));
@@ -3340,11 +3341,25 @@ function updateNavigationBadges(){
   const chatCount=rows(social.publicMessages).filter((item)=>Number(item.created_at||0)>Number(social.seenPublicChatAt||0) && item.uid!==social.user?.uid).length;
   const friendCount=Object.keys(social.requests||{}).length;
   const galleryCount=rows(social.gallery).filter((item)=>Number(item.created_at||0)>Number(social.seenGalleryAt||0) && item.uid!==social.user?.uid).length;
-  state.navUnread={chat:chatCount,friends:friendCount,gallery:galleryCount};
   setNavBadge("#chatNavBadge",chatCount);
   setNavBadge("#friendsNavBadge",friendCount);
   setNavBadge("#galleryNavBadge",galleryCount);
 }
+
+window.NexoSocialNavigation = {
+  markSeen(view) {
+    const timestamp = Date.now();
+    if (view === "chat") {
+      social.seenPublicChatAt = timestamp;
+      localStorage.setItem("nexo-seen-public-chat", String(timestamp));
+    }
+    if (view === "gallery") {
+      social.seenGalleryAt = timestamp;
+      localStorage.setItem("nexo-seen-gallery", String(timestamp));
+    }
+    updateNavigationBadges();
+  }
+};
 
 function renderNotifications() {
   const items = rows(social.notifications).sort((a,b)=>Number(b.created_at||0)-Number(a.created_at||0)).slice(0,50);
