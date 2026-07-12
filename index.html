@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#fff9f5">
 <meta name="description" content="Nexo Cards — a modern card collecting experience with boxes, inventory, profiles and administration.">
 <title>Nexo Cards</title>
@@ -163,6 +163,225 @@ body{
 /* Box prices */
 .box-tile{isolation:isolate}.box-price-badge{position:absolute;left:29px;top:29px;z-index:5;display:inline-flex;align-items:center;gap:6px;min-height:31px;padding:0 11px;border:1px solid rgba(255,255,255,.9);border-radius:999px;background:rgba(255,253,250,.9);backdrop-filter:blur(10px);box-shadow:0 7px 18px rgba(86,65,80,.12);color:#655d65;font-size:.7rem;font-weight:950}.box-price-badge.free{color:#4f755d;background:rgba(241,249,243,.93)}.box-modal-price{color:var(--rose-deep)!important;background:#fff0f2!important}.price-field{position:relative;grid-column:1/-1}.price-field input{padding-right:42px!important}.price-field>span{position:absolute;right:14px;top:39px;color:var(--rose-deep);font-size:.78rem;font-weight:950}.field-note{color:var(--muted);font-size:.64rem;font-weight:600}.effect-count-note{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:-6px;padding:9px 11px;border-radius:12px;background:#f7f1ee;color:#746a73;font-size:.65rem;font-weight:750}.effect-count-note b{color:var(--rose-deep)}
 @media(prefers-reduced-motion:reduce){.fx-layer,.fx-layer::before,.fx-layer::after{animation-duration:.001ms!important;animation-iteration-count:1!important}}
+
+
+/* Responsive phone & tablet refinement */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+img,svg,video,canvas{max-width:100%}
+button,input,textarea,select{max-width:100%}
+.auth-layout,.app-topbar,.app-main,.modal-card,.admin-shell,.profile-page,.inventory-dashboard{min-width:0}
+.auth-panel,.auth-showcase,.topbar-tools,.app-nav,.view-hero>div,.profile-content,.admin-panel,.admin-form{min-width:0}
+
+@media (hover:none) and (pointer:coarse){
+  .box-tile:hover,.album-pocket:hover,.primary-button:hover,.secondary-button:hover,.danger-button:hover,.profile-button:hover,.sound-button:hover,.brand-mark:hover,.opening-pack:hover{transform:none}
+  button,.box-tile,.album-pocket{-webkit-tap-highlight-color:transparent}
+}
+
+/* Tablet landscape and smaller laptops */
+@media (max-width:1100px){
+  .app-topbar,.app-main{width:calc(100% - 24px)}
+  .app-topbar{gap:10px}
+  .app-nav .nav-button{padding-inline:12px}
+  .topbar-tools{gap:6px}
+  .wallet-pill{min-width:112px;padding-right:9px}
+  .view-hero{padding:28px}
+  .box-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .card-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .admin-split{grid-template-columns:1fr}
+  .preview-column{min-height:360px}
+  .box-modal-layout{grid-template-columns:1fr}
+  .box-details{max-height:none}
+}
+
+/* Tablet portrait: compact header and bottom navigation */
+@media (max-width:900px){
+  body{background-attachment:scroll}
+  .auth-shell{align-items:start;padding:18px 14px max(18px,env(safe-area-inset-bottom))}
+  .auth-layout{min-height:0}
+  .auth-showcase{min-height:330px;padding:34px}
+  .auth-logo{width:min(72vw,390px);max-height:210px}
+  .auth-showcase-bottom{gap:12px}
+  .auth-panel{padding:38px clamp(24px,6vw,48px) 44px}
+  .app-topbar{top:max(7px,env(safe-area-inset-top));width:calc(100% - 20px);margin-top:max(7px,env(safe-area-inset-top));grid-template-columns:auto 1fr auto;padding:8px 9px;border-radius:20px}
+  .app-nav{left:50%;right:auto;bottom:max(10px,env(safe-area-inset-bottom));width:min(560px,calc(100% - 18px));padding:7px;gap:5px;border:1px solid rgba(255,255,255,.92);border-radius:19px}
+  .app-nav .nav-button{min-height:46px;padding:0 12px;font-size:.76rem}
+  .app-main{width:calc(100% - 20px);padding:28px 0 calc(106px + env(safe-area-inset-bottom))}
+  .view-hero{align-items:flex-start;padding:27px;border-radius:26px}
+  .view-hero h1{font-size:clamp(2.15rem,7vw,3.15rem)}
+  .inventory-dashboard,.profile-page{grid-template-columns:1fr}
+  .profile-sidebar{display:grid;grid-template-columns:auto 1fr;align-items:center;text-align:left;column-gap:20px}
+  .profile-sidebar .profile-avatar.large{grid-row:1/4;margin:0}
+  .profile-sidebar .avatar-picker,.profile-sidebar .profile-stats{grid-column:1/-1}
+  .profile-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .modal-backdrop{align-items:center;padding:12px max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+  .modal-card{max-height:calc(100dvh - 24px)}
+  .box-open-modal{width:min(720px,100%)}
+  .opening-stage{min-height:470px}
+  .manage-grid{grid-template-columns:1fr}
+}
+
+/* Phones */
+@media (max-width:640px){
+  :root{--shadow:0 18px 48px rgba(101,77,93,.12);--soft-shadow:0 8px 24px rgba(101,77,93,.09)}
+  body{font-size:15px}
+  input,textarea,select{font-size:16px!important}
+  .auth-shell{padding:8px 8px max(12px,env(safe-area-inset-bottom))}
+  .auth-layout{border-radius:26px;overflow:hidden}
+  .auth-showcase{min-height:220px;padding:22px 20px 18px;justify-content:center}
+  .auth-showcase:before{width:210px;height:210px;right:-95px;top:-78px}
+  .auth-showcase:after{width:170px;height:170px;left:-85px;bottom:-72px}
+  .auth-showcase-copy{align-items:center}
+  .auth-logo{width:min(86vw,330px);max-height:185px;transform:none}
+  .auth-art,.auth-feature-list{display:none!important}
+  .auth-showcase-bottom{position:absolute;left:20px;right:20px;bottom:12px;display:block;text-align:center}
+  .auth-copyright{font-size:.62rem}
+  .auth-panel{padding:25px 18px 30px;justify-content:flex-start}
+  .auth-panel-top{margin-bottom:18px}
+  .auth-mark{width:40px;height:40px;border-radius:13px}
+  .auth-panel h2{font-size:1.85rem}
+  .auth-panel .auth-subtitle{margin-bottom:19px;font-size:.88rem}
+  .auth-tabs{margin-bottom:17px}
+  .auth-tab{min-height:46px}
+  .auth-form{gap:13px}
+  .auth-form input,.admin-form input,.admin-form select,.password-change input{min-height:50px}
+  .primary-button,.secondary-button,.danger-button{min-height:48px}
+  .password-field input{padding-right:86px}
+  .privacy-note{padding:11px 12px}
+  .language-menu{position:fixed;right:10px;top:62px;min-width:170px}
+
+  .app-topbar{width:calc(100% - 12px);padding:7px;gap:6px;border-radius:18px}
+  .brand-mark{width:42px;height:42px;border-radius:13px}
+  .topbar-tools{justify-self:end;gap:4px}
+  .topbar-center{display:none!important}
+  .app-language-picker .language-trigger{min-height:42px;padding:0 8px;font-size:.61rem}
+  .sound-button{width:42px;height:42px;border-radius:13px}
+  .profile-shortcut{width:48px;min-width:48px;min-height:48px;border-radius:14px;padding:3px}
+  .profile-person-icon{width:22px;height:22px}
+  .profile-person-icon svg{width:21px;height:21px}
+  .profile-shortcut #profileButtonLabel{font-size:.49rem}
+  .app-nav{width:calc(100% - 14px);bottom:max(7px,env(safe-area-inset-bottom));padding:6px;border-radius:18px}
+  .app-nav .nav-button{min-height:47px;padding:0 6px;font-size:.69rem}
+  .app-main{width:calc(100% - 14px);padding-top:20px}
+
+  .view-hero{padding:22px 19px;border-radius:23px;margin-bottom:18px}
+  .view-hero h1{font-size:2.05rem;line-height:1.05}
+  .view-hero p{margin-top:9px;font-size:.83rem;line-height:1.55}
+  .view-hero-ornament{display:none}
+  .eyebrow{font-size:.64rem}
+  .section-heading{align-items:center;gap:10px;margin-bottom:14px}
+  .section-heading h2{font-size:1.6rem}
+  .section-badge{padding:7px 10px;font-size:.68rem}
+
+  .box-grid{grid-template-columns:1fr;gap:13px}
+  .box-tile{min-height:0;padding:13px;border-radius:23px}
+  .box-cover{height:205px;border-radius:18px}
+  .box-content{padding:14px 3px 52px}
+  .box-content h3{font-size:1.22rem}
+  .box-content p{min-height:0}
+  .box-price-badge{left:22px;top:22px}
+  .box-open-button{right:14px;bottom:14px}
+  .empty-state{min-height:280px;padding:28px 18px;border-radius:24px}
+  .empty-illustration{width:92px;height:92px;border-radius:30px}
+
+  .inventory-dashboard{gap:12px;margin-bottom:12px}
+  .inventory-overview{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:10px;border-radius:19px}
+  .inventory-overview>div{padding:12px 8px;text-align:center;border-radius:14px}
+  .inventory-overview strong{font-size:1.12rem}
+  .inventory-overview span{font-size:.56rem}
+  .inventory-toolbar{padding:8px;border-radius:18px}
+  .search-field input{min-height:46px}
+  .filter-row{display:flex;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;margin-bottom:12px;padding:5px 5px 7px;scrollbar-width:none}
+  .filter-row::-webkit-scrollbar{display:none}
+  .filter-chip{flex:0 0 auto;min-height:40px;scroll-snap-align:start}
+  .album-panel{padding:18px 8px 20px 26px;border-radius:23px;background:linear-gradient(90deg,#f0ddd7 0 18px,#fffdf9 18px)}
+  .album-panel:after{inset:8px;border-radius:16px}
+  .album-rings{left:8px;top:18px;bottom:18px;width:7px}
+  .card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .album-pocket{padding:5px;border-radius:16px}
+  .collect-card{padding:7px;border-radius:16px}
+  .card-bottom h3{font-size:.82rem}
+  .card-bottom p{font-size:.55rem}
+
+  .profile-page{gap:13px}
+  .profile-sidebar,.profile-content-card{border-radius:23px}
+  .profile-sidebar{display:block;padding:22px;text-align:center}
+  .profile-sidebar .profile-avatar.large{margin:0 auto 14px;width:88px;height:88px;border-radius:28px}
+  .profile-sidebar h2{font-size:1.6rem}
+  .profile-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:18px}
+  .profile-stats div{padding:11px 7px;border-radius:14px;text-align:center}
+  .profile-stats strong{font-size:.87rem;word-break:break-word}
+  .profile-stats span{font-size:.55rem}
+  .profile-content{gap:13px}
+  .profile-content-card{padding:18px}
+  .profile-field{grid-template-columns:1fr auto;gap:6px;padding:11px;min-height:64px}
+  .profile-field>span{grid-column:1/-1}
+  .profile-field strong{font-size:.76rem;white-space:normal;overflow-wrap:anywhere}
+  .password-change{grid-template-columns:1fr;padding:11px}
+  .password-change .secondary-button{width:100%}
+  .avatar-options{gap:6px}
+
+  .admin-shell{padding:14px 10px;border-radius:23px}
+  .admin-tabs{display:flex;grid-template-columns:none;overflow-x:auto;gap:5px;margin:16px 0;padding:5px;scrollbar-width:none}
+  .admin-tabs::-webkit-scrollbar{display:none}
+  .admin-tab{flex:0 0 auto;min-width:142px;min-height:44px;padding:0 12px}
+  .form-grid.two{grid-template-columns:1fr}
+  .price-field{grid-column:auto}
+  .preview-column{min-height:310px;padding:12px}
+  .box-card-selector{max-height:330px}
+  .selector-row{grid-template-columns:28px 42px minmax(0,1fr);gap:8px;padding:9px 5px}
+  .selector-row .chance-input{grid-column:2/-1;width:100%}
+  .selector-name strong{font-size:.73rem}
+  .manage-grid{gap:12px}
+  .manage-item{grid-template-columns:42px minmax(0,1fr) 35px;padding:9px}
+  .manage-thumb{width:40px;height:48px}
+
+  .modal-backdrop{align-items:end;padding:0}
+  .modal-card{width:100%;max-width:none;max-height:calc(100dvh - max(8px,env(safe-area-inset-top)));border-radius:26px 26px 0 0;padding:22px 15px calc(18px + env(safe-area-inset-bottom));transform:translateY(28px)}
+  .close-button{position:sticky;float:right;top:0;margin:0 0 -40px auto}
+  .box-open-modal{padding:10px 10px calc(14px + env(safe-area-inset-bottom))}
+  .box-modal-layout{gap:10px;min-height:0}
+  .opening-stage{min-height:390px;border-radius:20px}
+  .opening-pack{width:175px;height:240px}
+  .opening-pack-art b{width:105px;height:120px;font-size:40px}
+  .opening-stage p{bottom:12px;max-width:calc(100% - 24px);text-align:center;font-size:.68rem}
+  .reveal-grid{inset:14px 8px 45px;display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(165px,78%);justify-content:start;align-items:center;gap:10px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;padding:0 12px;pointer-events:auto;scrollbar-width:none}
+  .reveal-grid::-webkit-scrollbar{display:none}
+  .reveal-card{scroll-snap-align:center}
+  .reveal-card .collect-card{max-height:315px}
+  .box-details{padding:14px 7px 4px}
+  .box-details h2{font-size:1.65rem}
+  .chance-list{max-height:260px;overflow:auto}
+  .toast{bottom:calc(75px + env(safe-area-inset-bottom));font-size:.74rem}
+}
+
+/* Very small phones */
+@media (max-width:370px){
+  .app-language-picker .language-trigger{padding:0 6px;font-size:.56rem}
+  .sound-button{width:39px;height:39px}
+  .profile-shortcut{width:43px;min-width:43px}
+  .profile-shortcut #profileButtonLabel{display:none!important}
+  .app-nav .nav-button{font-size:.63rem}
+  .card-grid{grid-template-columns:1fr}
+  .album-panel{padding-right:12px}
+  .inventory-overview{grid-template-columns:1fr}
+  .inventory-overview>div{display:flex;align-items:center;justify-content:space-between;text-align:left}
+  .inventory-overview span{margin-top:0}
+  .profile-stats{grid-template-columns:1fr}
+  .profile-stats div{display:flex;align-items:center;justify-content:space-between;text-align:left}
+  .auth-panel{padding-inline:14px}
+}
+
+/* Mobile landscape */
+@media (max-height:560px) and (orientation:landscape) and (max-width:950px){
+  .auth-layout{grid-template-columns:.8fr 1.2fr;min-height:calc(100dvh - 16px)}
+  .auth-showcase{min-height:0;padding:18px}
+  .auth-logo{width:min(34vw,260px);max-height:150px}
+  .auth-showcase-bottom{position:static;margin-top:auto}
+  .auth-panel{padding:20px 24px;overflow:auto}
+  .app-nav{bottom:max(5px,env(safe-area-inset-bottom))}
+  .opening-stage{min-height:300px}
+  .opening-pack{width:140px;height:192px}
+}
 
 </style>
 </head>
