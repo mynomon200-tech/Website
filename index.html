@@ -989,7 +989,8 @@
           <button type="button" class="footer-link" data-info="about">About us</button>
           <button type="button" class="footer-link" data-info="rules">Rules</button>
           <button type="button" class="footer-link" data-info="terms">Terms</button>
-          <button type="button" class="footer-link" data-info="privacy">Privacy</button>
+          <button type="button" class="footer-link" data-info="privacy">Privacy (GDPR)</button>
+          <button type="button" class="footer-link" data-info="legal">Legal notice</button>
           <button type="button" class="footer-link" data-info="contact">Contact</button>
         </nav>
         <p class="footer-copy">© 2026 Legis | Independent community platform | Not affiliated with any government</p>
@@ -1088,6 +1089,14 @@
       storageBucket: 'chatr-6d513.firebasestorage.app',
       messagingSenderId: '961820142442',
       appId: '1:961820142442:web:8957e81acc258e1fa59313',
+    };
+
+    /* Replace placeholders with your real name and postal address (required in Germany). */
+    const LEGAL_OPERATOR = {
+      name: '[Your full name]',
+      street: '[Street and house number]',
+      zipCity: '[Postal code and city, Germany]',
+      email: 'legissupport@gmail.com',
     };
 
     const USER_STORAGE_KEY = 'legis-user';
@@ -1752,6 +1761,108 @@
       playSfx('click');
     });
 
+    function escapeLegalHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function buildOperatorContactHtml() {
+      var email = escapeLegalHtml(LEGAL_OPERATOR.email);
+      return (
+        '<p><strong>' + escapeLegalHtml(LEGAL_OPERATOR.name) + '</strong><br>' +
+        escapeLegalHtml(LEGAL_OPERATOR.street) + '<br>' +
+        escapeLegalHtml(LEGAL_OPERATOR.zipCity) + '<br>' +
+        'Email: <a href="mailto:' + email + '">' + email + '</a></p>'
+      );
+    }
+
+    function buildLegalNoticeHtml() {
+      return (
+        '<p>Legis is operated by a <strong>private individual</strong>, not a company. The website is free to use, non-commercial, and does not charge fees or accept payments.</p>' +
+        '<h4>Service provider (Diensteanbieter)</h4>' +
+        buildOperatorContactHtml() +
+        '<h4>Responsible for content (§ 18 Abs. 2 MStV)</h4>' +
+        '<p>' + escapeLegalHtml(LEGAL_OPERATOR.name) + ', address as above.</p>' +
+        '<h4>Business information</h4>' +
+        '<p>This is a private, non-profit community project. No VAT identification number applies. No commercial register entry.</p>' +
+        '<h4>Online dispute resolution</h4>' +
+        '<p>The European Commission provides a platform for online dispute resolution (ODR): ' +
+        '<a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>. ' +
+        'We are not obliged and not willing to participate in dispute resolution proceedings before a consumer arbitration board, as we do not offer paid services.</p>'
+      );
+    }
+
+    function buildPrivacyPolicyHtml() {
+      var email = escapeLegalHtml(LEGAL_OPERATOR.email);
+      return (
+        '<p>This privacy policy explains how personal data is processed when you use <strong>Legis</strong>, in accordance with the EU General Data Protection Regulation (GDPR / DSGVO).</p>' +
+        '<h4>1. Controller</h4>' +
+        '<p>The data controller is the private operator of Legis (non-commercial community website, no fees, no revenue from users):</p>' +
+        buildOperatorContactHtml() +
+        '<h4>2. Nature of the service</h4>' +
+        '<p>Legis is a free community platform for fictional law proposals and discussion. It is not operated by a company or government. We do not sell products, subscriptions, or advertising.</p>' +
+        '<h4>3. Categories of personal data</h4>' +
+        '<ul>' +
+        '<li><strong>Account data:</strong> display name and email address when you register.</li>' +
+        '<li><strong>User content:</strong> law proposals, discussion comments, and votes you submit.</li>' +
+        '<li><strong>Local browser storage (localStorage):</strong> your login session (display name, email) is stored in your browser so you stay signed in. This is <strong>not</strong> a cookie.</li>' +
+        '<li><strong>Technical data:</strong> when you load the site, Google Firebase Realtime Database may process connection data such as IP address, timestamps, and device/browser information for security and delivery of the service. This happens over HTTPS/WebSocket and does not use tracking cookies in our setup.</li>' +
+        '</ul>' +
+        '<p>We do not require your real name, postal address, or government ID to use Legis.</p>' +
+        '<h4>4. Purposes and legal bases (Art. 6 GDPR)</h4>' +
+        '<ul>' +
+        '<li><strong>Providing the platform</strong> (account, posting, voting): Art. 6(1)(b) GDPR (steps at your request before and during use of the service).</li>' +
+        '<li><strong>Operating and securing the website</strong> (abuse prevention, technical stability): Art. 6(1)(f) GDPR (legitimate interest in running a safe community platform).</li>' +
+        '<li><strong>Registration:</strong> by creating an account you confirm that you have read this policy and our terms; where consent is required, Art. 6(1)(a) GDPR applies and you may withdraw consent by deleting your account or contacting us.</li>' +
+        '</ul>' +
+        '<h4>5. Storage duration</h4>' +
+        '<p>Account and content data are stored until you request deletion or we remove it for rule violations. Local browser data remains until you log out or clear your browser storage.</p>' +
+        '<h4>6. Recipients and processors</h4>' +
+        '<p>Data is stored in <strong>Google Firebase Realtime Database</strong> (region: europe-west1). Google acts as a data processor on our behalf.</p>' +
+        '<ul>' +
+        '<li>Firebase / Google: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">Firebase Privacy</a></li>' +
+        '<li>Google privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a></li>' +
+        '</ul>' +
+        '<p>We do not sell your personal data. We do not use advertising networks, analytics tools, or tracking cookies. We use Firebase Realtime Database only (not Firebase Analytics or Firebase Auth cookies).</p>' +
+        '<h4>7. Cookies and local storage</h4>' +
+        '<p><strong>We do not use cookies.</strong> Legis does not set cookies on your device. There are no marketing cookies, no analytics cookies, and no social-media tracking cookies.</p>' +
+        '<p><strong>What we use instead:</strong> when you sign in or register, your account data is saved in your browser using <strong>localStorage</strong> (browser storage, not a cookie). This is technically necessary so you remain logged in. We do not use Firebase Analytics, Google Analytics, or similar tracking services.</p>' +
+        '<p><strong>Firebase:</strong> our database connection (Firebase Realtime Database) does not set cookies for this website. Google may still process technical connection data when you use the site (see section 3).</p>' +
+        '<p><strong>Removing stored data:</strong> log out, or clear site data / local storage for this website in your browser settings.</p>' +
+        '<p>Because we only use technically necessary browser storage and no non-essential cookies, a cookie consent banner is not required for Legis in its current form.</p>' +
+        '<h4>8. Transfers to third countries</h4>' +
+        '<p>Google may process data in countries outside the EU/EEA (including the United States). Where required, transfers are based on appropriate safeguards under GDPR, such as EU Standard Contractual Clauses.</p>' +
+        '<h4>9. Your rights</h4>' +
+        '<p>Under GDPR you have the right to:</p>' +
+        '<ul>' +
+        '<li><strong>Access</strong> your personal data (Art. 15)</li>' +
+        '<li><strong>Rectification</strong> of inaccurate data (Art. 16)</li>' +
+        '<li><strong>Erasure</strong> ("right to be forgotten") (Art. 17)</li>' +
+        '<li><strong>Restriction</strong> of processing (Art. 18)</li>' +
+        '<li><strong>Data portability</strong>, where applicable (Art. 20)</li>' +
+        '<li><strong>Object</strong> to processing based on legitimate interests (Art. 21)</li>' +
+        '<li><strong>Withdraw consent</strong> at any time, without affecting prior lawful processing (Art. 7(3))</li>' +
+        '</ul>' +
+        '<p>To exercise these rights, email <a href="mailto:' + email + '">' + email + '</a> from the address linked to your account. We will respond within the time limits set by GDPR (generally one month).</p>' +
+        '<h4>10. Right to lodge a complaint</h4>' +
+        '<p>You may lodge a complaint with a supervisory authority, in particular in the EU member state of your habitual residence, place of work, or place of the alleged infringement. In Germany, contact the data protection authority (<em>Landesdatenschutzbehörde</em>) of the federal state where the operator resides.</p>' +
+        '<h4>11. Obligation to provide data</h4>' +
+        '<p>You can browse countries without an account. To post proposals, comments, or votes, a display name and email are required. Without this data, participation features are not available.</p>' +
+        '<h4>12. Automated decision-making</h4>' +
+        '<p>We do not use automated decision-making or profiling that produces legal or similarly significant effects.</p>' +
+        '<h4>13. Children</h4>' +
+        '<p>Legis is not directed at children under 16. If you are under 16, you may only use the service with consent of a parent or legal guardian. If we learn that data from a child was collected without proper consent, we will delete it.</p>' +
+        '<h4>14. Data security</h4>' +
+        '<p>We use HTTPS, Firebase security rules, and reasonable technical measures to protect stored data. No method of transmission over the internet is completely secure.</p>' +
+        '<h4>15. Changes to this policy</h4>' +
+        '<p>We may update this privacy policy when the service or legal requirements change. The current version is always available via the footer link "Privacy (GDPR)".</p>' +
+        '<p><strong>Last updated:</strong> July 2026</p>'
+      );
+    }
+
     var INFO_PAGES = {
       about: {
         title: 'About us',
@@ -1803,21 +1914,24 @@
       },
       terms: {
         title: 'Terms',
-        sub: 'Simple terms of use for Legis.',
+        sub: 'Terms of use for this private, non-commercial community platform.',
         html:
-          '<p>By using Legis, you agree to participate respectfully and follow our community rules.</p>' +
-          '<p><strong>No cookies:</strong> We do not use tracking cookies on this website.</p>' +
-          '<p><strong>No advertising:</strong> Legis does not display ads and does not sell ad space. The platform exists for community discussion only.</p>' +
-          '<p>Content you submit may be visible to other users. Do not post anything you are not allowed to share.</p>',
+          '<p><strong>Operator:</strong> Legis is run by a private individual as a free community project. It is not a company, not a government service, and not a commercial product. There are no fees, no paid features, and no revenue from users.</p>' +
+          '<p>By registering or using Legis, you agree to participate respectfully and follow our community rules and privacy policy (GDPR / DSGVO).</p>' +
+          '<p><strong>No cookies:</strong> Legis does not set cookies on your device. Login data is stored in your browser using localStorage only. We do not use tracking, analytics, or advertising cookies. Firebase Realtime Database (our cloud database) does not set cookies for this site.</p>' +
+          '<p><strong>No advertising:</strong> Legis does not display ads and does not sell ad space.</p>' +
+          '<p>Content you submit (proposals, comments, votes) may be visible to other users and is stored in our database. Do not post anything you are not allowed to share. You are responsible for what you publish.</p>' +
+          '<p>The operator may remove content or suspend accounts that violate the rules. The service is provided as-is for community discussion without warranty.</p>',
       },
       privacy: {
-        title: 'Privacy',
-        sub: 'How we handle your data.',
-        html:
-          '<p>All data is stored in a <strong>secure cloud database</strong> (Firebase). We take reasonable measures to protect stored information.</p>' +
-          '<p><strong>No sensitive personal data required:</strong> You only need a display name and email to participate. We do not ask for real names, addresses, or government IDs.</p>' +
-          '<p><strong>Data deletion:</strong> You may request deletion of your data at any time. Contact us with your account email and we will remove your associated content upon verified request.</p>' +
-          '<p>We do not sell your personal data to third parties.</p>',
+        title: 'Privacy policy (GDPR / DSGVO)',
+        sub: 'Information under Articles 13 and 14 of the EU General Data Protection Regulation.',
+        html: buildPrivacyPolicyHtml(),
+      },
+      legal: {
+        title: 'Legal notice (Impressum)',
+        sub: 'Information about the operator of this website (required in Germany).',
+        html: buildLegalNoticeHtml(),
       },
       contact: {
         title: 'Contact',
