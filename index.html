@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Legis — Community Law Proposals</title>
+  <title>Legis | Community Law Proposals</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -816,7 +816,7 @@
     }
 
     .info-body {
-      max-height: 55vh;
+      max-height: 62vh;
       overflow-y: auto;
       padding-right: 0.25rem;
     }
@@ -847,6 +847,16 @@
       margin-bottom: 0.35rem;
     }
 
+    .info-body a {
+      color: var(--accent);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .info-body a:hover {
+      text-decoration: underline;
+    }
+
     .rule-card {
       background: var(--bg);
       border: 1px solid var(--border);
@@ -862,6 +872,25 @@
 
     .rule-card p {
       margin: 0;
+    }
+
+    .rule-card ul {
+      margin: 0.5rem 0 0 1.1rem;
+    }
+
+    .rule-card li {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 0.4rem;
+    }
+
+    .rule-card .rule-note {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
     }
 
     /* Animations */
@@ -914,7 +943,7 @@
     <section class="hero">
       <h1>Shape ideas.<br /><em>Discuss laws.</em> Together.</h1>
       <p class="hero-desc">
-        Welcome to Legis — a community-driven space where citizens propose new regulations,
+        Welcome to Legis, a community-driven space where citizens propose new regulations,
         share ideas, rate proposals, and join open discussions about the future of policy.
       </p>
     </section>
@@ -961,8 +990,9 @@
           <button type="button" class="footer-link" data-info="rules">Rules</button>
           <button type="button" class="footer-link" data-info="terms">Terms</button>
           <button type="button" class="footer-link" data-info="privacy">Privacy</button>
+          <button type="button" class="footer-link" data-info="contact">Contact</button>
         </nav>
-        <p class="footer-copy">© 2026 Legis · Independent community platform · Not affiliated with any government</p>
+        <p class="footer-copy">© 2026 Legis | Independent community platform | Not affiliated with any government</p>
       </div>
     </footer>
   </div>
@@ -1474,7 +1504,7 @@
         '<div class="country-header">' +
         '<div><h2>' + escapeHtml(country) + '</h2>' +
         '<p>' +
-        (laws.length ? countText + ' from the community' : 'No proposals yet — be the first!') +
+        (laws.length ? countText + ' from the community' : 'No proposals yet. Be the first!') +
         '</p></div>' +
         '<button class="btn btn-primary propose-btn" id="proposeLawBtn">+ Propose law</button>' +
         '</div>' +
@@ -1523,7 +1553,7 @@
       activeLawId = lawId;
       document.getElementById('discussTitle').textContent = law.title;
       document.getElementById('discussSub').textContent =
-        'Discussion · proposed by ' + law.author + ' · max ' + MAX_COMMENT_LENGTH + ' chars per comment';
+        'Discussion on this proposal. Maximum ' + MAX_COMMENT_LENGTH + ' characters per comment.';
       document.getElementById('messageInput').value = '';
       updateCharCounter();
       document.getElementById('discussOverlay').classList.add('open');
@@ -1630,7 +1660,7 @@
 
       closeAuth();
       playSfx('success');
-      showToast(authMode === 'login' ? 'Welcome back!' : 'Account created — welcome!');
+      showToast(authMode === 'login' ? 'Welcome back!' : 'Account created. Welcome!');
       updateAuthUI();
     });
 
@@ -1728,16 +1758,48 @@
         sub: 'What Legis is and who it is for.',
         html:
           '<p><strong>Legis</strong> is an independent, community-driven platform where people from around the world can propose ideas for new regulations, discuss them openly, and react to proposals from others.</p>' +
-          '<p>We are <strong>not</strong> a government website. Nothing published here is official law — all content comes from community members sharing ideas for discussion.</p>' +
-          '<p>Our goal is to make civic participation accessible: pick a country, propose a law, join the conversation, and help shape ideas together — transparently and democratically.</p>',
+          '<p>We are <strong>not</strong> a government website. Nothing published here is official law. All content comes from community members sharing ideas for discussion.</p>' +
+          '<p>Our goal is to make civic participation accessible: pick a country, propose a law, join the conversation, and help shape ideas together in a transparent and democratic way.</p>',
       },
       rules: {
         title: 'Rules',
-        sub: 'Community guidelines in three categories.',
+        sub: 'Official community standards. Please read before you post.',
         html:
-          '<div class="rule-card"><h4>1 · Proposals</h4><p>Only post original or clearly attributed ideas. Keep titles short and summaries readable. No spam, duplicate posts, or misleading content pretending to be official legislation.</p></div>' +
-          '<div class="rule-card"><h4>2 · Discussions</h4><p>Stay respectful. Debate ideas, not people. No hate speech, harassment, threats, or illegal content. Comments are limited to <strong>2,000 characters</strong> per message.</p></div>' +
-          '<div class="rule-card"><h4>3 · Voting & conduct</h4><p>Vote honestly to reflect your opinion — do not manipulate votes with fake accounts. One account per person. Abuse, bots, or attempts to break the platform may result in removal.</p></div>',
+          '<p>Legis distinguishes between <strong>law proposals</strong> and <strong>discussion comments</strong>. Each area has different standards. Violations may result in content removal, temporary restrictions, or permanent account suspension.</p>' +
+          '<div class="rule-card"><h4>1. Law proposals</h4>' +
+          '<p><strong>Scope:</strong> Proposals are fictional draft laws for community debate. They are not binding and do not represent real legislation.</p>' +
+          '<p><strong>Freedom of expression:</strong> Legis grants broad latitude for serious, earnest, and factual proposals. You may argue for controversial legal reforms, including language policy, if your text is written as a structured legal idea rather than a personal attack.</p>' +
+          '<ul>' +
+          '<li>Write in a serious, professional tone. Proposals should read like policy drafts, not insults or provocation for its own sake.</li>' +
+          '<li>You may reference offensive terms <strong>inside quotation marks</strong> when discussing how language should be treated under law (for example, whether a specific slur should remain a statutory insult or be removed from legal classification). This is opinion on legal framing, not permission to target people.</li>' +
+          '<li>What is <strong>never</strong> allowed: advocacy of violence, enslavement, forced deportation, mass harm, or extermination directed at any ethnic, religious, national, or other group. Even indirect phrasing or coded language that clearly calls for such outcomes is prohibited.</li>' +
+          '<li>Content that describes or promotes mutilation, sexual exploitation, or active physical harm against <strong>children or minors</strong> is strictly forbidden.</li>' +
+          '<li>No spam, duplicate flooding, impersonation of government bodies, or misleading claims that a proposal is already real law.</li>' +
+          '</ul>' +
+          '<p class="rule-note">Summary: strong opinion on legal wording is permitted when quoted and argued in policy terms. Calls for harm against groups or minors are not permitted in any form.</p>' +
+          '</div>' +
+          '<div class="rule-card"><h4>2. Discussions</h4>' +
+          '<p><strong>Scope:</strong> Comments under a proposal are a moderated conversation space. Standards here are stricter than for proposals.</p>' +
+          '<p><strong>Conduct:</strong> When you reply to others, you must communicate respectfully and substantively. Debate the idea, cite reasoning, and stay on topic.</p>' +
+          '<ul>' +
+          '<li><strong>No open racist speech.</strong> Slurs, dehumanizing language, or racial hatred directed at people are not permitted in comments, including outside quotation marks.</li>' +
+          '<li><strong>No false factual claims.</strong> Do not deliberately spread misinformation, invent statistics, or state fabricated events as proven fact to mislead others.</li>' +
+          '<li><strong>No advocacy of harm.</strong> Comments must not promote violence, mutilation, or harm against children, minors, or any protected group.</li>' +
+          '<li><strong>No spam.</strong> Repeated copy-paste, off-topic advertising, baiting, or low-effort flooding is prohibited.</li>' +
+          '<li><strong>Stay factual.</strong> Opinions are welcome when clearly presented as such. Present factual statements responsibly and do not provoke conflict through deliberate falsehoods.</li>' +
+          '<li>Maximum <strong>2,000 characters</strong> per comment.</li>' +
+          '</ul>' +
+          '<p class="rule-note">Repeated or severe breaches in discussions may lead to an immediate account ban after review.</p>' +
+          '</div>' +
+          '<div class="rule-card"><h4>3. Voting and account conduct</h4>' +
+          '<p><strong>Voting:</strong> Upvotes and downvotes should reflect your genuine view of a proposal. Vote manipulation through multiple accounts, bots, or coordinated abuse is prohibited.</p>' +
+          '<ul>' +
+          '<li>One person, one account. Shared or automated accounts used to distort results may be removed.</li>' +
+          '<li>Do not harass users across proposals or discussions because of their vote.</li>' +
+          '<li>Report patterns of bad faith rather than retaliating in kind.</li>' +
+          '</ul>' +
+          '<p><strong>Enforcement:</strong> Moderators and automated checks may remove content, restrict posting, or permanently suspend accounts that violate these rules. Serious cases (threats, child safety, organized hate) are prioritized.</p>' +
+          '</div>',
       },
       terms: {
         title: 'Terms',
@@ -1756,6 +1818,14 @@
           '<p><strong>No sensitive personal data required:</strong> You only need a display name and email to participate. We do not ask for real names, addresses, or government IDs.</p>' +
           '<p><strong>Data deletion:</strong> You may request deletion of your data at any time. Contact us with your account email and we will remove your associated content upon verified request.</p>' +
           '<p>We do not sell your personal data to third parties.</p>',
+      },
+      contact: {
+        title: 'Contact',
+        sub: 'Help, support, and general inquiries.',
+        html:
+          '<p>If you need help using Legis, have a technical issue, want to report a rule violation, or wish to request deletion of your account data, you can contact our support team directly.</p>' +
+          '<p><strong>Support email:</strong><br><a href="mailto:legissupport@gmail.com">legissupport@gmail.com</a></p>' +
+          '<p>Please include a clear subject line and, if relevant, the email address linked to your Legis account. We will get back to you as soon as possible.</p>',
       },
     };
 
