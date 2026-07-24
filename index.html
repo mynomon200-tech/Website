@@ -354,8 +354,8 @@
       background: var(--bg-elevated);
       border: 1px dashed var(--border-strong);
       border-radius: var(--radius-lg);
-      padding: 4rem 2rem;
-      text-align: center;
+      padding: 2rem 1.5rem 3rem;
+      text-align: left;
       color: var(--text-tertiary);
     }
 
@@ -893,6 +893,525 @@
       color: var(--text-tertiary);
     }
 
+    /* Header search & profile */
+    .header-inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1rem;
+    }
+
+    .header-search-wrap {
+      position: relative;
+      max-width: 420px;
+      width: 100%;
+      justify-self: center;
+    }
+
+    .header-search {
+      width: 100%;
+      padding: 0.55rem 2.25rem 0.55rem 2.25rem;
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+      font-family: var(--font);
+      font-size: 0.85rem;
+      background: var(--bg-elevated);
+      color: var(--text);
+    }
+
+    .header-search:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .header-search-icon {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--text-tertiary);
+      pointer-events: none;
+    }
+
+    .search-results-dropdown {
+      position: absolute;
+      top: calc(100% + 0.35rem);
+      left: 0;
+      right: 0;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      max-height: 320px;
+      overflow-y: auto;
+      z-index: 120;
+      display: none;
+    }
+
+    .search-results-dropdown.open { display: block; }
+
+    .search-result-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.65rem 0.85rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: var(--font);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-result-item:hover { background: var(--accent-soft); }
+
+    .search-result-item strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    .search-result-item span {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-icon {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-elevated);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: var(--text-secondary);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-icon:hover { background: var(--bg-muted); box-shadow: var(--shadow-sm); }
+
+    .btn-icon svg { width: 18px; height: 18px; }
+
+    .notif-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--danger);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+    }
+
+    .profile-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--border-strong);
+      background: var(--accent-soft);
+      color: var(--accent);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .profile-avatar:hover {
+      transform: scale(1.04);
+      box-shadow: var(--shadow-md);
+    }
+
+    .profile-avatar svg { width: 20px; height: 20px; }
+
+    /* Home feed */
+    .home-feed { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .feed-section h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+
+    .feed-tabs {
+      display: flex;
+      gap: 0.35rem;
+      margin-bottom: 1rem;
+    }
+
+    .feed-tab {
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font);
+      color: var(--text-secondary);
+    }
+
+    .feed-tab.active {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .law-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .law-tag-chip {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.18rem 0.5rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .law-card { cursor: pointer; }
+
+    .law-card-actions { pointer-events: none; }
+    .law-card .law-actions { pointer-events: auto; }
+
+    .law-card-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .version-badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      background: var(--bg-muted);
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+    }
+
+    /* Detail modal */
+    .modal-xl { max-width: 720px; max-height: 90vh; overflow-y: auto; }
+
+    .law-detail-body {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin: 1rem 0;
+    }
+
+    .law-detail-body p { margin-bottom: 0.75rem; }
+    .law-detail-body ul, .law-detail-body ol { margin: 0.5rem 0 0.75rem 1.25rem; }
+    .law-detail-body a { color: var(--accent); }
+
+    .detail-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-toolbar.reading-hidden { display: none; }
+
+    .reading-mode .detail-toolbar:not(.reading-only),
+    .reading-mode .law-detail-actions,
+    .reading-mode .poll-section { display: none !important; }
+
+    .reading-mode .law-detail-body {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text);
+      max-width: 640px;
+      margin: 2rem auto;
+    }
+
+    .version-history {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .version-item {
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .version-item:last-child { border-bottom: none; }
+
+    /* Poll */
+    .poll-section {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .poll-section h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.65rem;
+    }
+
+    .poll-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .poll-bar-wrap {
+      flex: 1;
+      height: 28px;
+      background: var(--bg-muted);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .poll-bar {
+      height: 100%;
+      background: var(--accent-soft);
+      border-radius: 8px;
+      transition: width 0.4s ease;
+    }
+
+    .poll-bar-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .poll-vote-btn {
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+
+    .poll-vote-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* Rich text editor */
+    .rte-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .rte-btn {
+      padding: 0.35rem 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+
+    .rte-btn:hover { background: var(--bg-muted); }
+
+    .rte-editor {
+      min-height: 140px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 0.75rem;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      background: var(--bg);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .rte-editor:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+    /* Tag picker */
+    .tag-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      max-height: 160px;
+      overflow-y: auto;
+      padding: 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+    }
+
+    .tag-pick {
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      font-size: 0.72rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font);
+      color: var(--text-secondary);
+    }
+
+    .tag-pick.selected {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .tag-filter-input {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      padding: 0.45rem 0.65rem;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-family: var(--font);
+    }
+
+    /* Threaded comments */
+    .message.reply { margin-left: 1.25rem; border-left: 2px solid var(--accent-soft); }
+
+    .message-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.35rem;
+    }
+
+    .message-action-btn {
+      border: none;
+      background: none;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      font-family: var(--font);
+      padding: 0;
+    }
+
+    .mention-link {
+      color: var(--accent);
+      font-weight: 600;
+      background: var(--accent-soft);
+      padding: 0 0.2rem;
+      border-radius: 4px;
+    }
+
+    .reply-indicator {
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      margin-bottom: 0.25rem;
+    }
+
+    /* Profile & notifications */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .profile-avatar-lg {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+    }
+
+    .profile-avatar-lg svg { width: 32px; height: 32px; }
+
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .profile-stat {
+      text-align: center;
+      padding: 0.65rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .profile-stat strong { display: block; font-size: 1.1rem; }
+    .profile-stat span { font-size: 0.72rem; color: var(--text-tertiary); }
+
+    .notif-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 360px; overflow-y: auto; }
+
+    .notif-item {
+      padding: 0.75rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .notif-item.unread { border-color: var(--accent); background: var(--accent-soft); }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 1rem;
+    }
+
+    .filter-chip {
+      padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+
+    .filter-chip.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+    @media (max-width: 860px) {
+      .header-inner { grid-template-columns: 1fr; }
+      .header-search-wrap { max-width: none; order: 3; grid-column: 1 / -1; }
+    }
+
     /* Animations */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
@@ -933,7 +1452,21 @@
           </div>
           <span class="logo-text">Legis</span>
         </a>
+        <div class="header-search-wrap">
+          <svg class="header-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="search" class="header-search" id="globalSearch" placeholder="Search proposals worldwideâ€¦" autocomplete="off" />
+          <div class="search-results-dropdown" id="searchResults"></div>
+        </div>
         <div class="auth-buttons">
+          <button class="btn-icon" id="notificationsBtn" hidden aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="notif-badge" id="notifBadge" hidden>0</span>
+          </button>
+          <button class="profile-avatar" id="profileBtn" hidden aria-label="Your profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
           <button class="btn btn-ghost" id="loginBtn">Sign in</button>
           <button class="btn btn-primary" id="registerBtn">Create account</button>
         </div>
@@ -960,11 +1493,11 @@
               type="search"
               class="country-search"
               id="countrySearch"
-              placeholder="Search country…"
+              placeholder="Search countryâ€¦"
               autocomplete="off"
               spellcheck="false"
             />
-            <button type="button" class="country-search-clear" id="countrySearchClear" aria-label="Clear search">×</button>
+            <button type="button" class="country-search-clear" id="countrySearchClear" aria-label="Clear search">Ã—</button>
           </div>
           <ul class="country-list" id="countryList"></ul>
           <p class="country-no-results" id="countryNoResults">No country found.</p>
@@ -973,11 +1506,22 @@
 
       <section class="content-panel" id="contentPanel">
         <div class="panel-empty" id="emptyState">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6l-2-2H5a2 2 0 0 0-2 2z"/>
-          </svg>
-          <h2>Select a country</h2>
-          <p>Choose a country from the list to browse proposed laws and join the discussion.</p>
+          <div class="home-feed" id="homeFeed">
+            <div class="feed-tabs">
+              <button type="button" class="feed-tab active" data-feed="trending">Trending</button>
+              <button type="button" class="feed-tab" data-feed="recent">Recent</button>
+            </div>
+            <div id="feedList">
+              <p style="color:var(--text-tertiary);font-size:0.875rem;">Loading proposalsâ€¦</p>
+            </div>
+          </div>
+          <div id="emptyHint" style="margin-top:2rem;text-align:center;color:var(--text-tertiary);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:48px;height:48px;opacity:0.4;margin-bottom:1rem;">
+              <path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6l-2-2H5a2 2 0 0 0-2 2z"/>
+            </svg>
+            <h2 style="font-family:var(--font-display);font-size:1.5rem;color:var(--text-secondary);font-weight:400;margin-bottom:0.5rem;">Select a country</h2>
+            <p style="font-size:0.875rem;">Or browse trending and recent proposals above.</p>
+          </div>
         </div>
         <div id="lawsPanel" hidden></div>
       </section>
@@ -992,7 +1536,7 @@
           <button type="button" class="footer-link" data-info="privacy">Privacy (GDPR)</button>
           <button type="button" class="footer-link" data-info="contact">Contact</button>
         </nav>
-        <p class="footer-copy">© 2026 Legis | Independent community platform | Not affiliated with any government</p>
+        <p class="footer-copy">Â© 2026 Legis | Independent community platform | Not affiliated with any government</p>
       </div>
     </footer>
   </div>
@@ -1000,7 +1544,7 @@
   <!-- Info Modal (About, Rules, Terms, Privacy) -->
   <div class="overlay" id="infoOverlay">
     <div class="modal-wrapper">
-      <button class="modal-close" id="infoClose" aria-label="Close">×</button>
+      <button class="modal-close" id="infoClose" aria-label="Close">Ã—</button>
       <div class="modal modal-lg">
         <h3 id="infoTitle">About us</h3>
         <p class="modal-sub" id="infoSub"></p>
@@ -1021,7 +1565,7 @@
         </div>
         <div class="form-group">
           <label for="authPassword">Password</label>
-          <input type="password" id="authPassword" placeholder="••••••••" autocomplete="current-password" />
+          <input type="password" id="authPassword" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" autocomplete="current-password" />
         </div>
         <div class="form-group" id="nameGroup" hidden>
           <label for="authName">Display name</label>
@@ -1038,14 +1582,18 @@
   <!-- Discussion Modal -->
   <div class="overlay" id="discussOverlay">
     <div class="modal-wrapper">
-      <button class="modal-close" id="discussClose" aria-label="Close">×</button>
+      <button class="modal-close" id="discussClose" aria-label="Close">Ã—</button>
       <div class="modal modal-lg" id="discussModal">
         <h3 id="discussTitle">Discussion</h3>
         <p class="modal-sub" id="discussSub"></p>
         <div class="thread-messages" id="threadMessages"></div>
         <div class="form-group">
-          <label for="messageInput">Your message</label>
-          <textarea id="messageInput" placeholder="Share your thoughts…" maxlength="2000" rows="4"></textarea>
+          <div class="reply-indicator" id="replyIndicator" hidden>
+            Replying to <strong id="replyToName"></strong>
+            <button type="button" class="message-action-btn" id="cancelReply">Cancel</button>
+          </div>
+          <label for="messageInput">Your message <span style="font-weight:400;color:var(--text-tertiary);">(@mention users)</span></label>
+          <textarea id="messageInput" placeholder="Share your thoughts… Use @DisplayName to mention someone." maxlength="2000" rows="4"></textarea>
           <div class="char-counter" id="messageCharCounter">0 / 2000</div>
         </div>
         <button class="btn btn-primary" id="sendMessage" style="width:100%;justify-content:center;">Send message</button>
@@ -1056,19 +1604,127 @@
   <!-- Propose Modal -->
   <div class="overlay" id="proposeOverlay">
     <div class="modal-wrapper">
-      <button class="modal-close" id="proposeClose" aria-label="Close">×</button>
-      <div class="modal modal-lg">
-        <h3>Propose a law</h3>
+      <button class="modal-close" id="proposeClose" aria-label="Close">Ã—</button>
+      <div class="modal modal-xl">
+        <h3 id="proposeModalTitle">Propose a law</h3>
         <p class="modal-sub" id="proposeSub">Submit your idea for community review.</p>
         <div class="form-group">
           <label for="lawTitle">Title</label>
-          <input type="text" id="lawTitle" placeholder="Short, descriptive title" />
+          <input type="text" id="lawTitle" placeholder="Short, descriptive title" maxlength="200" />
         </div>
         <div class="form-group">
-          <label for="lawSummary">Summary</label>
-          <textarea id="lawSummary" placeholder="Describe your proposal in a few sentences…"></textarea>
+          <label for="lawSummary">Short summary (shown in lists)</label>
+          <textarea id="lawSummary" placeholder="Brief overview in 1â€“3 sentencesâ€¦" maxlength="500" rows="2"></textarea>
+          <div class="char-counter" id="summaryCharCounter">0 / 500</div>
+        </div>
+        <div class="form-group">
+          <label>Full proposal (rich text)</label>
+          <div class="rte-toolbar">
+            <button type="button" class="rte-btn" data-cmd="bold">Bold</button>
+            <button type="button" class="rte-btn" data-cmd="italic">Italic</button>
+            <button type="button" class="rte-btn" data-cmd="insertUnorderedList">List</button>
+            <button type="button" class="rte-btn" data-cmd="insertOrderedList">Numbered</button>
+            <button type="button" class="rte-btn" id="rteLinkBtn">Link</button>
+          </div>
+          <div class="rte-editor" id="lawBodyEditor" contenteditable="true" data-placeholder="Full text with paragraphs, lists, and linksâ€¦"></div>
+        </div>
+        <div class="form-group">
+          <label>Tags (up to 5)</label>
+          <input type="text" class="tag-filter-input" id="tagFilterInput" placeholder="Filter tagsâ€¦" />
+          <div class="tag-picker" id="tagPicker"></div>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" id="includePoll" checked /> Include community poll (Support / Oppose / Abstain)</label>
         </div>
         <button class="btn btn-primary" id="submitLaw" style="width:100%;justify-content:center;">Submit proposal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Law Detail Modal -->
+  <div class="overlay" id="detailOverlay">
+    <div class="modal-wrapper">
+      <button class="modal-close" id="detailClose" aria-label="Close">Ã—</button>
+      <div class="modal modal-xl" id="detailModal">
+        <div class="detail-toolbar" id="detailToolbar">
+          <button type="button" class="btn btn-ghost" id="readingModeBtn">Reading mode</button>
+          <button type="button" class="btn btn-ghost" id="editLawBtn" hidden>Edit proposal</button>
+          <button type="button" class="btn btn-ghost" id="versionHistoryBtn">Version history</button>
+          <button type="button" class="btn btn-primary" id="detailDiscussBtn">Discuss</button>
+        </div>
+        <div id="detailContent"></div>
+        <div class="version-history" id="versionHistoryPanel" hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Law Modal -->
+  <div class="overlay" id="editOverlay">
+    <div class="modal-wrapper">
+      <button class="modal-close" id="editClose" aria-label="Close">Ã—</button>
+      <div class="modal modal-xl">
+        <h3>Edit proposal</h3>
+        <p class="modal-sub">Changes are saved as a new version.</p>
+        <div class="form-group">
+          <label for="editLawTitle">Title</label>
+          <input type="text" id="editLawTitle" maxlength="200" />
+        </div>
+        <div class="form-group">
+          <label for="editLawSummary">Short summary</label>
+          <textarea id="editLawSummary" maxlength="500" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Full proposal</label>
+          <div class="rte-toolbar" id="editRteToolbar">
+            <button type="button" class="rte-btn" data-cmd="bold">Bold</button>
+            <button type="button" class="rte-btn" data-cmd="italic">Italic</button>
+            <button type="button" class="rte-btn" data-cmd="insertUnorderedList">List</button>
+            <button type="button" class="rte-btn" data-cmd="insertOrderedList">Numbered</button>
+            <button type="button" class="rte-btn" id="editRteLinkBtn">Link</button>
+          </div>
+          <div class="rte-editor" id="editLawBodyEditor" contenteditable="true"></div>
+        </div>
+        <div class="form-group">
+          <label for="editChangeNote">What changed? (optional)</label>
+          <input type="text" id="editChangeNote" placeholder="e.g. Clarified section 2" maxlength="200" />
+        </div>
+        <button class="btn btn-primary" id="saveEditLaw" style="width:100%;justify-content:center;">Save new version</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div class="overlay" id="profileOverlay">
+    <div class="modal-wrapper">
+      <button class="modal-close" id="profileClose" aria-label="Close">Ã—</button>
+      <div class="modal modal-lg">
+        <div class="profile-header">
+          <div class="profile-avatar-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <h3 id="profileName">Profile</h3>
+            <p class="modal-sub" id="profileEmail" style="margin:0;"></p>
+          </div>
+        </div>
+        <div class="profile-stats">
+          <div class="profile-stat"><strong id="profileProposals">0</strong><span>Proposals</span></div>
+          <div class="profile-stat"><strong id="profileComments">0</strong><span>Comments</span></div>
+          <div class="profile-stat"><strong id="profileVotes">0</strong><span>Votes cast</span></div>
+        </div>
+        <button class="btn btn-ghost" id="logoutBtn" style="width:100%;justify-content:center;margin-top:0.5rem;">Sign out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifications Modal -->
+  <div class="overlay" id="notifOverlay">
+    <div class="modal-wrapper">
+      <button class="modal-close" id="notifClose" aria-label="Close">Ã—</button>
+      <div class="modal modal-lg">
+        <h3>Notifications</h3>
+        <p class="modal-sub">Mentions and activity on your proposals.</p>
+        <div class="notif-list" id="notifList"></div>
       </div>
     </div>
   </div>
@@ -1077,879 +1733,6 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-  <script>
-    'use strict';
-
-    const FIREBASE_CONFIG = {
-      apiKey: 'AIzaSyBVrek7QSFiFZILJ2FeumZPaCuprZrVDUA',
-      authDomain: 'chatr-6d513.firebaseapp.com',
-      databaseURL: 'https://chatr-6d513-default-rtdb.europe-west1.firebasedatabase.app',
-      projectId: 'chatr-6d513',
-      storageBucket: 'chatr-6d513.firebasestorage.app',
-      messagingSenderId: '961820142442',
-      appId: '1:961820142442:web:8957e81acc258e1fa59313',
-    };
-
-    /* Public legal pages show email contact only. Full operator details are not published on the site. */
-    const LEGAL_OPERATOR = {
-      publicLabel: 'Legis (private operator, Germany)',
-      email: 'legissupport@gmail.com',
-    };
-
-    const USER_STORAGE_KEY = 'legis-user';
-    const MAX_COMMENT_LENGTH = 2000;
-
-    const WORLD_COUNTRIES = [
-      'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda',
-      'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain',
-      'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan',
-      'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria',
-      'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde',
-      'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros',
-      'Costa Rica', "Côte d'Ivoire", 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic',
-      'Democratic Republic of the Congo', 'Denmark', 'Djibouti', 'Dominica',
-      'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea',
-      'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon',
-      'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea',
-      'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India',
-      'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan',
-      'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos',
-      'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania',
-      'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta',
-      'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova',
-      'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia',
-      'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria',
-      'North Korea', 'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine',
-      'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal',
-      'Qatar', 'Republic of the Congo', 'Romania', 'Russia', 'Rwanda',
-      'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa',
-      'San Marino', 'São Tomé and Príncipe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles',
-      'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia',
-      'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname',
-      'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand',
-      'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey',
-      'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates',
-      'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City',
-      'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe',
-    ];
-
-    let db = null;
-    let pendingCountry = null;
-    let currentCountry = null;
-    let currentLaws = [];
-    let authMode = 'login';
-    let activeLawId = null;
-    let lawsListenerRef = null;
-    let messagesListenerRef = null;
-
-    function countryKey(country) {
-      return country.replace(/[.#$[\]/]/g, '_');
-    }
-
-    function emailKey(email) {
-      return email.replace(/[.#$[\]/]/g, '_');
-    }
-
-    function lawsRef(country) {
-      return db.ref('legis/countries/' + countryKey(country) + '/laws');
-    }
-
-    function lawRef(country, lawId) {
-      return lawsRef(country).child(lawId);
-    }
-
-    function messagesRef(country, lawId) {
-      return lawRef(country, lawId).child('messages');
-    }
-
-    function getUser() {
-      try {
-        return JSON.parse(localStorage.getItem(USER_STORAGE_KEY));
-      } catch {
-        return null;
-      }
-    }
-
-    function saveUser(user) {
-      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
-    }
-
-    function isLoggedIn() {
-      return !!getUser();
-    }
-
-    function parseLaw(id, val) {
-      const votes = val.votes || {};
-      const messagesObj = val.messages || {};
-      const messages = Object.entries(messagesObj)
-        .map(function (entry) {
-          return { id: entry[0], ...entry[1] };
-        })
-        .sort(function (a, b) {
-          return a.createdAt - b.createdAt;
-        });
-
-      return {
-        id: id,
-        title: val.title || '',
-        summary: val.summary || '',
-        author: val.author || 'Unknown',
-        createdAt: val.createdAt || Date.now(),
-        up: val.up || 0,
-        down: val.down || 0,
-        votes: votes,
-        messages: messages,
-      };
-    }
-
-    function findLaw(lawId) {
-      return currentLaws.find(function (law) {
-        return law.id === lawId;
-      }) || null;
-    }
-
-    function ensureDb() {
-      if (db) return true;
-      try {
-        if (!firebase.apps.length) {
-          firebase.initializeApp(FIREBASE_CONFIG);
-        }
-        db = firebase.database();
-        if (pendingCountry) {
-          var country = pendingCountry;
-          pendingCountry = null;
-          watchLaws(country);
-        }
-        return true;
-      } catch (err) {
-        console.error(err);
-        return false;
-      }
-    }
-
-    function initFirebase() {
-      ensureDb();
-    }
-
-    function stopWatchingLaws() {
-      if (lawsListenerRef) {
-        lawsListenerRef.off('value');
-        lawsListenerRef = null;
-      }
-    }
-
-    function stopWatchingMessages() {
-      if (messagesListenerRef) {
-        messagesListenerRef.off('value');
-        messagesListenerRef = null;
-      }
-    }
-
-    function watchLaws(country) {
-      if (!ensureDb()) {
-        pendingCountry = country;
-        return;
-      }
-      stopWatchingLaws();
-      currentCountry = country;
-      lawsListenerRef = lawsRef(country);
-
-      lawsListenerRef.on('value', function (snapshot) {
-        var laws = [];
-        snapshot.forEach(function (child) {
-          laws.push(parseLaw(child.key, child.val()));
-        });
-        laws.sort(function (a, b) {
-          return b.createdAt - a.createdAt;
-        });
-        currentLaws = laws;
-        renderLawsUI(country, laws);
-      });
-    }
-
-    function selectCountry(country) {
-      watchLaws(country);
-    }
-
-    function addLawToFirebase(country, title, summary, author) {
-      if (!ensureDb()) return Promise.reject(new Error('offline'));
-      var ref = lawsRef(country).push();
-      return ref.set({
-        title: title,
-        summary: summary,
-        author: author,
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
-        up: 0,
-        down: 0,
-      });
-    }
-
-    function castVote(country, lawId, email, type) {
-      if (!ensureDb()) return Promise.reject(new Error('offline'));
-      var ref = lawRef(country, lawId);
-      var voteKey = emailKey(email);
-
-      return ref.transaction(function (law) {
-        if (!law) return law;
-        var prev = law.votes && law.votes[voteKey];
-        if (prev === type) return;
-
-        law.votes = law.votes || {};
-        if (prev === 'up') law.up = Math.max(0, (law.up || 0) - 1);
-        if (prev === 'down') law.down = Math.max(0, (law.down || 0) - 1);
-        if (type === 'up') law.up = (law.up || 0) + 1;
-        if (type === 'down') law.down = (law.down || 0) + 1;
-        law.votes[voteKey] = type;
-        return law;
-      });
-    }
-
-    function postComment(country, lawId, author, text) {
-      var trimmed = text.trim();
-      if (!trimmed) throw new Error('Comment cannot be empty.');
-      if (trimmed.length > MAX_COMMENT_LENGTH) {
-        throw new Error('Comment max ' + MAX_COMMENT_LENGTH + ' characters.');
-      }
-      if (!ensureDb()) return Promise.reject(new Error('offline'));
-
-      return messagesRef(country, lawId).push().set({
-        author: author,
-        text: trimmed,
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
-      });
-    }
-
-    function formatTime(ts) {
-      var time = typeof ts === 'object' && ts !== null ? Date.now() : ts;
-      var diff = Date.now() - time;
-      var mins = Math.floor(diff / 60000);
-      if (mins < 1) return 'Just now';
-      if (mins < 60) return mins + 'm ago';
-      var hrs = Math.floor(mins / 60);
-      if (hrs < 24) return hrs + 'h ago';
-      var days = Math.floor(hrs / 24);
-      return days + 'd ago';
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
-    var audioCtx =
-      typeof AudioContext !== 'undefined' ? new (window.AudioContext || window.webkitAudioContext)() : null;
-
-    function playSfx(type) {
-      if (!audioCtx || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      var osc = audioCtx.createOscillator();
-      var gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      var now = audioCtx.currentTime;
-      if (type === 'click') {
-        osc.frequency.setValueAtTime(880, now);
-        osc.frequency.exponentialRampToValueAtTime(660, now + 0.06);
-        gain.gain.setValueAtTime(0.06, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-        osc.start(now);
-        osc.stop(now + 0.08);
-      } else if (type === 'success') {
-        osc.frequency.setValueAtTime(523, now);
-        osc.frequency.setValueAtTime(659, now + 0.08);
-        osc.frequency.setValueAtTime(784, now + 0.16);
-        gain.gain.setValueAtTime(0.07, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-        osc.start(now);
-        osc.stop(now + 0.3);
-      } else if (type === 'open') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(440, now);
-        osc.frequency.exponentialRampToValueAtTime(550, now + 0.12);
-        gain.gain.setValueAtTime(0.04, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-        osc.start(now);
-        osc.stop(now + 0.15);
-      }
-    }
-
-    function showToast(msg) {
-      var t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(function () {
-        t.classList.remove('show');
-      }, 2800);
-    }
-
-    function updateAuthUI() {
-      var user = getUser();
-      var loginBtn = document.getElementById('loginBtn');
-      var registerBtn = document.getElementById('registerBtn');
-      if (user) {
-        loginBtn.textContent = user.displayName;
-        registerBtn.hidden = true;
-      } else {
-        loginBtn.textContent = 'Sign in';
-        registerBtn.hidden = false;
-      }
-    }
-
-    function requireAuth(action) {
-      if (isLoggedIn()) return true;
-      playSfx('open');
-      openAuth('login');
-      showToast('Please sign in to ' + action);
-      return false;
-    }
-
-    function openAuth(mode) {
-      authMode = mode;
-      document.getElementById('authTitle').textContent = mode === 'login' ? 'Sign in' : 'Create account';
-      document.getElementById('authSub').textContent =
-        mode === 'login'
-          ? 'Sign in to react, discuss, or propose new laws.'
-          : 'Join the community and start contributing.';
-      document.getElementById('authSubmit').textContent = mode === 'login' ? 'Sign in' : 'Register';
-      document.getElementById('nameGroup').hidden = mode !== 'register';
-      document.getElementById('authOverlay').classList.add('open');
-      playSfx('open');
-    }
-
-    function closeAuth() {
-      document.getElementById('authOverlay').classList.remove('open');
-    }
-
-    function updateCharCounter() {
-      var input = document.getElementById('messageInput');
-      var counter = document.getElementById('messageCharCounter');
-      if (!input || !counter) return;
-      var len = input.value.length;
-      counter.textContent = len + ' / ' + MAX_COMMENT_LENGTH;
-      counter.classList.toggle('over', len > MAX_COMMENT_LENGTH);
-    }
-
-    function renderLawCard(law, i) {
-      var user = getUser();
-      var vote = user ? law.votes[emailKey(user.email)] : null;
-      var commentCount = law.messages.length;
-      var card = document.createElement('article');
-      card.className = 'law-card';
-      card.style.animationDelay = i * 0.07 + 's';
-      card.innerHTML =
-        '<div class="law-meta">' +
-        '<span class="law-tag new">Community</span>' +
-        '<span class="law-date">' + formatTime(law.createdAt) + '</span>' +
-        '<span class="law-author">by ' + escapeHtml(law.author) + '</span>' +
-        '</div>' +
-        '<h3 class="law-title">' + escapeHtml(law.title) + '</h3>' +
-        '<p class="law-summary">' + escapeHtml(law.summary) + '</p>' +
-        '<div class="law-actions">' +
-        '<button class="reaction-btn ' + (vote === 'up' ? 'active-up' : '') + '" data-type="up" data-id="' + law.id + '">' +
-        '<span class="emoji">👍</span> <span class="count">' + law.up + '</span></button>' +
-        '<button class="reaction-btn ' + (vote === 'down' ? 'active-down' : '') + '" data-type="down" data-id="' + law.id + '">' +
-        '<span class="emoji">👎</span> <span class="count">' + law.down + '</span></button>' +
-        '<button class="discuss-btn" data-id="' + law.id + '">' +
-        '<span class="emoji">💬</span> Discuss (' + commentCount + ')</button>' +
-        '</div>';
-      return card;
-    }
-
-    function bindLawEvents(panel, country) {
-      panel.querySelector('#proposeLawBtn')?.addEventListener('click', function () {
-        if (!requireAuth('propose laws')) return;
-        document.getElementById('proposeSub').textContent = 'Submit your idea for ' + country + '.';
-        document.getElementById('proposeOverlay').classList.add('open');
-        playSfx('open');
-      });
-
-      var list = panel.querySelector('#lawsList');
-      if (!list) return;
-
-      list.querySelectorAll('.reaction-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          if (!requireAuth('react')) return;
-          var user = getUser();
-          castVote(country, btn.dataset.id, user.email, btn.dataset.type)
-            .then(function () {
-              playSfx('click');
-            })
-            .catch(function (err) {
-              showToast('Could not save vote');
-              console.error(err);
-            });
-        });
-      });
-
-      list.querySelectorAll('.discuss-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          if (!requireAuth('discuss')) return;
-          openDiscussion(country, btn.dataset.id);
-        });
-      });
-
-      panel.querySelector('#emptyProposeBtn')?.addEventListener('click', function () {
-        if (!requireAuth('propose laws')) return;
-        document.getElementById('proposeSub').textContent = 'Submit your idea for ' + country + '.';
-        document.getElementById('proposeOverlay').classList.add('open');
-        playSfx('open');
-      });
-    }
-
-    function renderLawsUI(country, laws) {
-      document.getElementById('emptyState').hidden = true;
-      var panel = document.getElementById('lawsPanel');
-      panel.hidden = false;
-
-      var countText = laws.length === 1 ? '1 proposal' : laws.length + ' proposals';
-
-      panel.innerHTML =
-        '<div class="country-header">' +
-        '<div><h2>' + escapeHtml(country) + '</h2>' +
-        '<p>' +
-        (laws.length ? countText + ' from the community' : 'No proposals yet. Be the first!') +
-        '</p></div>' +
-        '<button class="btn btn-primary propose-btn" id="proposeLawBtn">+ Propose law</button>' +
-        '</div>' +
-        (laws.length
-          ? '<div class="laws-list" id="lawsList"></div>'
-          : '<div class="laws-empty"><h3>No laws proposed yet</h3>' +
-            '<p>All content on Legis comes from community members. Be the first to suggest a regulation for ' +
-            escapeHtml(country) +
-            '.</p>' +
-            '<button class="btn btn-primary" id="emptyProposeBtn">+ Propose the first law</button></div>');
-
-      if (laws.length) {
-        var listEl = panel.querySelector('#lawsList');
-        laws.forEach(function (law, i) {
-          listEl.appendChild(renderLawCard(law, i));
-        });
-      }
-
-      bindLawEvents(panel, country);
-    }
-
-    function renderThreadMessages(messages) {
-      var thread = document.getElementById('threadMessages');
-      if (!messages.length) {
-        thread.innerHTML = '<div class="thread-empty">No messages yet. Start the discussion!</div>';
-        return;
-      }
-      thread.innerHTML = messages
-        .map(function (m) {
-          return (
-            '<div class="message">' +
-            '<div class="message-author">' + escapeHtml(m.author) + '</div>' +
-            '<div class="message-text">' + escapeHtml(m.text) + '</div>' +
-            '<div class="message-time">' + formatTime(m.createdAt) + '</div>' +
-            '</div>'
-          );
-        })
-        .join('');
-      thread.scrollTop = thread.scrollHeight;
-    }
-
-    function openDiscussion(country, lawId) {
-      var law = findLaw(lawId);
-      if (!law || !ensureDb()) return;
-
-      activeLawId = lawId;
-      document.getElementById('discussTitle').textContent = law.title;
-      document.getElementById('discussSub').textContent =
-        'Discussion on this proposal. Maximum ' + MAX_COMMENT_LENGTH + ' characters per comment.';
-      document.getElementById('messageInput').value = '';
-      updateCharCounter();
-      document.getElementById('discussOverlay').classList.add('open');
-      playSfx('open');
-
-      stopWatchingMessages();
-      messagesListenerRef = messagesRef(country, lawId);
-      messagesListenerRef.on('value', function (snapshot) {
-        var messages = [];
-        snapshot.forEach(function (child) {
-          messages.push({ id: child.key, ...child.val() });
-        });
-        messages.sort(function (a, b) {
-          return a.createdAt - b.createdAt;
-        });
-        renderThreadMessages(messages);
-      });
-    }
-
-    var countryList = document.getElementById('countryList');
-    var countrySearch = document.getElementById('countrySearch');
-    var countrySearchClear = document.getElementById('countrySearchClear');
-    var countryNoResults = document.getElementById('countryNoResults');
-
-    function filterCountries(query) {
-      var q = query.trim().toLowerCase();
-      var items = countryList.querySelectorAll('li');
-      var visible = 0;
-
-      items.forEach(function (li) {
-        var name = li.dataset.country || '';
-        var match = !q || name.toLowerCase().includes(q);
-        li.classList.toggle('hidden', !match);
-        if (match) visible += 1;
-      });
-
-      countryNoResults.classList.toggle('visible', q.length > 0 && visible === 0);
-      countrySearchClear.classList.toggle('visible', q.length > 0);
-    }
-
-    WORLD_COUNTRIES.forEach(function (country, i) {
-      var li = document.createElement('li');
-      li.dataset.country = country;
-      var btn = document.createElement('button');
-      btn.className = 'country-link';
-      btn.textContent = country;
-      btn.style.animationDelay = i * 0.02 + 's';
-      btn.addEventListener('click', function () {
-        playSfx('click');
-        document.querySelectorAll('.country-link').forEach(function (l) {
-          l.classList.remove('active');
-        });
-        btn.classList.add('active');
-        selectCountry(country);
-      });
-      li.appendChild(btn);
-      countryList.appendChild(li);
-    });
-
-    countrySearch.addEventListener('input', function () {
-      filterCountries(countrySearch.value);
-    });
-    countrySearchClear.addEventListener('click', function () {
-      countrySearch.value = '';
-      filterCountries('');
-      countrySearch.focus();
-      playSfx('click');
-    });
-
-    document.getElementById('loginBtn').addEventListener('click', function () {
-      openAuth('login');
-    });
-    document.getElementById('registerBtn').addEventListener('click', function () {
-      openAuth('register');
-    });
-    document.getElementById('authCancel').addEventListener('click', function () {
-      closeAuth();
-      playSfx('click');
-    });
-    document.getElementById('authOverlay').addEventListener('click', function (e) {
-      if (e.target === e.currentTarget) closeAuth();
-    });
-    document.getElementById('authSubmit').addEventListener('click', function () {
-      var email = document.getElementById('authEmail').value.trim();
-      var password = document.getElementById('authPassword').value.trim();
-      var name = document.getElementById('authName').value.trim();
-      if (!email) {
-        showToast('Please enter your email');
-        return;
-      }
-      if (!password) {
-        showToast('Please enter your password');
-        return;
-      }
-      if (authMode === 'register' && !name) {
-        showToast('Please enter a display name');
-        return;
-      }
-
-      saveUser({
-        email: email,
-        displayName: authMode === 'register' ? name : email.split('@')[0],
-      });
-
-      closeAuth();
-      playSfx('success');
-      showToast(authMode === 'login' ? 'Welcome back!' : 'Account created. Welcome!');
-      updateAuthUI();
-    });
-
-    document.getElementById('discussClose').addEventListener('click', function () {
-      document.getElementById('discussOverlay').classList.remove('open');
-      stopWatchingMessages();
-      activeLawId = null;
-      playSfx('click');
-    });
-    document.getElementById('discussOverlay').addEventListener('click', function (e) {
-      if (e.target === e.currentTarget) {
-        document.getElementById('discussOverlay').classList.remove('open');
-        stopWatchingMessages();
-        activeLawId = null;
-      }
-    });
-
-    document.getElementById('messageInput').addEventListener('input', updateCharCounter);
-
-    document.getElementById('sendMessage').addEventListener('click', function () {
-      if (!currentCountry || !activeLawId) return;
-      var text = document.getElementById('messageInput').value;
-      if (!text.trim()) return;
-      if (text.length > MAX_COMMENT_LENGTH) {
-        showToast('Max ' + MAX_COMMENT_LENGTH + ' characters per comment');
-        return;
-      }
-
-      var user = getUser();
-      postComment(currentCountry, activeLawId, user.displayName, text)
-        .then(function () {
-          document.getElementById('messageInput').value = '';
-          updateCharCounter();
-          playSfx('success');
-          showToast('Message posted');
-        })
-        .catch(function (err) {
-          showToast(err.message || 'Could not post comment');
-          console.error(err);
-        });
-    });
-
-    document.getElementById('proposeClose').addEventListener('click', function () {
-      document.getElementById('proposeOverlay').classList.remove('open');
-      playSfx('click');
-    });
-    document.getElementById('proposeOverlay').addEventListener('click', function (e) {
-      if (e.target === e.currentTarget) document.getElementById('proposeOverlay').classList.remove('open');
-    });
-
-    document.getElementById('submitLaw').addEventListener('click', function () {
-      if (!currentCountry) return;
-      if (!requireAuth('propose laws')) return;
-
-      var title = document.getElementById('lawTitle').value.trim();
-      var summary = document.getElementById('lawSummary').value.trim();
-      if (!title || !summary) {
-        showToast('Please fill in all fields');
-        return;
-      }
-
-      var user = getUser();
-      addLawToFirebase(currentCountry, title, summary, user.displayName)
-        .then(function () {
-          document.getElementById('proposeOverlay').classList.remove('open');
-          document.getElementById('lawTitle').value = '';
-          document.getElementById('lawSummary').value = '';
-          playSfx('success');
-          showToast('Proposal published!');
-        })
-        .catch(function (err) {
-          showToast('Could not publish proposal');
-          console.error(err);
-        });
-    });
-
-    document.getElementById('logoHome').addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelectorAll('.country-link').forEach(function (l) {
-        l.classList.remove('active');
-      });
-      document.getElementById('emptyState').hidden = false;
-      document.getElementById('lawsPanel').hidden = true;
-      stopWatchingLaws();
-      stopWatchingMessages();
-      currentCountry = null;
-      currentLaws = [];
-      activeLawId = null;
-      playSfx('click');
-    });
-
-    function escapeLegalHtml(text) {
-      return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
-    function buildOperatorContactHtml() {
-      var email = escapeLegalHtml(LEGAL_OPERATOR.email);
-      return (
-        '<p><strong>' + escapeLegalHtml(LEGAL_OPERATOR.publicLabel) + '</strong><br>' +
-        'Email: <a href="mailto:' + email + '">' + email + '</a></p>' +
-        '<p class="rule-note">Legis is a private, non-commercial community project. The operator does not publish a home address on this website. For data protection requests or legal contact, use the email above.</p>'
-      );
-    }
-
-    function buildPrivacyPolicyHtml() {
-      var email = escapeLegalHtml(LEGAL_OPERATOR.email);
-      return (
-        '<p>This privacy policy explains how personal data is processed when you use <strong>Legis</strong>, in accordance with the EU General Data Protection Regulation (GDPR / DSGVO).</p>' +
-        '<h4>1. Controller</h4>' +
-        '<p>The data controller is the private operator of Legis (non-commercial community website, no fees, no revenue from users):</p>' +
-        buildOperatorContactHtml() +
-        '<h4>2. Nature of the service</h4>' +
-        '<p>Legis is a free community platform for fictional law proposals and discussion. It is not operated by a company or government. We do not sell products, subscriptions, or advertising.</p>' +
-        '<h4>3. Categories of personal data</h4>' +
-        '<ul>' +
-        '<li><strong>Account data:</strong> display name and email address when you register.</li>' +
-        '<li><strong>User content:</strong> law proposals, discussion comments, and votes you submit.</li>' +
-        '<li><strong>Local browser storage (localStorage):</strong> your login session (display name, email) is stored in your browser so you stay signed in. This is <strong>not</strong> a cookie.</li>' +
-        '<li><strong>Technical data:</strong> when you load the site, Google Firebase Realtime Database may process connection data such as IP address, timestamps, and device/browser information for security and delivery of the service. This happens over HTTPS/WebSocket and does not use tracking cookies in our setup.</li>' +
-        '</ul>' +
-        '<p>We do not require your real name, postal address, or government ID to use Legis.</p>' +
-        '<h4>4. Purposes and legal bases (Art. 6 GDPR)</h4>' +
-        '<ul>' +
-        '<li><strong>Providing the platform</strong> (account, posting, voting): Art. 6(1)(b) GDPR (steps at your request before and during use of the service).</li>' +
-        '<li><strong>Operating and securing the website</strong> (abuse prevention, technical stability): Art. 6(1)(f) GDPR (legitimate interest in running a safe community platform).</li>' +
-        '<li><strong>Registration:</strong> by creating an account you confirm that you have read this policy and our terms; where consent is required, Art. 6(1)(a) GDPR applies and you may withdraw consent by deleting your account or contacting us.</li>' +
-        '</ul>' +
-        '<h4>5. Storage duration</h4>' +
-        '<p>Account and content data are stored until you request deletion or we remove it for rule violations. Local browser data remains until you log out or clear your browser storage.</p>' +
-        '<h4>6. Recipients and processors</h4>' +
-        '<p>Data is stored in <strong>Google Firebase Realtime Database</strong> (region: europe-west1). Google acts as a data processor on our behalf.</p>' +
-        '<ul>' +
-        '<li>Firebase / Google: <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">Firebase Privacy</a></li>' +
-        '<li>Google privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a></li>' +
-        '</ul>' +
-        '<p>We do not sell your personal data. We do not use advertising networks, analytics tools, or tracking cookies. We use Firebase Realtime Database only (not Firebase Analytics or Firebase Auth cookies).</p>' +
-        '<h4>7. Cookies and local storage</h4>' +
-        '<p><strong>We do not use cookies.</strong> Legis does not set cookies on your device. There are no marketing cookies, no analytics cookies, and no social-media tracking cookies.</p>' +
-        '<p><strong>What we use instead:</strong> when you sign in or register, your account data is saved in your browser using <strong>localStorage</strong> (browser storage, not a cookie). This is technically necessary so you remain logged in. We do not use Firebase Analytics, Google Analytics, or similar tracking services.</p>' +
-        '<p><strong>Firebase:</strong> our database connection (Firebase Realtime Database) does not set cookies for this website. Google may still process technical connection data when you use the site (see section 3).</p>' +
-        '<p><strong>Removing stored data:</strong> log out, or clear site data / local storage for this website in your browser settings.</p>' +
-        '<p>Because we only use technically necessary browser storage and no non-essential cookies, a cookie consent banner is not required for Legis in its current form.</p>' +
-        '<h4>8. Transfers to third countries</h4>' +
-        '<p>Google may process data in countries outside the EU/EEA (including the United States). Where required, transfers are based on appropriate safeguards under GDPR, such as EU Standard Contractual Clauses.</p>' +
-        '<h4>9. Your rights</h4>' +
-        '<p>Under GDPR you have the right to:</p>' +
-        '<ul>' +
-        '<li><strong>Access</strong> your personal data (Art. 15)</li>' +
-        '<li><strong>Rectification</strong> of inaccurate data (Art. 16)</li>' +
-        '<li><strong>Erasure</strong> ("right to be forgotten") (Art. 17)</li>' +
-        '<li><strong>Restriction</strong> of processing (Art. 18)</li>' +
-        '<li><strong>Data portability</strong>, where applicable (Art. 20)</li>' +
-        '<li><strong>Object</strong> to processing based on legitimate interests (Art. 21)</li>' +
-        '<li><strong>Withdraw consent</strong> at any time, without affecting prior lawful processing (Art. 7(3))</li>' +
-        '</ul>' +
-        '<p>To exercise these rights, email <a href="mailto:' + email + '">' + email + '</a> from the address linked to your account. We will respond within the time limits set by GDPR (generally one month).</p>' +
-        '<h4>10. Right to lodge a complaint</h4>' +
-        '<p>You may lodge a complaint with a supervisory authority, in particular in the EU member state of your habitual residence, place of work, or place of the alleged infringement. In Germany, contact the data protection authority (<em>Landesdatenschutzbehörde</em>) of the federal state where the operator resides.</p>' +
-        '<h4>11. Obligation to provide data</h4>' +
-        '<p>You can browse countries without an account. To post proposals, comments, or votes, a display name and email are required. Without this data, participation features are not available.</p>' +
-        '<h4>12. Automated decision-making</h4>' +
-        '<p>We do not use automated decision-making or profiling that produces legal or similarly significant effects.</p>' +
-        '<h4>13. Children</h4>' +
-        '<p>Legis is not directed at children under 16. If you are under 16, you may only use the service with consent of a parent or legal guardian. If we learn that data from a child was collected without proper consent, we will delete it.</p>' +
-        '<h4>14. Data security</h4>' +
-        '<p>We use HTTPS, Firebase security rules, and reasonable technical measures to protect stored data. No method of transmission over the internet is completely secure.</p>' +
-        '<h4>15. Changes to this policy</h4>' +
-        '<p>We may update this privacy policy when the service or legal requirements change. The current version is always available via the footer link "Privacy (GDPR)".</p>' +
-        '<p><strong>Last updated:</strong> July 2026</p>'
-      );
-    }
-
-    var INFO_PAGES = {
-      about: {
-        title: 'About us',
-        sub: 'What Legis is and who it is for.',
-        html:
-          '<p><strong>Legis</strong> is an independent, community-driven platform where people from around the world can propose ideas for new regulations, discuss them openly, and react to proposals from others.</p>' +
-          '<p>We are <strong>not</strong> a government website. Nothing published here is official law. All content comes from community members sharing ideas for discussion.</p>' +
-          '<p>Our goal is to make civic participation accessible: pick a country, propose a law, join the conversation, and help shape ideas together in a transparent and democratic way.</p>',
-      },
-      rules: {
-        title: 'Rules',
-        sub: 'Official community standards. Please read before you post.',
-        html:
-          '<p>Legis distinguishes between <strong>law proposals</strong> and <strong>discussion comments</strong>. Each area has different standards. Violations may result in content removal, temporary restrictions, or permanent account suspension.</p>' +
-          '<div class="rule-card"><h4>1. Law proposals</h4>' +
-          '<p><strong>Scope:</strong> Proposals are fictional draft laws for community debate. They are not binding and do not represent real legislation.</p>' +
-          '<p><strong>Freedom of expression:</strong> Legis grants broad latitude for serious, earnest, and factual proposals. You may argue for controversial legal reforms, including language policy, if your text is written as a structured legal idea rather than a personal attack.</p>' +
-          '<ul>' +
-          '<li>Write in a serious, professional tone. Proposals should read like policy drafts, not insults or provocation for its own sake.</li>' +
-          '<li>You may reference offensive terms <strong>inside quotation marks</strong> when discussing how language should be treated under law (for example, whether a specific slur should remain a statutory insult or be removed from legal classification). This is opinion on legal framing, not permission to target people.</li>' +
-          '<li>What is <strong>never</strong> allowed: advocacy of violence, enslavement, forced deportation, mass harm, or extermination directed at any ethnic, religious, national, or other group. Even indirect phrasing or coded language that clearly calls for such outcomes is prohibited.</li>' +
-          '<li>Content that describes or promotes mutilation, sexual exploitation, or active physical harm against <strong>children or minors</strong> is strictly forbidden.</li>' +
-          '<li>No spam, duplicate flooding, impersonation of government bodies, or misleading claims that a proposal is already real law.</li>' +
-          '</ul>' +
-          '<p class="rule-note">Summary: strong opinion on legal wording is permitted when quoted and argued in policy terms. Calls for harm against groups or minors are not permitted in any form.</p>' +
-          '</div>' +
-          '<div class="rule-card"><h4>2. Discussions</h4>' +
-          '<p><strong>Scope:</strong> Comments under a proposal are a moderated conversation space. Standards here are stricter than for proposals.</p>' +
-          '<p><strong>Conduct:</strong> When you reply to others, you must communicate respectfully and substantively. Debate the idea, cite reasoning, and stay on topic.</p>' +
-          '<ul>' +
-          '<li><strong>No open racist speech.</strong> Slurs, dehumanizing language, or racial hatred directed at people are not permitted in comments, including outside quotation marks.</li>' +
-          '<li><strong>No false factual claims.</strong> Do not deliberately spread misinformation, invent statistics, or state fabricated events as proven fact to mislead others.</li>' +
-          '<li><strong>No advocacy of harm.</strong> Comments must not promote violence, mutilation, or harm against children, minors, or any protected group.</li>' +
-          '<li><strong>No spam.</strong> Repeated copy-paste, off-topic advertising, baiting, or low-effort flooding is prohibited.</li>' +
-          '<li><strong>Stay factual.</strong> Opinions are welcome when clearly presented as such. Present factual statements responsibly and do not provoke conflict through deliberate falsehoods.</li>' +
-          '<li>Maximum <strong>2,000 characters</strong> per comment.</li>' +
-          '</ul>' +
-          '<p class="rule-note">Repeated or severe breaches in discussions may lead to an immediate account ban after review.</p>' +
-          '</div>' +
-          '<div class="rule-card"><h4>3. Voting and account conduct</h4>' +
-          '<p><strong>Voting:</strong> Upvotes and downvotes should reflect your genuine view of a proposal. Vote manipulation through multiple accounts, bots, or coordinated abuse is prohibited.</p>' +
-          '<ul>' +
-          '<li>One person, one account. Shared or automated accounts used to distort results may be removed.</li>' +
-          '<li>Do not harass users across proposals or discussions because of their vote.</li>' +
-          '<li>Report patterns of bad faith rather than retaliating in kind.</li>' +
-          '</ul>' +
-          '<p><strong>Enforcement:</strong> Moderators and automated checks may remove content, restrict posting, or permanently suspend accounts that violate these rules. Serious cases (threats, child safety, organized hate) are prioritized.</p>' +
-          '</div>',
-      },
-      terms: {
-        title: 'Terms',
-        sub: 'Terms of use for this private, non-commercial community platform.',
-        html:
-          '<p><strong>Operator:</strong> Legis is run by a private individual as a free community project. It is not a company, not a government service, and not a commercial product. There are no fees, no paid features, and no revenue from users.</p>' +
-          '<p>By registering or using Legis, you agree to participate respectfully and follow our community rules and privacy policy (GDPR / DSGVO).</p>' +
-          '<p><strong>No cookies:</strong> Legis does not set cookies on your device. Login data is stored in your browser using localStorage only. We do not use tracking, analytics, or advertising cookies. Firebase Realtime Database (our cloud database) does not set cookies for this site.</p>' +
-          '<p><strong>No advertising:</strong> Legis does not display ads and does not sell ad space.</p>' +
-          '<p>Content you submit (proposals, comments, votes) may be visible to other users and is stored in our database. Do not post anything you are not allowed to share. You are responsible for what you publish.</p>' +
-          '<p>The operator may remove content or suspend accounts that violate the rules. The service is provided as-is for community discussion without warranty.</p>',
-      },
-      privacy: {
-        title: 'Privacy policy (GDPR / DSGVO)',
-        sub: 'Information under Articles 13 and 14 of the EU General Data Protection Regulation.',
-        html: buildPrivacyPolicyHtml(),
-      },
-      contact: {
-        title: 'Contact',
-        sub: 'Help, support, and general inquiries.',
-        html:
-          '<p>If you need help using Legis, have a technical issue, want to report a rule violation, or wish to request deletion of your account data, you can contact our support team directly.</p>' +
-          '<p><strong>Support email:</strong><br><a href="mailto:legissupport@gmail.com">legissupport@gmail.com</a></p>' +
-          '<p>Please include a clear subject line and, if relevant, the email address linked to your Legis account. We will get back to you as soon as possible.</p>',
-      },
-    };
-
-    function openInfoPage(key) {
-      var page = INFO_PAGES[key];
-      if (!page) return;
-      document.getElementById('infoTitle').textContent = page.title;
-      document.getElementById('infoSub').textContent = page.sub;
-      document.getElementById('infoBody').innerHTML = page.html;
-      document.getElementById('infoOverlay').classList.add('open');
-      playSfx('open');
-    }
-
-    function closeInfoPage() {
-      document.getElementById('infoOverlay').classList.remove('open');
-    }
-
-    document.querySelectorAll('.footer-link[data-info]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        openInfoPage(btn.dataset.info);
-      });
-    });
-
-    document.getElementById('infoClose').addEventListener('click', function () {
-      closeInfoPage();
-      playSfx('click');
-    });
-
-    document.getElementById('infoOverlay').addEventListener('click', function (e) {
-      if (e.target === e.currentTarget) closeInfoPage();
-    });
-
-    initFirebase();
-    updateAuthUI();
-    updateCharCounter();
-  </script>
+  <script src="legis-app.js"></script>
 </body>
 </html>
