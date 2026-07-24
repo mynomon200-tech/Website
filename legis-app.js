@@ -592,8 +592,9 @@ function getFilteredLaws(laws) {
 }
 
 function selectCountry(country) {
-  document.getElementById('emptyState').hidden = true;
   watchLaws(country);
+  var hint = document.getElementById('emptyHint');
+  if (hint) hint.hidden = true;
 }
 
 function sanitizeHtml(html) {
@@ -1325,9 +1326,10 @@ function openProposeModal(country) {
 }
 
 function renderLawsUI(country, laws) {
-  document.getElementById('emptyState').hidden = true;
   var panel = document.getElementById('lawsPanel');
   panel.hidden = false;
+  var hint = document.getElementById('emptyHint');
+  if (hint) hint.hidden = true;
 
   var countText = laws.length === 1 ? '1 proposal' : laws.length + ' proposals';
   var allTags = [];
@@ -1682,7 +1684,7 @@ function openDiscussionWithLaw(country, lawId, law) {
 
 function renderHomeFeed() {
   var feedList = document.getElementById('feedList');
-  if (!feedList || currentCountry) return;
+  if (!feedList) return;
 
   var items = globalIndex.slice();
   if (currentFeedMode === 'trending') {
@@ -2408,8 +2410,9 @@ document.getElementById('logoHome').addEventListener('click', function (e) {
   document.querySelectorAll('.country-link').forEach(function (l) {
     l.classList.remove('active');
   });
-  document.getElementById('emptyState').hidden = false;
   document.getElementById('lawsPanel').hidden = true;
+  var hint = document.getElementById('emptyHint');
+  if (hint) hint.hidden = false;
   stopWatchingLaws();
   stopWatchingMessages();
   currentCountry = null;
