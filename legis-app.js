@@ -526,67 +526,79 @@ function verifyUserSession() {
   });
 }
 
+function parseUserRecord(key, val) {
+  if (!val || typeof val !== 'object') return null;
+  var email = val.email || '';
+  var displayName = val.displayName || '';
+  if (!email && !displayName) return null;
+  return {
+    id: key,
+    displayName: displayName || 'Unknown',
+    email: email,
+    country: val.country || 'Unknown',
+    createdAt: val.createdAt || val.joinedAt || null,
+    banned: !!val.banned,
+  };
+}
+
 function loadAllUsers() {
   if (!ensureDb()) return Promise.resolve([]);
 
-  function mapSnapshot(snapshot) {
-    var users = [];
-    snapshot.forEach(function (child) {
-      var val = child.val();
-      if (!val || typeof val !== 'object') return;
-      if (!val.email && !val.displayName) return;
-      users.push({
-        id: child.key,
-        displayName: val.displayName || 'Unknown',
-        email: val.email || '',
-        country: val.country || 'Unknown',
-        createdAt: val.createdAt || val.joinedAt || null,
-        banned: !!val.banned,
+  function readPath(ref) {
+    return ref.once('value').then(function (snapshot) {
+      var users = [];
+      snapshot.forEach(function (child) {
+        var parsed = parseUserRecord(child.key, child.val());
+        if (parsed) users.push(parsed);
       });
+      return users;
     });
-    users.sort(function (a, b) {
-      return (b.createdAt || 0) - (a.createdAt || 0);
-    });
-    return users;
   }
 
-  return userRegistryIndexRef()
-    .once('value')
-    .then(function (registrySnap) {
-      var users = mapSnapshot(registrySnap);
-      if (users.length) return users;
+  function syncToRegistry(user) {
+    var syncUpdates = {};
+    syncUpdates['legis/userRegistry/' + user.id] = {
+      displayName: user.displayName,
+      email: user.email,
+      country: user.country,
+      createdAt: user.createdAt || Date.now(),
+      banned: user.banned,
+    };
+    db.ref().update(syncUpdates).catch(function () {});
+  }
 
-      return usersRegistryRef().once('value').then(function (legacySnap) {
-        var legacyUsers = [];
-        legacySnap.forEach(function (child) {
-          var val = child.val();
-          if (!val || typeof val !== 'object') return;
-          var email = val.email || '';
-          var displayName = val.displayName || '';
-          if (!email && !displayName) return;
-          legacyUsers.push({
-            id: child.key,
-            displayName: displayName || 'Unknown',
-            email: email,
-            country: val.country || 'Unknown',
-            createdAt: val.createdAt || val.joinedAt || null,
-            banned: !!val.banned,
+  return readPath(userRegistryIndexRef())
+    .catch(function (err) {
+      console.warn('userRegistry read failed:', err);
+      return [];
+    })
+    .then(function (registryUsers) {
+      return readPath(usersRegistryRef())
+        .catch(function (err) {
+          console.warn('users read failed:', err);
+          return [];
+        })
+        .then(function (legacyUsers) {
+          var merged = {};
+          var registryIds = {};
+          registryUsers.forEach(function (user) {
+            merged[user.id] = user;
+            registryIds[user.id] = true;
           });
-          var syncUpdates = {};
-          syncUpdates['legis/userRegistry/' + child.key] = {
-            displayName: displayName || 'Unknown',
-            email: email,
-            country: val.country || 'Unknown',
-            createdAt: val.createdAt || val.joinedAt || Date.now(),
-            banned: !!val.banned,
-          };
-          db.ref().update(syncUpdates);
+          legacyUsers.forEach(function (user) {
+            merged[user.id] = user;
+            if (!registryIds[user.id]) {
+              syncToRegistry(user);
+            }
+          });
+          var list = Object.keys(merged).map(function (id) {
+            return merged[id];
+          });
+          list.sort(function (a, b) {
+            return (b.createdAt || 0) - (a.createdAt || 0);
+          });
+          return list;
         });
-        legacyUsers.sort(function (a, b) {
-          return (b.createdAt || 0) - (a.createdAt || 0);
-        });
-        return legacyUsers;
-      });
     });
 }
 
@@ -678,11 +690,15 @@ function openAdminPanel() {
   loadAllUsers()
     .then(function (users) {
       renderAdminUserList(users, '');
+      if (!users.length) {
+        document.getElementById('adminUserList').innerHTML =
+          '<p style="color:var(--text-tertiary);font-size:0.875rem;">No registered users yet. Accounts appear here after sign-up.</p>';
+      }
     })
     .catch(function (err) {
       console.error(err);
       document.getElementById('adminUserList').innerHTML =
-        '<p style="color:var(--danger);font-size:0.875rem;">Could not load users. Check Firebase connection.</p>';
+        '<p style="color:var(--danger);font-size:0.875rem;">Could not load users. Publish the latest Firebase rules (userRegistry + users read access), then reload.</p>';
     });
 }
 
