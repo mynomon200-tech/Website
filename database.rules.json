@@ -1,0 +1,59 @@
+{
+  "rules": {
+    "legis": {
+      "countries": {
+        "$country": {
+          "laws": {
+            "$lawId": {
+              ".read": true,
+              ".write": true,
+              "title": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200"
+              },
+              "summary": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 2000"
+              },
+              "author": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 64"
+              },
+              "createdAt": {
+                ".validate": "newData.isNumber()"
+              },
+              "up": {
+                ".validate": "newData.isNumber() && newData.val() >= 0"
+              },
+              "down": {
+                ".validate": "newData.isNumber() && newData.val() >= 0"
+              },
+              "votes": {
+                "$voter": {
+                  ".validate": "newData.isString() && (newData.val() === 'up' || newData.val() === 'down')"
+                }
+              },
+              "messages": {
+                "$messageId": {
+                  ".write": "!data.exists()",
+                  "author": {
+                    ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 64"
+                  },
+                  "text": {
+                    ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 2000"
+                  },
+                  "createdAt": {
+                    ".validate": "newData.isNumber()"
+                  },
+                  "$other": {
+                    ".validate": false
+                  }
+                }
+              },
+              "$other": {
+                ".validate": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
