@@ -1454,6 +1454,23 @@
 
     .admin-delete-msg { color: var(--danger) !important; }
 
+    .welcome-body {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .welcome-body p { margin-bottom: 0.85rem; }
+
+    .welcome-highlight {
+      background: var(--accent-soft);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
     .notif-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 360px; overflow-y: auto; }
 
     .notif-item {
@@ -1932,10 +1949,25 @@
     </div>
   </div>
 
+  <!-- Welcome Modal (first sign-up) -->
+  <div class="overlay" id="welcomeOverlay">
+    <div class="modal-wrapper">
+      <button class="modal-close" id="welcomeClose" aria-label="Close">&times;</button>
+      <div class="modal modal-lg">
+        <h3 id="welcomeTitle">Welcome!</h3>
+        <p class="modal-sub" id="welcomeSub"></p>
+        <div class="welcome-body" id="welcomeBody"></div>
+        <button type="button" class="btn btn-primary" id="welcomeStartBtn" style="width:100%;justify-content:center;margin-top:1rem;">Create my first post</button>
+        <button type="button" class="btn btn-ghost" id="welcomeRulesBtn" style="width:100%;justify-content:center;margin-top:0.5rem;">Read the rules</button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
 
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="legis-app.js"></script>
 </body>
 </html>
