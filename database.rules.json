@@ -1,0 +1,97 @@
+{
+  "rules": {
+    "legis": {
+      "index": {
+        "$lawId": {
+          ".read": true,
+          ".write": true
+        }
+      },
+      "userRegistry": {
+        "$userId": {
+          ".read": true,
+          ".write": true
+        }
+      },
+      "users": {
+        "$userId": {
+          ".read": true,
+          ".write": true,
+          "notifications": {
+            "$nId": {
+              ".read": true,
+              ".write": true
+            }
+          }
+        }
+      },
+      "displayNames": {
+        "$name": {
+          ".read": true,
+          ".write": true,
+          ".validate": "newData.isString()"
+        }
+      },
+      "countries": {
+        "$country": {
+          "laws": {
+            "$lawId": {
+              ".read": true,
+              ".write": true,
+              "title": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200"
+              },
+              "summary": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 500"
+              },
+              "body": {
+                ".validate": "newData.isString() && newData.val().length <= 20000"
+              },
+              "author": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 64"
+              },
+              "authorEmail": {
+                ".validate": "newData.isString() && newData.val().length <= 120"
+              },
+              "createdAt": {
+                ".validate": "newData.isNumber()"
+              },
+              "updatedAt": {
+                ".validate": "newData.isNumber()"
+              },
+              "version": {
+                ".validate": "newData.isNumber() && newData.val() >= 1"
+              },
+              "up": {
+                ".validate": "newData.isNumber() && newData.val() >= 0"
+              },
+              "down": {
+                ".validate": "newData.isNumber() && newData.val() >= 0"
+              },
+              "messages": {
+                "$messageId": {
+                  ".write": "!data.exists() || !newData.exists()",
+                  "author": {
+                    ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 64"
+                  },
+                  "authorEmail": {
+                    ".validate": "newData.isString() && newData.val().length <= 120"
+                  },
+                  "text": {
+                    ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 2000"
+                  },
+                  "parentId": {
+                    ".validate": "newData.val() == null || newData.isString()"
+                  },
+                  "createdAt": {
+                    ".validate": "newData.isNumber()"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
