@@ -990,7 +990,6 @@
           <button type="button" class="footer-link" data-info="rules">Rules</button>
           <button type="button" class="footer-link" data-info="terms">Terms</button>
           <button type="button" class="footer-link" data-info="privacy">Privacy (GDPR)</button>
-          <button type="button" class="footer-link" data-info="legal">Legal notice</button>
           <button type="button" class="footer-link" data-info="contact">Contact</button>
         </nav>
         <p class="footer-copy">© 2026 Legis | Independent community platform | Not affiliated with any government</p>
@@ -1091,11 +1090,9 @@
       appId: '1:961820142442:web:8957e81acc258e1fa59313',
     };
 
-    /* Replace placeholders with your real name and postal address (required in Germany). */
+    /* Public legal pages show email contact only. Full operator details are not published on the site. */
     const LEGAL_OPERATOR = {
-      name: '[Your full name]',
-      street: '[Street and house number]',
-      zipCity: '[Postal code and city, Germany]',
+      publicLabel: 'Legis (private operator, Germany)',
       email: 'legissupport@gmail.com',
     };
 
@@ -1772,26 +1769,9 @@
     function buildOperatorContactHtml() {
       var email = escapeLegalHtml(LEGAL_OPERATOR.email);
       return (
-        '<p><strong>' + escapeLegalHtml(LEGAL_OPERATOR.name) + '</strong><br>' +
-        escapeLegalHtml(LEGAL_OPERATOR.street) + '<br>' +
-        escapeLegalHtml(LEGAL_OPERATOR.zipCity) + '<br>' +
-        'Email: <a href="mailto:' + email + '">' + email + '</a></p>'
-      );
-    }
-
-    function buildLegalNoticeHtml() {
-      return (
-        '<p>Legis is operated by a <strong>private individual</strong>, not a company. The website is free to use, non-commercial, and does not charge fees or accept payments.</p>' +
-        '<h4>Service provider (Diensteanbieter)</h4>' +
-        buildOperatorContactHtml() +
-        '<h4>Responsible for content (§ 18 Abs. 2 MStV)</h4>' +
-        '<p>' + escapeLegalHtml(LEGAL_OPERATOR.name) + ', address as above.</p>' +
-        '<h4>Business information</h4>' +
-        '<p>This is a private, non-profit community project. No VAT identification number applies. No commercial register entry.</p>' +
-        '<h4>Online dispute resolution</h4>' +
-        '<p>The European Commission provides a platform for online dispute resolution (ODR): ' +
-        '<a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>. ' +
-        'We are not obliged and not willing to participate in dispute resolution proceedings before a consumer arbitration board, as we do not offer paid services.</p>'
+        '<p><strong>' + escapeLegalHtml(LEGAL_OPERATOR.publicLabel) + '</strong><br>' +
+        'Email: <a href="mailto:' + email + '">' + email + '</a></p>' +
+        '<p class="rule-note">Legis is a private, non-commercial community project. The operator does not publish a home address on this website. For data protection requests or legal contact, use the email above.</p>'
       );
     }
 
@@ -1927,11 +1907,6 @@
         title: 'Privacy policy (GDPR / DSGVO)',
         sub: 'Information under Articles 13 and 14 of the EU General Data Protection Regulation.',
         html: buildPrivacyPolicyHtml(),
-      },
-      legal: {
-        title: 'Legal notice (Impressum)',
-        sub: 'Information about the operator of this website (required in Germany).',
-        html: buildLegalNoticeHtml(),
       },
       contact: {
         title: 'Contact',
