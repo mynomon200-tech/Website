@@ -1375,6 +1375,73 @@
     .profile-stat strong { display: block; font-size: 1.1rem; }
     .profile-stat span { font-size: 0.72rem; color: var(--text-tertiary); }
 
+    .profile-stat-btn {
+      cursor: pointer;
+      font-family: var(--font);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .profile-stat-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .profile-posts-list {
+      margin-top: 1rem;
+      max-height: 240px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .profile-post-item {
+      text-align: left;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      cursor: pointer;
+      font-family: var(--font);
+      width: 100%;
+    }
+
+    .profile-post-item:hover { background: var(--accent-soft); border-color: var(--accent); }
+
+    .profile-post-item strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .profile-post-item span {
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+    }
+
+    .auth-guest-buttons { display: flex; gap: 0.5rem; }
+
+    .auth-guest-buttons[hidden] { display: none !important; }
+
+    .btn-make-post {
+      font-size: 0.8rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      border: none;
+      background: var(--text);
+      color: var(--bg);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+
+    .btn-make-post:hover { box-shadow: var(--shadow-md); }
+
+    .btn-make-post[hidden] { display: none !important; }
+
+    .admin-delete-msg { color: var(--danger) !important; }
+
     .notif-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 360px; overflow-y: auto; }
 
     .notif-item {
@@ -1551,8 +1618,11 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </button>
           <button type="button" class="btn-admin" id="adminPanelBtn" hidden>Admin Panel</button>
-          <button class="btn btn-ghost" id="loginBtn">Sign in</button>
-          <button class="btn btn-primary" id="registerBtn">Create account</button>
+          <button type="button" class="btn-make-post" id="makePostBtn" hidden>Make post</button>
+          <div class="auth-guest-buttons" id="authGuestButtons">
+            <button class="btn btn-ghost" id="loginBtn">Sign in</button>
+            <button class="btn btn-primary" id="registerBtn">Create account</button>
+          </div>
         </div>
       </div>
     </header>
@@ -1699,6 +1769,10 @@
         <h3 id="proposeModalTitle">Propose a law</h3>
         <p class="modal-sub" id="proposeSub">Submit your idea for community review.</p>
         <div class="form-group">
+          <label for="proposeCountry">Country</label>
+          <select id="proposeCountry" class="country-search" style="width:100%;padding:0.65rem 0.85rem;border-radius:10px;"></select>
+        </div>
+        <div class="form-group">
           <label for="lawTitle">Title</label>
           <input type="text" id="lawTitle" placeholder="Short, descriptive title" maxlength="200" />
         </div>
@@ -1741,6 +1815,7 @@
           <button type="button" class="btn btn-ghost" id="editLawBtn" hidden>Edit proposal</button>
           <button type="button" class="btn btn-ghost" id="versionHistoryBtn">Version history</button>
           <button type="button" class="btn btn-primary" id="detailDiscussBtn">Discuss</button>
+          <button type="button" class="btn-danger" id="adminDeleteLawBtn" hidden>Delete post</button>
         </div>
         <div id="detailContent"></div>
         <div class="version-history" id="versionHistoryPanel" hidden></div>
@@ -1798,10 +1873,17 @@
           </div>
         </div>
         <div class="profile-stats">
-          <div class="profile-stat"><strong id="profileProposals">0</strong><span>Proposals</span></div>
-          <div class="profile-stat"><strong id="profileComments">0</strong><span>Comments</span></div>
-          <div class="profile-stat"><strong id="profileVotes">0</strong><span>Votes cast</span></div>
+          <button type="button" class="profile-stat profile-stat-btn" id="profilePostsBtn">
+            <strong id="profilePostsCount">0</strong><span>Posts</span>
+          </button>
+          <div class="profile-stat">
+            <strong id="profileCommentsCount">0</strong><span>Comments</span>
+          </div>
+          <div class="profile-stat">
+            <strong id="profileLikesCount">0</strong><span>Likes</span>
+          </div>
         </div>
+        <div class="profile-posts-list" id="profilePostsList" hidden></div>
         <button class="btn btn-ghost" id="logoutBtn" style="width:100%;justify-content:center;margin-top:0.5rem;">Sign out</button>
       </div>
     </div>
