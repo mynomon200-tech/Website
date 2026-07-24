@@ -106,6 +106,7 @@ let replyToAuthor = null;
 let currentFeedMode = 'trending';
 let activeTagFilter = null;
 let readingMode = false;
+let profileUserPosts = [];
 
 function countryKey(country) {
   return country.replace(/[.#$[\]/]/g, '_');
@@ -980,25 +981,24 @@ function showToast(msg) {
 
 function updateAuthUI() {
   var user = getUser();
-  var loginBtn = document.getElementById('loginBtn');
-  var registerBtn = document.getElementById('registerBtn');
+  var guestButtons = document.getElementById('authGuestButtons');
   var profileBtn = document.getElementById('profileBtn');
   var notifBtn = document.getElementById('notificationsBtn');
   var adminBtn = document.getElementById('adminPanelBtn');
+  var makePostBtn = document.getElementById('makePostBtn');
 
   if (user) {
-    loginBtn.hidden = true;
-    registerBtn.hidden = true;
+    if (guestButtons) guestButtons.hidden = true;
     profileBtn.hidden = false;
     notifBtn.hidden = false;
+    if (makePostBtn) makePostBtn.hidden = false;
     if (adminBtn) adminBtn.hidden = !isAdmin(user);
     watchNotifications(user.email);
   } else {
-    loginBtn.hidden = false;
-    registerBtn.hidden = false;
-    loginBtn.textContent = 'Sign in';
+    if (guestButtons) guestButtons.hidden = false;
     profileBtn.hidden = true;
     notifBtn.hidden = true;
+    if (makePostBtn) makePostBtn.hidden = true;
     if (adminBtn) adminBtn.hidden = true;
     stopWatchingNotifications();
     document.getElementById('notifBadge').hidden = true;
@@ -1249,9 +1249,70 @@ function bindLawEvents(panel, country) {
   });
 }
 
+function populateProposeCountrySelect() {
+  var select = document.getElementById('proposeCountry');
+  if (!select) return;
+  if (select.options.length > 0) return;
+  WORLD_COUNTRIES.forEach(function (country) {
+    var opt = document.createElement('option');
+    opt.value = country;
+    opt.textContent = country;
+    select.appendChild(opt);
+  });
+}
+
+function adminDeleteLaw(country, lawId) {
+  if (!isAdmin() || !ensureDb()) return;
+  if (!confirm('Delete this post permanently? All comments and votes will be removed.')) return;
+  lawRef(country, lawId)
+    .remove()
+    .then(function () {
+      return indexRef().child(lawId).remove();
+    })
+    .then(function () {
+      document.getElementById('detailOverlay').classList.remove('open');
+      showToast('Post deleted');
+      playSfx('success');
+    })
+    .catch(function (err) {
+      showToast('Could not delete post');
+      console.error(err);
+    });
+}
+
+function adminDeleteComment(country, lawId, messageId) {
+  if (!isAdmin() || !ensureDb()) return;
+  if (!confirm('Delete this comment permanently?')) return;
+  messagesRef(country, lawId)
+    .child(messageId)
+    .remove()
+    .then(function () {
+      return refreshIndexMessageCount(country, lawId);
+    })
+    .then(function () {
+      showToast('Comment deleted');
+      playSfx('click');
+    })
+    .catch(function (err) {
+      showToast('Could not delete comment');
+      console.error(err);
+    });
+}
+
+function openMakePostFlow() {
+  if (!requireAuth('create posts')) return;
+  openProposeModal(currentCountry);
+}
+
 function openProposeModal(country) {
   selectedTags = [];
-  document.getElementById('proposeSub').textContent = 'Submit your idea for ' + country + '.';
+  populateProposeCountrySelect();
+  var select = document.getElementById('proposeCountry');
+  if (select) {
+    select.value = country || currentCountry || select.options[0]?.value || '';
+  }
+  var targetCountry = select ? select.value : country || currentCountry || 'Germany';
+  document.getElementById('proposeSub').textContent = 'Submit your idea for ' + targetCountry + '.';
   document.getElementById('lawTitle').value = '';
   document.getElementById('lawSummary').value = '';
   setEditorHtml('lawBodyEditor', '');
@@ -1406,6 +1467,7 @@ function openLawDetailWithLaw(country, lawId, law) {
   var user = getUser();
   var canEdit = user && law.authorEmail && emailKey(user.email) === emailKey(law.authorEmail);
   document.getElementById('editLawBtn').hidden = !canEdit;
+  document.getElementById('adminDeleteLawBtn').hidden = !isAdmin();
 
   var content = document.getElementById('detailContent');
   content.innerHTML =
@@ -1498,6 +1560,11 @@ function buildMessageTree(messages) {
 
 function renderMessageNode(node, depth) {
   var replyClass = depth > 0 ? ' reply' : '';
+  var adminDeleteBtn = isAdmin()
+    ? '<button type="button" class="message-action-btn admin-delete-msg" data-id="' +
+      node.id +
+      '">Delete</button>'
+    : '';
   var html =
     '<div class="message' +
     replyClass +
@@ -1518,7 +1585,9 @@ function renderMessageNode(node, depth) {
     node.id +
     '" data-author="' +
     escapeHtml(node.author) +
-    '">Reply</button></div></div>';
+    '">Reply</button>' +
+    adminDeleteBtn +
+    '</div></div>';
 
   node.children.forEach(function (child) {
     html += renderMessageNode(child, depth + 1);
@@ -1545,6 +1614,14 @@ function renderThreadMessages(messages) {
       document.getElementById('replyIndicator').hidden = false;
       document.getElementById('replyToName').textContent = replyToAuthor;
       document.getElementById('messageInput').focus();
+    });
+  });
+
+  thread.querySelectorAll('.admin-delete-msg').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (currentCountry && activeLawId) {
+        adminDeleteComment(currentCountry, activeLawId, btn.dataset.id);
+      }
     });
   });
 }
@@ -1743,48 +1820,94 @@ function performGlobalSearch(query) {
   });
 }
 
+function computeUserProfileStats(user) {
+  var posts = globalIndex.filter(function (item) {
+    return item.author === user.displayName;
+  });
+  var likes = posts.reduce(function (sum, item) {
+    return sum + (item.up || 0);
+  }, 0);
+  return { posts: posts, postCount: posts.length, likes: likes };
+}
+
+function countUserComments(user) {
+  if (!ensureDb()) return Promise.resolve(0);
+  var count = 0;
+  var promises = globalIndex.map(function (item) {
+    return messagesRef(item.country, item.lawId).once('value').then(function (snap) {
+      snap.forEach(function (child) {
+        var val = child.val();
+        if (val.authorEmail === user.email || val.author === user.displayName) {
+          count++;
+        }
+      });
+    });
+  });
+  return Promise.all(promises).then(function () {
+    return count;
+  });
+}
+
+function renderProfilePostsList(posts) {
+  var list = document.getElementById('profilePostsList');
+  if (!list) return;
+  if (!posts.length) {
+    list.innerHTML =
+      '<p style="color:var(--text-tertiary);font-size:0.8rem;">No posts yet.</p>';
+    list.hidden = false;
+    return;
+  }
+  list.innerHTML = posts
+    .map(function (post) {
+      return (
+        '<button type="button" class="profile-post-item" data-law="' +
+        post.lawId +
+        '" data-country="' +
+        escapeHtml(post.country) +
+        '"><strong>' +
+        escapeHtml(post.title) +
+        '</strong><span>' +
+        escapeHtml(post.country) +
+        ' · 👍 ' +
+        (post.up || 0) +
+        ' · 💬 ' +
+        (post.messageCount || 0) +
+        '</span></button>'
+      );
+    })
+    .join('');
+  list.hidden = false;
+
+  list.querySelectorAll('.profile-post-item').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.getElementById('profileOverlay').classList.remove('open');
+      selectCountry(btn.dataset.country);
+      setTimeout(function () {
+        openLawDetail(btn.dataset.country, btn.dataset.law);
+      }, 350);
+    });
+  });
+}
+
 function openProfileModal() {
   var user = getUser();
   if (!user) return;
   document.getElementById('profileName').textContent = user.displayName;
   document.getElementById('profileEmail').textContent = user.email;
-  document.getElementById('profileProposals').textContent = '…';
-  document.getElementById('profileComments').textContent = '…';
-  document.getElementById('profileVotes').textContent = '…';
+  document.getElementById('profilePostsCount').textContent = '…';
+  document.getElementById('profileCommentsCount').textContent = '…';
+  document.getElementById('profileLikesCount').textContent = '…';
+  document.getElementById('profilePostsList').hidden = true;
   document.getElementById('profileOverlay').classList.add('open');
   playSfx('open');
 
-  var proposals = globalIndex.filter(function (item) {
-    return item.author === user.displayName;
-  }).length;
-  document.getElementById('profileProposals').textContent = String(proposals);
+  var stats = computeUserProfileStats(user);
+  profileUserPosts = stats.posts;
+  document.getElementById('profilePostsCount').textContent = String(stats.postCount);
+  document.getElementById('profileLikesCount').textContent = String(stats.likes);
 
-  var ek = emailKey(user.email);
-  var votes = 0;
-  globalIndex.forEach(function () {});
-  currentLaws.forEach(function (law) {
-    if (law.votes && law.votes[ek]) votes++;
-  });
-  document.getElementById('profileVotes').textContent = String(votes);
-
-  if (!ensureDb()) return;
-  var commentCount = 0;
-  var promises = [];
-  globalIndex.slice(0, 30).forEach(function (item) {
-    promises.push(
-      messagesRef(item.country, item.lawId)
-        .once('value')
-        .then(function (snap) {
-          snap.forEach(function (child) {
-            if (child.val().authorEmail === user.email || child.val().author === user.displayName) {
-              commentCount++;
-            }
-          });
-        })
-    );
-  });
-  Promise.all(promises).then(function () {
-    document.getElementById('profileComments').textContent = String(commentCount);
+  countUserComments(user).then(function (commentCount) {
+    document.getElementById('profileCommentsCount').textContent = String(commentCount);
   });
 }
 
@@ -1976,6 +2099,18 @@ document.getElementById('registerBtn').addEventListener('click', function () {
   openAuth('register');
 });
 document.getElementById('profileBtn').addEventListener('click', openProfileModal);
+document.getElementById('profilePostsBtn').addEventListener('click', function () {
+  renderProfilePostsList(profileUserPosts);
+});
+document.getElementById('makePostBtn').addEventListener('click', openMakePostFlow);
+document.getElementById('adminDeleteLawBtn').addEventListener('click', function () {
+  if (activeDetailCountry && activeDetailLawId) {
+    adminDeleteLaw(activeDetailCountry, activeDetailLawId);
+  }
+});
+document.getElementById('proposeCountry').addEventListener('change', function (e) {
+  document.getElementById('proposeSub').textContent = 'Submit your idea for ' + e.target.value + '.';
+});
 document.getElementById('adminPanelBtn').addEventListener('click', openAdminPanel);
 document.getElementById('adminClose').addEventListener('click', function () {
   closeAdminPanel();
@@ -2146,7 +2281,11 @@ bindRteToolbar(document.querySelector('#proposeOverlay .rte-toolbar'), 'lawBodyE
 bindRteToolbar(document.getElementById('editRteToolbar'), 'editLawBodyEditor', 'editRteLinkBtn');
 
 document.getElementById('submitLaw').addEventListener('click', function () {
-  if (!currentCountry) return;
+  var country = document.getElementById('proposeCountry').value || currentCountry;
+  if (!country) {
+    showToast('Please select a country');
+    return;
+  }
   if (!requireAuth('propose laws')) return;
 
   var title = document.getElementById('lawTitle').value.trim();
@@ -2164,7 +2303,7 @@ document.getElementById('submitLaw').addEventListener('click', function () {
   var user = getUser();
   var poll = document.getElementById('includePoll').checked ? defaultPoll() : null;
 
-  addLawToFirebase(currentCountry, {
+  addLawToFirebase(country, {
     title: title,
     summary: summary,
     body: body,
@@ -2175,6 +2314,9 @@ document.getElementById('submitLaw').addEventListener('click', function () {
   })
     .then(function () {
       document.getElementById('proposeOverlay').classList.remove('open');
+      if (currentCountry !== country) {
+        selectCountry(country);
+      }
       playSfx('success');
       showToast('Proposal published!');
     })
@@ -2291,6 +2433,7 @@ document.getElementById('infoOverlay').addEventListener('click', function (e) {
 
 renderTagPicker('tagPicker', selectedTags, '');
 populateAuthCountrySelect();
+populateProposeCountrySelect();
 initFirebase();
 updateAuthUI();
 verifyUserSession();
