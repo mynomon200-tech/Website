@@ -922,9 +922,686 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="firebase-config.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-  <script src="app.js"></script>
+  <script>
+    'use strict';
+
+    const FIREBASE_CONFIG = {
+      apiKey: 'AIzaSyBVrek7QSFiFZILJ2FeumZPaCuprZrVDUA',
+      authDomain: 'chatr-6d513.firebaseapp.com',
+      databaseURL: 'https://chatr-6d513-default-rtdb.europe-west1.firebasedatabase.app',
+      projectId: 'chatr-6d513',
+      storageBucket: 'chatr-6d513.firebasestorage.app',
+      messagingSenderId: '961820142442',
+      appId: '1:961820142442:web:8957e81acc258e1fa59313',
+    };
+
+    const USER_STORAGE_KEY = 'legis-user';
+    const MAX_COMMENT_LENGTH = 2000;
+
+    const WORLD_COUNTRIES = [
+      'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda',
+      'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain',
+      'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan',
+      'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria',
+      'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde',
+      'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros',
+      'Costa Rica', "Côte d'Ivoire", 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic',
+      'Democratic Republic of the Congo', 'Denmark', 'Djibouti', 'Dominica',
+      'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea',
+      'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon',
+      'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea',
+      'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India',
+      'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan',
+      'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos',
+      'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania',
+      'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta',
+      'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova',
+      'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia',
+      'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria',
+      'North Korea', 'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine',
+      'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal',
+      'Qatar', 'Republic of the Congo', 'Romania', 'Russia', 'Rwanda',
+      'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa',
+      'San Marino', 'São Tomé and Príncipe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles',
+      'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia',
+      'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname',
+      'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand',
+      'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey',
+      'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates',
+      'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City',
+      'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe',
+    ];
+
+    let db = null;
+    let pendingCountry = null;
+    let currentCountry = null;
+    let currentLaws = [];
+    let authMode = 'login';
+    let activeLawId = null;
+    let lawsListenerRef = null;
+    let messagesListenerRef = null;
+
+    function countryKey(country) {
+      return country.replace(/[.#$[\]/]/g, '_');
+    }
+
+    function emailKey(email) {
+      return email.replace(/[.#$[\]/]/g, '_');
+    }
+
+    function lawsRef(country) {
+      return db.ref('legis/countries/' + countryKey(country) + '/laws');
+    }
+
+    function lawRef(country, lawId) {
+      return lawsRef(country).child(lawId);
+    }
+
+    function messagesRef(country, lawId) {
+      return lawRef(country, lawId).child('messages');
+    }
+
+    function getUser() {
+      try {
+        return JSON.parse(localStorage.getItem(USER_STORAGE_KEY));
+      } catch {
+        return null;
+      }
+    }
+
+    function saveUser(user) {
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+    }
+
+    function isLoggedIn() {
+      return !!getUser();
+    }
+
+    function parseLaw(id, val) {
+      const votes = val.votes || {};
+      const messagesObj = val.messages || {};
+      const messages = Object.entries(messagesObj)
+        .map(function (entry) {
+          return { id: entry[0], ...entry[1] };
+        })
+        .sort(function (a, b) {
+          return a.createdAt - b.createdAt;
+        });
+
+      return {
+        id: id,
+        title: val.title || '',
+        summary: val.summary || '',
+        author: val.author || 'Unknown',
+        createdAt: val.createdAt || Date.now(),
+        up: val.up || 0,
+        down: val.down || 0,
+        votes: votes,
+        messages: messages,
+      };
+    }
+
+    function findLaw(lawId) {
+      return currentLaws.find(function (law) {
+        return law.id === lawId;
+      }) || null;
+    }
+
+    function ensureDb() {
+      if (db) return true;
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(FIREBASE_CONFIG);
+        }
+        db = firebase.database();
+        if (pendingCountry) {
+          var country = pendingCountry;
+          pendingCountry = null;
+          watchLaws(country);
+        }
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    }
+
+    function initFirebase() {
+      ensureDb();
+    }
+
+    function stopWatchingLaws() {
+      if (lawsListenerRef) {
+        lawsListenerRef.off('value');
+        lawsListenerRef = null;
+      }
+    }
+
+    function stopWatchingMessages() {
+      if (messagesListenerRef) {
+        messagesListenerRef.off('value');
+        messagesListenerRef = null;
+      }
+    }
+
+    function watchLaws(country) {
+      if (!ensureDb()) {
+        pendingCountry = country;
+        return;
+      }
+      stopWatchingLaws();
+      currentCountry = country;
+      lawsListenerRef = lawsRef(country);
+
+      lawsListenerRef.on('value', function (snapshot) {
+        var laws = [];
+        snapshot.forEach(function (child) {
+          laws.push(parseLaw(child.key, child.val()));
+        });
+        laws.sort(function (a, b) {
+          return b.createdAt - a.createdAt;
+        });
+        currentLaws = laws;
+        renderLawsUI(country, laws);
+      });
+    }
+
+    function selectCountry(country) {
+      watchLaws(country);
+    }
+
+    function addLawToFirebase(country, title, summary, author) {
+      if (!ensureDb()) return Promise.reject(new Error('offline'));
+      var ref = lawsRef(country).push();
+      return ref.set({
+        title: title,
+        summary: summary,
+        author: author,
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
+        up: 0,
+        down: 0,
+      });
+    }
+
+    function castVote(country, lawId, email, type) {
+      if (!ensureDb()) return Promise.reject(new Error('offline'));
+      var ref = lawRef(country, lawId);
+      var voteKey = emailKey(email);
+
+      return ref.transaction(function (law) {
+        if (!law) return law;
+        var prev = law.votes && law.votes[voteKey];
+        if (prev === type) return;
+
+        law.votes = law.votes || {};
+        if (prev === 'up') law.up = Math.max(0, (law.up || 0) - 1);
+        if (prev === 'down') law.down = Math.max(0, (law.down || 0) - 1);
+        if (type === 'up') law.up = (law.up || 0) + 1;
+        if (type === 'down') law.down = (law.down || 0) + 1;
+        law.votes[voteKey] = type;
+        return law;
+      });
+    }
+
+    function postComment(country, lawId, author, text) {
+      var trimmed = text.trim();
+      if (!trimmed) throw new Error('Comment cannot be empty.');
+      if (trimmed.length > MAX_COMMENT_LENGTH) {
+        throw new Error('Comment max ' + MAX_COMMENT_LENGTH + ' characters.');
+      }
+      if (!ensureDb()) return Promise.reject(new Error('offline'));
+
+      return messagesRef(country, lawId).push().set({
+        author: author,
+        text: trimmed,
+        createdAt: firebase.database.ServerValue.TIMESTAMP,
+      });
+    }
+
+    function formatTime(ts) {
+      var time = typeof ts === 'object' && ts !== null ? Date.now() : ts;
+      var diff = Date.now() - time;
+      var mins = Math.floor(diff / 60000);
+      if (mins < 1) return 'Just now';
+      if (mins < 60) return mins + 'm ago';
+      var hrs = Math.floor(mins / 60);
+      if (hrs < 24) return hrs + 'h ago';
+      var days = Math.floor(hrs / 24);
+      return days + 'd ago';
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    var audioCtx =
+      typeof AudioContext !== 'undefined' ? new (window.AudioContext || window.webkitAudioContext)() : null;
+
+    function playSfx(type) {
+      if (!audioCtx || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      var now = audioCtx.currentTime;
+      if (type === 'click') {
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.exponentialRampToValueAtTime(660, now + 0.06);
+        gain.gain.setValueAtTime(0.06, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      } else if (type === 'success') {
+        osc.frequency.setValueAtTime(523, now);
+        osc.frequency.setValueAtTime(659, now + 0.08);
+        osc.frequency.setValueAtTime(784, now + 0.16);
+        gain.gain.setValueAtTime(0.07, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } else if (type === 'open') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.exponentialRampToValueAtTime(550, now + 0.12);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+        osc.start(now);
+        osc.stop(now + 0.15);
+      }
+    }
+
+    function showToast(msg) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(function () {
+        t.classList.remove('show');
+      }, 2800);
+    }
+
+    function updateAuthUI() {
+      var user = getUser();
+      var loginBtn = document.getElementById('loginBtn');
+      var registerBtn = document.getElementById('registerBtn');
+      if (user) {
+        loginBtn.textContent = user.displayName;
+        registerBtn.hidden = true;
+      } else {
+        loginBtn.textContent = 'Sign in';
+        registerBtn.hidden = false;
+      }
+    }
+
+    function requireAuth(action) {
+      if (isLoggedIn()) return true;
+      playSfx('open');
+      openAuth('login');
+      showToast('Please sign in to ' + action);
+      return false;
+    }
+
+    function openAuth(mode) {
+      authMode = mode;
+      document.getElementById('authTitle').textContent = mode === 'login' ? 'Sign in' : 'Create account';
+      document.getElementById('authSub').textContent =
+        mode === 'login'
+          ? 'Sign in to react, discuss, or propose new laws.'
+          : 'Join the community and start contributing.';
+      document.getElementById('authSubmit').textContent = mode === 'login' ? 'Sign in' : 'Register';
+      document.getElementById('nameGroup').hidden = mode !== 'register';
+      document.getElementById('authOverlay').classList.add('open');
+      playSfx('open');
+    }
+
+    function closeAuth() {
+      document.getElementById('authOverlay').classList.remove('open');
+    }
+
+    function updateCharCounter() {
+      var input = document.getElementById('messageInput');
+      var counter = document.getElementById('messageCharCounter');
+      if (!input || !counter) return;
+      var len = input.value.length;
+      counter.textContent = len + ' / ' + MAX_COMMENT_LENGTH;
+      counter.classList.toggle('over', len > MAX_COMMENT_LENGTH);
+    }
+
+    function renderLawCard(law, i) {
+      var user = getUser();
+      var vote = user ? law.votes[emailKey(user.email)] : null;
+      var commentCount = law.messages.length;
+      var card = document.createElement('article');
+      card.className = 'law-card';
+      card.style.animationDelay = i * 0.07 + 's';
+      card.innerHTML =
+        '<div class="law-meta">' +
+        '<span class="law-tag new">Community</span>' +
+        '<span class="law-date">' + formatTime(law.createdAt) + '</span>' +
+        '<span class="law-author">by ' + escapeHtml(law.author) + '</span>' +
+        '</div>' +
+        '<h3 class="law-title">' + escapeHtml(law.title) + '</h3>' +
+        '<p class="law-summary">' + escapeHtml(law.summary) + '</p>' +
+        '<div class="law-actions">' +
+        '<button class="reaction-btn ' + (vote === 'up' ? 'active-up' : '') + '" data-type="up" data-id="' + law.id + '">' +
+        '<span class="emoji">👍</span> <span class="count">' + law.up + '</span></button>' +
+        '<button class="reaction-btn ' + (vote === 'down' ? 'active-down' : '') + '" data-type="down" data-id="' + law.id + '">' +
+        '<span class="emoji">👎</span> <span class="count">' + law.down + '</span></button>' +
+        '<button class="discuss-btn" data-id="' + law.id + '">' +
+        '<span class="emoji">💬</span> Discuss (' + commentCount + ')</button>' +
+        '</div>';
+      return card;
+    }
+
+    function bindLawEvents(panel, country) {
+      panel.querySelector('#proposeLawBtn')?.addEventListener('click', function () {
+        if (!requireAuth('propose laws')) return;
+        document.getElementById('proposeSub').textContent = 'Submit your idea for ' + country + '.';
+        document.getElementById('proposeOverlay').classList.add('open');
+        playSfx('open');
+      });
+
+      var list = panel.querySelector('#lawsList');
+      if (!list) return;
+
+      list.querySelectorAll('.reaction-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (!requireAuth('react')) return;
+          var user = getUser();
+          castVote(country, btn.dataset.id, user.email, btn.dataset.type)
+            .then(function () {
+              playSfx('click');
+            })
+            .catch(function (err) {
+              showToast('Could not save vote');
+              console.error(err);
+            });
+        });
+      });
+
+      list.querySelectorAll('.discuss-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (!requireAuth('discuss')) return;
+          openDiscussion(country, btn.dataset.id);
+        });
+      });
+
+      panel.querySelector('#emptyProposeBtn')?.addEventListener('click', function () {
+        if (!requireAuth('propose laws')) return;
+        document.getElementById('proposeSub').textContent = 'Submit your idea for ' + country + '.';
+        document.getElementById('proposeOverlay').classList.add('open');
+        playSfx('open');
+      });
+    }
+
+    function renderLawsUI(country, laws) {
+      document.getElementById('emptyState').hidden = true;
+      var panel = document.getElementById('lawsPanel');
+      panel.hidden = false;
+
+      var countText = laws.length === 1 ? '1 proposal' : laws.length + ' proposals';
+
+      panel.innerHTML =
+        '<div class="country-header">' +
+        '<div><h2>' + escapeHtml(country) + '</h2>' +
+        '<p>' +
+        (laws.length ? countText + ' from the community' : 'No proposals yet — be the first!') +
+        '</p></div>' +
+        '<button class="btn btn-primary propose-btn" id="proposeLawBtn">+ Propose law</button>' +
+        '</div>' +
+        (laws.length
+          ? '<div class="laws-list" id="lawsList"></div>'
+          : '<div class="laws-empty"><h3>No laws proposed yet</h3>' +
+            '<p>All content on Legis comes from community members. Be the first to suggest a regulation for ' +
+            escapeHtml(country) +
+            '.</p>' +
+            '<button class="btn btn-primary" id="emptyProposeBtn">+ Propose the first law</button></div>');
+
+      if (laws.length) {
+        var listEl = panel.querySelector('#lawsList');
+        laws.forEach(function (law, i) {
+          listEl.appendChild(renderLawCard(law, i));
+        });
+      }
+
+      bindLawEvents(panel, country);
+    }
+
+    function renderThreadMessages(messages) {
+      var thread = document.getElementById('threadMessages');
+      if (!messages.length) {
+        thread.innerHTML = '<div class="thread-empty">No messages yet. Start the discussion!</div>';
+        return;
+      }
+      thread.innerHTML = messages
+        .map(function (m) {
+          return (
+            '<div class="message">' +
+            '<div class="message-author">' + escapeHtml(m.author) + '</div>' +
+            '<div class="message-text">' + escapeHtml(m.text) + '</div>' +
+            '<div class="message-time">' + formatTime(m.createdAt) + '</div>' +
+            '</div>'
+          );
+        })
+        .join('');
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    function openDiscussion(country, lawId) {
+      var law = findLaw(lawId);
+      if (!law || !ensureDb()) return;
+
+      activeLawId = lawId;
+      document.getElementById('discussTitle').textContent = law.title;
+      document.getElementById('discussSub').textContent =
+        'Discussion · proposed by ' + law.author + ' · max ' + MAX_COMMENT_LENGTH + ' chars per comment';
+      document.getElementById('messageInput').value = '';
+      updateCharCounter();
+      document.getElementById('discussOverlay').classList.add('open');
+      playSfx('open');
+
+      stopWatchingMessages();
+      messagesListenerRef = messagesRef(country, lawId);
+      messagesListenerRef.on('value', function (snapshot) {
+        var messages = [];
+        snapshot.forEach(function (child) {
+          messages.push({ id: child.key, ...child.val() });
+        });
+        messages.sort(function (a, b) {
+          return a.createdAt - b.createdAt;
+        });
+        renderThreadMessages(messages);
+      });
+    }
+
+    var countryList = document.getElementById('countryList');
+    var countrySearch = document.getElementById('countrySearch');
+    var countrySearchClear = document.getElementById('countrySearchClear');
+    var countryNoResults = document.getElementById('countryNoResults');
+
+    function filterCountries(query) {
+      var q = query.trim().toLowerCase();
+      var items = countryList.querySelectorAll('li');
+      var visible = 0;
+
+      items.forEach(function (li) {
+        var name = li.dataset.country || '';
+        var match = !q || name.toLowerCase().includes(q);
+        li.classList.toggle('hidden', !match);
+        if (match) visible += 1;
+      });
+
+      countryNoResults.classList.toggle('visible', q.length > 0 && visible === 0);
+      countrySearchClear.classList.toggle('visible', q.length > 0);
+    }
+
+    WORLD_COUNTRIES.forEach(function (country, i) {
+      var li = document.createElement('li');
+      li.dataset.country = country;
+      var btn = document.createElement('button');
+      btn.className = 'country-link';
+      btn.textContent = country;
+      btn.style.animationDelay = i * 0.02 + 's';
+      btn.addEventListener('click', function () {
+        playSfx('click');
+        document.querySelectorAll('.country-link').forEach(function (l) {
+          l.classList.remove('active');
+        });
+        btn.classList.add('active');
+        selectCountry(country);
+      });
+      li.appendChild(btn);
+      countryList.appendChild(li);
+    });
+
+    countrySearch.addEventListener('input', function () {
+      filterCountries(countrySearch.value);
+    });
+    countrySearchClear.addEventListener('click', function () {
+      countrySearch.value = '';
+      filterCountries('');
+      countrySearch.focus();
+      playSfx('click');
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', function () {
+      openAuth('login');
+    });
+    document.getElementById('registerBtn').addEventListener('click', function () {
+      openAuth('register');
+    });
+    document.getElementById('authCancel').addEventListener('click', function () {
+      closeAuth();
+      playSfx('click');
+    });
+    document.getElementById('authOverlay').addEventListener('click', function (e) {
+      if (e.target === e.currentTarget) closeAuth();
+    });
+    document.getElementById('authSubmit').addEventListener('click', function () {
+      var email = document.getElementById('authEmail').value.trim();
+      var password = document.getElementById('authPassword').value.trim();
+      var name = document.getElementById('authName').value.trim();
+      if (!email) {
+        showToast('Please enter your email');
+        return;
+      }
+      if (!password) {
+        showToast('Please enter your password');
+        return;
+      }
+      if (authMode === 'register' && !name) {
+        showToast('Please enter a display name');
+        return;
+      }
+
+      saveUser({
+        email: email,
+        displayName: authMode === 'register' ? name : email.split('@')[0],
+      });
+
+      closeAuth();
+      playSfx('success');
+      showToast(authMode === 'login' ? 'Welcome back!' : 'Account created — welcome!');
+      updateAuthUI();
+    });
+
+    document.getElementById('discussClose').addEventListener('click', function () {
+      document.getElementById('discussOverlay').classList.remove('open');
+      stopWatchingMessages();
+      activeLawId = null;
+      playSfx('click');
+    });
+    document.getElementById('discussOverlay').addEventListener('click', function (e) {
+      if (e.target === e.currentTarget) {
+        document.getElementById('discussOverlay').classList.remove('open');
+        stopWatchingMessages();
+        activeLawId = null;
+      }
+    });
+
+    document.getElementById('messageInput').addEventListener('input', updateCharCounter);
+
+    document.getElementById('sendMessage').addEventListener('click', function () {
+      if (!currentCountry || !activeLawId) return;
+      var text = document.getElementById('messageInput').value;
+      if (!text.trim()) return;
+      if (text.length > MAX_COMMENT_LENGTH) {
+        showToast('Max ' + MAX_COMMENT_LENGTH + ' characters per comment');
+        return;
+      }
+
+      var user = getUser();
+      postComment(currentCountry, activeLawId, user.displayName, text)
+        .then(function () {
+          document.getElementById('messageInput').value = '';
+          updateCharCounter();
+          playSfx('success');
+          showToast('Message posted');
+        })
+        .catch(function (err) {
+          showToast(err.message || 'Could not post comment');
+          console.error(err);
+        });
+    });
+
+    document.getElementById('proposeClose').addEventListener('click', function () {
+      document.getElementById('proposeOverlay').classList.remove('open');
+      playSfx('click');
+    });
+    document.getElementById('proposeOverlay').addEventListener('click', function (e) {
+      if (e.target === e.currentTarget) document.getElementById('proposeOverlay').classList.remove('open');
+    });
+
+    document.getElementById('submitLaw').addEventListener('click', function () {
+      if (!currentCountry) return;
+      if (!requireAuth('propose laws')) return;
+
+      var title = document.getElementById('lawTitle').value.trim();
+      var summary = document.getElementById('lawSummary').value.trim();
+      if (!title || !summary) {
+        showToast('Please fill in all fields');
+        return;
+      }
+
+      var user = getUser();
+      addLawToFirebase(currentCountry, title, summary, user.displayName)
+        .then(function () {
+          document.getElementById('proposeOverlay').classList.remove('open');
+          document.getElementById('lawTitle').value = '';
+          document.getElementById('lawSummary').value = '';
+          playSfx('success');
+          showToast('Proposal published!');
+        })
+        .catch(function (err) {
+          showToast('Could not publish proposal');
+          console.error(err);
+        });
+    });
+
+    document.getElementById('logoHome').addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelectorAll('.country-link').forEach(function (l) {
+        l.classList.remove('active');
+      });
+      document.getElementById('emptyState').hidden = false;
+      document.getElementById('lawsPanel').hidden = true;
+      stopWatchingLaws();
+      stopWatchingMessages();
+      currentCountry = null;
+      currentLaws = [];
+      activeLawId = null;
+      playSfx('click');
+    });
+
+    initFirebase();
+    updateAuthUI();
+    updateCharCounter();
+  </script>
 </body>
 </html>
