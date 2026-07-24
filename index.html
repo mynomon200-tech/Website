@@ -1407,6 +1407,89 @@
 
     .filter-chip.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
 
+    .btn-admin {
+      font-size: 0.8rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid #fca5a5;
+      background: #fef2f2;
+      color: var(--danger);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+
+    .btn-admin:hover { background: #fee2e2; }
+
+    .admin-user-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-height: 52vh;
+      overflow-y: auto;
+    }
+
+    .admin-user-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+
+    .admin-user-card.banned {
+      border-color: #fca5a5;
+      background: #fef2f2;
+    }
+
+    .admin-user-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 1rem;
+      font-size: 0.8rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .admin-user-grid dt {
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+
+    .admin-user-grid dd {
+      color: var(--text);
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .admin-user-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+
+    .btn-warn {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+
     @media (max-width: 860px) {
       .header-inner { grid-template-columns: 1fr; }
       .header-search-wrap { max-width: none; order: 3; grid-column: 1 / -1; }
@@ -1467,6 +1550,7 @@
           <button class="profile-avatar" id="profileBtn" hidden aria-label="Your profile">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </button>
+          <button type="button" class="btn-admin" id="adminPanelBtn" hidden>Admin Panel</button>
           <button class="btn btn-ghost" id="loginBtn">Sign in</button>
           <button class="btn btn-primary" id="registerBtn">Create account</button>
         </div>
@@ -1570,6 +1654,12 @@
         <div class="form-group" id="nameGroup" hidden>
           <label for="authName">Display name</label>
           <input type="text" id="authName" placeholder="Your name" />
+        </div>
+        <div class="form-group" id="countryGroup" hidden>
+          <label for="authCountry">Country</label>
+          <select id="authCountry" class="country-search" style="width:100%;padding:0.65rem 0.85rem;border-radius:10px;">
+            <option value="">Select your country</option>
+          </select>
         </div>
         <div class="modal-actions">
           <button class="btn btn-ghost" id="authCancel">Cancel</button>
@@ -1726,6 +1816,24 @@
         <p class="modal-sub">Mentions and activity on your proposals.</p>
         <div class="notif-list" id="notifList"></div>
         <button type="button" class="btn btn-ghost" id="notifDismiss" style="width:100%;justify-content:center;margin-top:1rem;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Panel Modal -->
+  <div class="overlay" id="adminOverlay">
+    <div class="modal-wrapper">
+      <button class="modal-close" id="adminClose" aria-label="Close">&times;</button>
+      <div class="modal modal-xl">
+        <h3>Admin Panel</h3>
+        <p class="modal-sub">Manage registered users. Signed in as MrNexo.</p>
+        <div class="form-group">
+          <input type="search" class="tag-filter-input" id="adminUserSearch" placeholder="Search users by name, email, or country..." />
+        </div>
+        <div class="admin-user-list" id="adminUserList">
+          <p style="color:var(--text-tertiary);font-size:0.875rem;">Loading users...</p>
+        </div>
+        <button type="button" class="btn btn-ghost" id="adminDismiss" style="width:100%;justify-content:center;margin-top:1rem;">Close</button>
       </div>
     </div>
   </div>
