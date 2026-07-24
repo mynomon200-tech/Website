@@ -106,13 +106,10 @@ function findLaw(lawId) {
 }
 
 function initFirebase() {
-  const statusEl = document.getElementById('firebaseStatus');
   const cfg = window.FIREBASE_CONFIG;
 
   if (!cfg?.databaseURL || !cfg?.apiKey || cfg.apiKey === 'YOUR_API_KEY') {
-    statusEl.textContent = 'Configure firebase-config.js with your Firebase Web App keys.';
-    statusEl.classList.add('error');
-    showToast('Firebase not configured — edit firebase-config.js');
+    showToast('Configure firebase-config.js with your Firebase Web App keys.');
     return false;
   }
 
@@ -121,20 +118,9 @@ function initFirebase() {
       firebase.initializeApp(cfg);
     }
     db = firebase.database();
-    db.ref('.info/connected').on('value', (snap) => {
-      if (snap.val() === true) {
-        statusEl.textContent = 'Connected to Firebase · Live community data';
-        statusEl.classList.remove('error');
-        statusEl.classList.add('ok');
-      } else {
-        statusEl.textContent = 'Connecting to Firebase…';
-        statusEl.classList.remove('ok');
-      }
-    });
     return true;
   } catch (err) {
-    statusEl.textContent = 'Firebase connection failed.';
-    statusEl.classList.add('error');
+    showToast('Firebase connection failed.');
     console.error(err);
     return false;
   }
