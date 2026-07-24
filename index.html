@@ -753,12 +753,115 @@
     }
 
     /* Footer */
-    footer {
+    footer.site-footer {
       border-top: 1px solid var(--border);
-      padding: 2rem 1.5rem;
-      text-align: center;
-      font-size: 0.8rem;
+      padding: 2.5rem 1.5rem 2rem;
+      background: var(--bg-elevated);
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.35rem 1.5rem;
+    }
+
+    .footer-link {
+      background: none;
+      border: none;
+      padding: 0.25rem 0;
+      font-family: var(--font);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .footer-link:hover {
+      color: var(--accent);
+    }
+
+    .footer-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+
+    .footer-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
       color: var(--text-tertiary);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .info-body {
+      max-height: 55vh;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+
+    .info-body h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 1.25rem 0 0.5rem;
+      color: var(--text);
+    }
+
+    .info-body h4:first-child {
+      margin-top: 0;
+    }
+
+    .info-body p,
+    .info-body li {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .info-body ul {
+      margin: 0.35rem 0 0.75rem 1.1rem;
+    }
+
+    .info-body li {
+      margin-bottom: 0.35rem;
+    }
+
+    .rule-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .rule-card h4 {
+      margin: 0 0 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .rule-card p {
+      margin: 0;
     }
 
     /* Animations */
@@ -851,9 +954,29 @@
       </section>
     </main>
 
-    <footer>
-      © 2026 Legis · Independent community platform · Not affiliated with any government
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <nav class="footer-nav" aria-label="Legal and information">
+          <button type="button" class="footer-link" data-info="about">About us</button>
+          <button type="button" class="footer-link" data-info="rules">Rules</button>
+          <button type="button" class="footer-link" data-info="terms">Terms</button>
+          <button type="button" class="footer-link" data-info="privacy">Privacy</button>
+        </nav>
+        <p class="footer-copy">© 2026 Legis · Independent community platform · Not affiliated with any government</p>
+      </div>
     </footer>
+  </div>
+
+  <!-- Info Modal (About, Rules, Terms, Privacy) -->
+  <div class="overlay" id="infoOverlay">
+    <div class="modal-wrapper">
+      <button class="modal-close" id="infoClose" aria-label="Close">×</button>
+      <div class="modal modal-lg">
+        <h3 id="infoTitle">About us</h3>
+        <p class="modal-sub" id="infoSub"></p>
+        <div class="info-body" id="infoBody"></div>
+      </div>
+    </div>
   </div>
 
   <!-- Auth Modal -->
@@ -1597,6 +1720,72 @@
       currentLaws = [];
       activeLawId = null;
       playSfx('click');
+    });
+
+    var INFO_PAGES = {
+      about: {
+        title: 'About us',
+        sub: 'What Legis is and who it is for.',
+        html:
+          '<p><strong>Legis</strong> is an independent, community-driven platform where people from around the world can propose ideas for new regulations, discuss them openly, and react to proposals from others.</p>' +
+          '<p>We are <strong>not</strong> a government website. Nothing published here is official law — all content comes from community members sharing ideas for discussion.</p>' +
+          '<p>Our goal is to make civic participation accessible: pick a country, propose a law, join the conversation, and help shape ideas together — transparently and democratically.</p>',
+      },
+      rules: {
+        title: 'Rules',
+        sub: 'Community guidelines in three categories.',
+        html:
+          '<div class="rule-card"><h4>1 · Proposals</h4><p>Only post original or clearly attributed ideas. Keep titles short and summaries readable. No spam, duplicate posts, or misleading content pretending to be official legislation.</p></div>' +
+          '<div class="rule-card"><h4>2 · Discussions</h4><p>Stay respectful. Debate ideas, not people. No hate speech, harassment, threats, or illegal content. Comments are limited to <strong>2,000 characters</strong> per message.</p></div>' +
+          '<div class="rule-card"><h4>3 · Voting & conduct</h4><p>Vote honestly to reflect your opinion — do not manipulate votes with fake accounts. One account per person. Abuse, bots, or attempts to break the platform may result in removal.</p></div>',
+      },
+      terms: {
+        title: 'Terms',
+        sub: 'Simple terms of use for Legis.',
+        html:
+          '<p>By using Legis, you agree to participate respectfully and follow our community rules.</p>' +
+          '<p><strong>No cookies:</strong> We do not use tracking cookies on this website.</p>' +
+          '<p><strong>No advertising:</strong> Legis does not display ads and does not sell ad space. The platform exists for community discussion only.</p>' +
+          '<p>Content you submit may be visible to other users. Do not post anything you are not allowed to share.</p>',
+      },
+      privacy: {
+        title: 'Privacy',
+        sub: 'How we handle your data.',
+        html:
+          '<p>All data is stored in a <strong>secure cloud database</strong> (Firebase). We take reasonable measures to protect stored information.</p>' +
+          '<p><strong>No sensitive personal data required:</strong> You only need a display name and email to participate. We do not ask for real names, addresses, or government IDs.</p>' +
+          '<p><strong>Data deletion:</strong> You may request deletion of your data at any time. Contact us with your account email and we will remove your associated content upon verified request.</p>' +
+          '<p>We do not sell your personal data to third parties.</p>',
+      },
+    };
+
+    function openInfoPage(key) {
+      var page = INFO_PAGES[key];
+      if (!page) return;
+      document.getElementById('infoTitle').textContent = page.title;
+      document.getElementById('infoSub').textContent = page.sub;
+      document.getElementById('infoBody').innerHTML = page.html;
+      document.getElementById('infoOverlay').classList.add('open');
+      playSfx('open');
+    }
+
+    function closeInfoPage() {
+      document.getElementById('infoOverlay').classList.remove('open');
+    }
+
+    document.querySelectorAll('.footer-link[data-info]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        openInfoPage(btn.dataset.info);
+      });
+    });
+
+    document.getElementById('infoClose').addEventListener('click', function () {
+      closeInfoPage();
+      playSfx('click');
+    });
+
+    document.getElementById('infoOverlay').addEventListener('click', function (e) {
+      if (e.target === e.currentTarget) closeInfoPage();
     });
 
     initFirebase();
