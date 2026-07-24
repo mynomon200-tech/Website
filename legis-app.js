@@ -16,6 +16,7 @@ const LEGAL_OPERATOR = {
 };
 
 const USER_STORAGE_KEY = 'legis-user';
+const ADMIN_DISPLAY_NAME = 'MrNexo';
 const MAX_COMMENT_LENGTH = 2000;
 const MAX_SUMMARY_LENGTH = 500;
 const MAX_TAGS = 5;
@@ -318,17 +319,245 @@ function syncLawIndex(country, lawId, lawData) {
   return indexRef().child(lawId).set(parsed);
 }
 
-function registerUserProfile(user) {
+function usersRegistryRef() {
+  return db.ref('legis/users');
+}
+
+function isAdmin(user) {
+  user = user || getUser();
+  return !!(user && user.displayName === ADMIN_DISPLAY_NAME);
+}
+
+function isUserBannedLocally(user) {
+  return !!(user && user.banned);
+}
+
+function registerUserProfile(user, isNew) {
   if (!ensureDb()) return Promise.resolve();
   var ek = emailKey(user.email);
   var updates = {};
-  updates['legis/users/' + ek] = {
-    displayName: user.displayName,
-    email: user.email,
-    joinedAt: firebase.database.ServerValue.TIMESTAMP,
-  };
-  updates['legis/displayNames/' + nameKey(user.displayName)] = ek;
+  if (isNew) {
+    updates['legis/users/' + ek] = {
+      displayName: user.displayName,
+      email: user.email,
+      country: user.country || 'Unknown',
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+      banned: false,
+    };
+    updates['legis/displayNames/' + nameKey(user.displayName)] = ek;
+  } else {
+    updates['legis/users/' + ek + '/email'] = user.email;
+    updates['legis/users/' + ek + '/displayName'] = user.displayName;
+    if (user.country) {
+      updates['legis/users/' + ek + '/country'] = user.country;
+    }
+    updates['legis/displayNames/' + nameKey(user.displayName)] = ek;
+  }
   return db.ref().update(updates);
+}
+
+function fetchUserProfile(email) {
+  if (!ensureDb()) return Promise.resolve(null);
+  return userRef(email).once('value').then(function (snap) {
+    return snap.val();
+  });
+}
+
+function verifyUserSession() {
+  var user = getUser();
+  if (!user || !ensureDb()) return;
+  fetchUserProfile(user.email).then(function (data) {
+    if (data && data.banned) {
+      localStorage.removeItem(USER_STORAGE_KEY);
+      updateAuthUI();
+      showToast('Your account has been banned.');
+    } else if (data) {
+      user.displayName = data.displayName || user.displayName;
+      user.country = data.country || user.country || '';
+      user.banned = !!data.banned;
+      saveUser(user);
+      updateAuthUI();
+    }
+  });
+}
+
+function loadAllUsers() {
+  if (!ensureDb()) return Promise.resolve([]);
+  return usersRegistryRef()
+    .once('value')
+    .then(function (snapshot) {
+      var users = [];
+      snapshot.forEach(function (child) {
+        var val = child.val();
+        if (!val || typeof val !== 'object') return;
+        if (val.email || val.displayName) {
+          users.push({
+            id: child.key,
+            displayName: val.displayName || 'Unknown',
+            email: val.email || '',
+            country: val.country || 'Unknown',
+            createdAt: val.createdAt || val.joinedAt || null,
+            banned: !!val.banned,
+          });
+        }
+      });
+      users.sort(function (a, b) {
+        return (b.createdAt || 0) - (a.createdAt || 0);
+      });
+      return users;
+    });
+}
+
+function renderAdminUserList(users, query) {
+  var list = document.getElementById('adminUserList');
+  if (!list) return;
+  var q = (query || '').trim().toLowerCase();
+  var filtered = users.filter(function (u) {
+    if (!q) return true;
+    return (
+      u.displayName.toLowerCase().includes(q) ||
+      u.email.toLowerCase().includes(q) ||
+      u.country.toLowerCase().includes(q)
+    );
+  });
+
+  if (!filtered.length) {
+    list.innerHTML =
+      '<p style="color:var(--text-tertiary);font-size:0.875rem;">No users found.</p>';
+    return;
+  }
+
+  list.innerHTML = filtered
+    .map(function (u) {
+      var isSelf = u.displayName === ADMIN_DISPLAY_NAME;
+      return (
+        '<article class="admin-user-card' +
+        (u.banned ? ' banned' : '') +
+        '">' +
+        '<dl class="admin-user-grid">' +
+        '<dt>Name</dt><dd>' +
+        escapeHtml(u.displayName) +
+        (u.banned ? ' <span style="color:var(--danger);">(Banned)</span>' : '') +
+        '</dd>' +
+        '<dt>Email</dt><dd>' +
+        escapeHtml(u.email) +
+        '</dd>' +
+        '<dt>Country</dt><dd>' +
+        escapeHtml(u.country) +
+        '</dd>' +
+        '<dt>Created</dt><dd>' +
+        formatAdminDate(u.createdAt) +
+        '</dd>' +
+        '</dl>' +
+        (isSelf
+          ? '<p style="font-size:0.75rem;color:var(--text-tertiary);">Admin account (protected)</p>'
+          : '<div class="admin-user-actions">' +
+            '<button type="button" class="btn-warn admin-ban-btn" data-id="' +
+            u.id +
+            '" data-banned="' +
+            u.banned +
+            '">' +
+            (u.banned ? 'Unban account' : 'Ban account') +
+            '</button>' +
+            '<button type="button" class="btn-danger admin-delete-btn" data-id="' +
+            u.id +
+            '" data-name="' +
+            escapeHtml(u.displayName) +
+            '">Delete account</button>' +
+            '</div>') +
+        '</article>'
+      );
+    })
+    .join('');
+
+  list.querySelectorAll('.admin-ban-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      adminToggleBan(btn.dataset.id, btn.dataset.banned === 'true');
+    });
+  });
+
+  list.querySelectorAll('.admin-delete-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      adminDeleteUser(btn.dataset.id, btn.dataset.name);
+    });
+  });
+}
+
+function openAdminPanel() {
+  if (!isAdmin()) {
+    showToast('Access denied');
+    return;
+  }
+  document.getElementById('adminOverlay').classList.add('open');
+  document.getElementById('adminUserSearch').value = '';
+  playSfx('open');
+  loadAllUsers().then(function (users) {
+    renderAdminUserList(users, '');
+  });
+}
+
+function closeAdminPanel() {
+  document.getElementById('adminOverlay').classList.remove('open');
+}
+
+function adminToggleBan(userId, currentlyBanned) {
+  if (!isAdmin() || !ensureDb()) return;
+  if (!confirm(currentlyBanned ? 'Unban this account?' : 'Ban this account? They will not be able to sign in.')) {
+    return;
+  }
+  var updates = {};
+  updates['legis/users/' + userId + '/banned'] = !currentlyBanned;
+  if (!currentlyBanned) {
+    updates['legis/users/' + userId + '/bannedAt'] = firebase.database.ServerValue.TIMESTAMP;
+  }
+  db.ref()
+    .update(updates)
+    .then(function () {
+      showToast(currentlyBanned ? 'Account unbanned' : 'Account banned');
+      return loadAllUsers();
+    })
+    .then(function (users) {
+      renderAdminUserList(users, document.getElementById('adminUserSearch').value);
+    });
+}
+
+function adminDeleteUser(userId, displayName) {
+  if (!isAdmin() || !ensureDb()) return;
+  if (displayName === ADMIN_DISPLAY_NAME) {
+    showToast('Cannot delete admin account');
+    return;
+  }
+  if (!confirm('Permanently delete this account? This cannot be undone.')) return;
+
+  db.ref('legis/users/' + userId)
+    .once('value')
+    .then(function (snap) {
+      var data = snap.val();
+      var updates = {};
+      updates['legis/users/' + userId] = null;
+      if (data && data.displayName) {
+        updates['legis/displayNames/' + nameKey(data.displayName)] = null;
+      }
+      return db.ref().update(updates);
+    })
+    .then(function () {
+      showToast('Account deleted');
+      return loadAllUsers();
+    })
+    .then(function (users) {
+      renderAdminUserList(users, document.getElementById('adminUserSearch').value);
+    });
+}
+
+function populateAuthCountrySelect() {
+  var select = document.getElementById('authCountry');
+  if (!select || select.options.length > 1) return;
+  WORLD_COUNTRIES.forEach(function (country) {
+    var opt = document.createElement('option');
+    opt.value = country;
+    opt.textContent = country;
+    select.appendChild(opt);
+  });
 }
 
 function watchLaws(country) {
@@ -669,6 +898,16 @@ function formatTime(ts) {
   return days + 'd ago';
 }
 
+function formatAdminDate(ts) {
+  if (!ts) return 'Unknown';
+  var time = typeof ts === 'object' && ts !== null ? Date.now() : ts;
+  return new Date(time).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -745,12 +984,14 @@ function updateAuthUI() {
   var registerBtn = document.getElementById('registerBtn');
   var profileBtn = document.getElementById('profileBtn');
   var notifBtn = document.getElementById('notificationsBtn');
+  var adminBtn = document.getElementById('adminPanelBtn');
 
   if (user) {
     loginBtn.hidden = true;
     registerBtn.hidden = true;
     profileBtn.hidden = false;
     notifBtn.hidden = false;
+    if (adminBtn) adminBtn.hidden = !isAdmin(user);
     watchNotifications(user.email);
   } else {
     loginBtn.hidden = false;
@@ -758,6 +999,7 @@ function updateAuthUI() {
     loginBtn.textContent = 'Sign in';
     profileBtn.hidden = true;
     notifBtn.hidden = true;
+    if (adminBtn) adminBtn.hidden = true;
     stopWatchingNotifications();
     document.getElementById('notifBadge').hidden = true;
   }
@@ -836,11 +1078,17 @@ function renderNotificationsList() {
 }
 
 function requireAuth(action) {
-  if (isLoggedIn()) return true;
-  playSfx('open');
-  openAuth('login');
-  showToast('Please sign in to ' + action);
-  return false;
+  if (!isLoggedIn()) {
+    playSfx('open');
+    openAuth('login');
+    showToast('Please sign in to ' + action);
+    return false;
+  }
+  if (isUserBannedLocally(getUser())) {
+    showToast('Your account is banned');
+    return false;
+  }
+  return true;
 }
 
 function openAuth(mode) {
@@ -852,6 +1100,8 @@ function openAuth(mode) {
       : 'Join the community and start contributing.';
   document.getElementById('authSubmit').textContent = mode === 'login' ? 'Sign in' : 'Register';
   document.getElementById('nameGroup').hidden = mode !== 'register';
+  document.getElementById('countryGroup').hidden = mode !== 'register';
+  populateAuthCountrySelect();
   document.getElementById('authOverlay').classList.add('open');
   playSfx('open');
 }
@@ -1726,6 +1976,27 @@ document.getElementById('registerBtn').addEventListener('click', function () {
   openAuth('register');
 });
 document.getElementById('profileBtn').addEventListener('click', openProfileModal);
+document.getElementById('adminPanelBtn').addEventListener('click', openAdminPanel);
+document.getElementById('adminClose').addEventListener('click', function () {
+  closeAdminPanel();
+  playSfx('click');
+});
+document.getElementById('adminDismiss').addEventListener('click', function () {
+  closeAdminPanel();
+  playSfx('click');
+});
+document.getElementById('adminOverlay').addEventListener('click', function (e) {
+  if (!e.target.closest('.modal')) {
+    closeAdminPanel();
+    playSfx('click');
+  }
+});
+document.getElementById('adminUserSearch').addEventListener('input', function (e) {
+  if (!isAdmin()) return;
+  loadAllUsers().then(function (users) {
+    renderAdminUserList(users, e.target.value);
+  });
+});
 document.getElementById('notificationsBtn').addEventListener('click', function () {
   renderNotificationsList();
   document.getElementById('notifOverlay').classList.add('open');
@@ -1769,24 +2040,56 @@ document.getElementById('authSubmit').addEventListener('click', function () {
   var email = document.getElementById('authEmail').value.trim();
   var password = document.getElementById('authPassword').value.trim();
   var name = document.getElementById('authName').value.trim();
+  var country = document.getElementById('authCountry').value;
   if (!email || !password) {
     showToast('Please fill in email and password');
     return;
   }
-  if (authMode === 'register' && !name) {
-    showToast('Please enter a display name');
+  if (authMode === 'register') {
+    if (!name) {
+      showToast('Please enter a display name');
+      return;
+    }
+    if (!country) {
+      showToast('Please select your country');
+      return;
+    }
+  }
+
+  function finishAuth(data) {
+    if (data && data.banned) {
+      showToast('This account has been banned.');
+      return;
+    }
+
+    var user = {
+      email: email,
+      displayName: authMode === 'register' ? name : data ? data.displayName : email.split('@')[0],
+      country: authMode === 'register' ? country : data ? data.country || '' : '',
+      banned: false,
+    };
+
+    registerUserProfile(user, authMode === 'register').then(function () {
+      saveUser(user);
+      closeAuth();
+      playSfx('success');
+      showToast(authMode === 'login' ? 'Welcome back!' : 'Account created. Welcome!');
+      updateAuthUI();
+    });
+  }
+
+  if (authMode === 'register') {
+    displayNameRef(name).once('value').then(function (snap) {
+      if (snap.val() && snap.val() !== emailKey(email)) {
+        showToast('Display name already taken');
+        return;
+      }
+      fetchUserProfile(email).then(finishAuth);
+    });
     return;
   }
-  var user = {
-    email: email,
-    displayName: authMode === 'register' ? name : email.split('@')[0],
-  };
-  saveUser(user);
-  registerUserProfile(user);
-  closeAuth();
-  playSfx('success');
-  showToast(authMode === 'login' ? 'Welcome back!' : 'Account created. Welcome!');
-  updateAuthUI();
+
+  fetchUserProfile(email).then(finishAuth);
 });
 
 document.getElementById('discussClose').addEventListener('click', function () {
@@ -1987,7 +2290,9 @@ document.getElementById('infoOverlay').addEventListener('click', function (e) {
 });
 
 renderTagPicker('tagPicker', selectedTags, '');
+populateAuthCountrySelect();
 initFirebase();
 updateAuthUI();
+verifyUserSession();
 updateCharCounter();
 updateSummaryCounter();
