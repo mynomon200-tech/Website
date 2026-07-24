@@ -1734,8 +1734,25 @@ document.getElementById('notificationsBtn').addEventListener('click', function (
 document.getElementById('profileClose').addEventListener('click', function () {
   document.getElementById('profileOverlay').classList.remove('open');
 });
+document.getElementById('notifDismiss').addEventListener('click', function () {
+  document.getElementById('notifOverlay').classList.remove('open');
+  playSfx('click');
+});
 document.getElementById('notifClose').addEventListener('click', function () {
   document.getElementById('notifOverlay').classList.remove('open');
+  playSfx('click');
+});
+document.getElementById('notifOverlay').addEventListener('click', function (e) {
+  if (!e.target.closest('.modal')) {
+    document.getElementById('notifOverlay').classList.remove('open');
+    playSfx('click');
+  }
+});
+document.getElementById('profileOverlay').addEventListener('click', function (e) {
+  if (!e.target.closest('.modal')) {
+    document.getElementById('profileOverlay').classList.remove('open');
+    playSfx('click');
+  }
 });
 document.getElementById('logoutBtn').addEventListener('click', function () {
   localStorage.removeItem(USER_STORAGE_KEY);
