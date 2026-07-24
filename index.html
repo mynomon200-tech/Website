@@ -1040,6 +1040,18 @@
     /* Home feed */
     .home-feed { display: flex; flex-direction: column; gap: 1.5rem; }
 
+    .content-hub {
+      background: var(--bg-elevated);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #lawsPanel {
+      animation: fadeUp 0.5s var(--transition) both;
+    }
+
     .feed-section h3 {
       font-family: var(--font-display);
       font-size: 1.35rem;
@@ -1659,7 +1671,7 @@
       </aside>
 
       <section class="content-panel" id="contentPanel">
-        <div class="panel-empty" id="emptyState">
+        <div class="content-hub" id="contentHub">
           <div class="home-feed" id="homeFeed">
             <div class="feed-tabs">
               <button type="button" class="feed-tab active" data-feed="trending">Trending</button>
