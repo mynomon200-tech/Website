@@ -303,21 +303,24 @@ function watchGlobalIndex() {
 }
 
 function syncLawIndex(country, lawId, lawData) {
-  if (!ensureDb()) return;
+  if (!ensureDb()) return Promise.resolve();
   var msgCount = lawData.messages ? Object.keys(lawData.messages).length : 0;
+  var createdAt = typeof lawData.createdAt === 'number' ? lawData.createdAt : Date.now();
+  var updatedAt = typeof lawData.updatedAt === 'number' ? lawData.updatedAt : createdAt;
   var parsed = {
     title: lawData.title || '',
     summary: lawData.summary || '',
     tags: parseTags(lawData.tags),
     author: lawData.author || '',
-    createdAt: lawData.createdAt || Date.now(),
-    updatedAt: lawData.updatedAt || lawData.createdAt || Date.now(),
+    createdAt: createdAt,
+    updatedAt: updatedAt,
     up: lawData.up || 0,
     down: lawData.down || 0,
     messageCount: msgCount,
     version: lawData.version || 1,
     country: country,
     countryKey: countryKey(country),
+    lawId: lawId,
   };
   parsed.hotScore = hotScore({
     up: parsed.up,
@@ -909,6 +912,14 @@ function renderTagPicker(containerId, selected, filterText) {
   });
 }
 
+function tagsToFirebase(tags) {
+  var map = {};
+  (tags || []).slice(0, MAX_TAGS).forEach(function (tag, i) {
+    map[i] = tag;
+  });
+  return map;
+}
+
 function addLawToFirebase(country, data) {
   if (!ensureDb()) return Promise.reject(new Error('offline'));
   var ref = lawsRef(country).push();
@@ -919,8 +930,7 @@ function addLawToFirebase(country, data) {
     summary: data.summary,
     body: data.body,
     author: data.author,
-    authorEmail: data.authorEmail,
-    tags: data.tags,
+    authorEmail: data.authorEmail || '',
     createdAt: now,
     updatedAt: now,
     version: 1,
@@ -936,11 +946,35 @@ function addLawToFirebase(country, data) {
     },
     up: 0,
     down: 0,
-    poll: data.poll || null,
   };
-  return ref.set(payload).then(function () {
-    return syncLawIndex(country, lawId, payload);
-  });
+
+  if (data.tags && data.tags.length) {
+    payload.tags = tagsToFirebase(data.tags);
+  }
+  if (data.poll) {
+    payload.poll = data.poll;
+  }
+
+  return ref
+    .set(payload)
+    .then(function () {
+      return syncLawIndex(country, lawId, {
+        title: data.title,
+        summary: data.summary,
+        body: data.body,
+        tags: data.tags,
+        author: data.author,
+        up: 0,
+        down: 0,
+        version: 1,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      });
+    })
+    .catch(function (err) {
+      console.error('addLawToFirebase failed:', err);
+      throw err;
+    });
 }
 
 function updateLawVersion(country, lawId, data, changeNote) {
@@ -2543,7 +2577,13 @@ document.getElementById('submitLaw').addEventListener('click', function () {
       showToast('Proposal published!');
     })
     .catch(function (err) {
-      showToast('Could not publish proposal');
+      var msg = 'Could not publish proposal';
+      if (err && err.code === 'PERMISSION_DENIED') {
+        msg = 'Firebase blocked the post. Publish the latest database.rules.json in Firebase Console.';
+      } else if (err && err.message) {
+        msg = 'Could not publish: ' + err.message;
+      }
+      showToast(msg);
       console.error(err);
     });
 });
