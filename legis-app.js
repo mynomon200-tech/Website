@@ -1688,6 +1688,38 @@ function bindPollEvents(container, country, lawId) {
   });
 }
 
+function bindDetailVoteEvents(country, lawId, law) {
+  var upBtn = document.getElementById('detailUpBtn');
+  var downBtn = document.getElementById('detailDownBtn');
+  if (!upBtn || !downBtn) return;
+
+  var user = getUser();
+  var vote = user ? law.votes[emailKey(user.email)] : null;
+  if (vote === 'up') upBtn.classList.add('active-up');
+  if (vote === 'down') downBtn.classList.add('active-down');
+
+  function handleVote(type) {
+    if (!requireAuth('react')) return;
+    var currentUser = getUser();
+    castVote(country, lawId, currentUser.email, type)
+      .then(function () {
+        playSfx('click');
+        refreshLawDetail(country, lawId);
+      })
+      .catch(function (err) {
+        showToast('Could not save vote');
+        console.error(err);
+      });
+  }
+
+  upBtn.addEventListener('click', function () {
+    handleVote('up');
+  });
+  downBtn.addEventListener('click', function () {
+    handleVote('down');
+  });
+}
+
 function openLawDetail(country, lawId) {
   var law = findLaw(lawId);
   if (!law && ensureDb()) {
@@ -1743,6 +1775,7 @@ function openLawDetailWithLaw(country, lawId, law) {
     '</button></div>';
 
   bindPollEvents(content, country, lawId);
+  bindDetailVoteEvents(country, lawId, law);
   document.getElementById('versionHistoryPanel').hidden = true;
   document.getElementById('detailOverlay').classList.add('open');
   playSfx('open');
