@@ -15,6 +15,14 @@ const LEGAL_OPERATOR = {
   email: 'legissupport@gmail.com',
 };
 
+/* Set up free EmailJS (emailjs.com) with Gmail to send welcome emails. Leave enabled false until configured. */
+const EMAILJS_CONFIG = {
+  enabled: false,
+  publicKey: '',
+  serviceId: '',
+  templateId: '',
+};
+
 const USER_STORAGE_KEY = 'legis-user';
 const ADMIN_DISPLAY_NAME = 'MrNexo';
 const MAX_COMMENT_LENGTH = 2000;
@@ -324,6 +332,14 @@ function usersRegistryRef() {
   return db.ref('legis/users');
 }
 
+function userRegistryRef(ek) {
+  return db.ref('legis/userRegistry/' + ek);
+}
+
+function userRegistryIndexRef() {
+  return db.ref('legis/userRegistry');
+}
+
 function isAdmin(user) {
   user = user || getUser();
   return !!(user && user.displayName === ADMIN_DISPLAY_NAME);
@@ -334,27 +350,155 @@ function isUserBannedLocally(user) {
 }
 
 function registerUserProfile(user, isNew) {
-  if (!ensureDb()) return Promise.resolve();
+  if (!ensureDb()) return Promise.reject(new Error('Database offline'));
   var ek = emailKey(user.email);
+  var now = firebase.database.ServerValue.TIMESTAMP;
   var updates = {};
+
+  updates['legis/users/' + ek + '/displayName'] = user.displayName;
+  updates['legis/users/' + ek + '/email'] = user.email;
+  updates['legis/users/' + ek + '/country'] = user.country || 'Unknown';
+  updates['legis/users/' + ek + '/banned'] = false;
+
+  updates['legis/userRegistry/' + ek + '/displayName'] = user.displayName;
+  updates['legis/userRegistry/' + ek + '/email'] = user.email;
+  updates['legis/userRegistry/' + ek + '/country'] = user.country || 'Unknown';
+  updates['legis/userRegistry/' + ek + '/banned'] = false;
+
   if (isNew) {
-    updates['legis/users/' + ek] = {
-      displayName: user.displayName,
-      email: user.email,
-      country: user.country || 'Unknown',
-      createdAt: firebase.database.ServerValue.TIMESTAMP,
-      banned: false,
-    };
-    updates['legis/displayNames/' + nameKey(user.displayName)] = ek;
-  } else {
-    updates['legis/users/' + ek + '/email'] = user.email;
-    updates['legis/users/' + ek + '/displayName'] = user.displayName;
-    if (user.country) {
-      updates['legis/users/' + ek + '/country'] = user.country;
-    }
-    updates['legis/displayNames/' + nameKey(user.displayName)] = ek;
+    updates['legis/users/' + ek + '/createdAt'] = now;
+    updates['legis/userRegistry/' + ek + '/createdAt'] = now;
   }
-  return db.ref().update(updates);
+
+  updates['legis/displayNames/' + nameKey(user.displayName)] = ek;
+
+  return db.ref()
+    .update(updates)
+    .then(function () {
+      if (!isNew) {
+        return userRegistryRef(ek)
+          .child('createdAt')
+          .transaction(function (current) {
+            return current === null ? now : current;
+          });
+      }
+    })
+    .catch(function (err) {
+      console.error('registerUserProfile failed:', err);
+      throw err;
+    });
+}
+
+function buildWelcomeMessage(displayName) {
+  return {
+    subject: 'Welcome to Legis, @' + displayName + '!',
+    intro: 'Welcome, @' + displayName + '!',
+    body:
+      '<p>Hi <strong>@' +
+      escapeHtml(displayName) +
+      '</strong>,</p>' +
+      '<p>Welcome to <strong>Legis</strong> — I am really happy you are here.</p>' +
+      '<p>This is your space to let ideas run free. Propose laws, join discussions, and share thoughtful policy ideas with people from around the world.</p>' +
+      '<p>You are welcome to invite friends and others who care about civic debate. Every new member helps our community grow.</p>' +
+      '<div class="welcome-highlight">Ready to start? Pick a country, click <strong>Make post</strong>, and publish your first proposal whenever you like.</div>' +
+      '<p>Please take a moment to read our <strong>Rules</strong> in the footer so discussions stay respectful and productive for everyone.</p>' +
+      '<p>Have a wonderful time on Legis — I hope you enjoy being part of this community.</p>' +
+      '<p>Warm regards,<br>The Legis team<br><a href="mailto:legissupport@gmail.com">legissupport@gmail.com</a></p>',
+    plain:
+      'Hi @' +
+      displayName +
+      ',\n\nWelcome to Legis — I am really happy you are here.\n\n' +
+      'This is your space to let ideas run free. Propose laws, join discussions, and share thoughtful policy ideas with people from around the world.\n\n' +
+      'You are welcome to invite friends and others who care about civic debate. Every new member helps our community grow.\n\n' +
+      'Ready to start? Pick a country, click "Make post", and publish your first proposal whenever you like.\n\n' +
+      'Please take a moment to read our Rules on the website footer so discussions stay respectful and productive for everyone.\n\n' +
+      'Have a wonderful time on Legis — I hope you enjoy being part of this community.\n\n' +
+      'Warm regards,\nThe Legis team\nlegissupport@gmail.com',
+  };
+}
+
+function sendWelcomeNotification(user) {
+  if (!ensureDb()) return Promise.resolve();
+  var msg = buildWelcomeMessage(user.displayName);
+  return notifRef(user.email).push({
+    type: 'welcome',
+    text: msg.intro + ' Check your inbox for a welcome email, or read the message in your notifications.',
+    read: false,
+    createdAt: firebase.database.ServerValue.TIMESTAMP,
+  });
+}
+
+function sendWelcomeEmail(user) {
+  if (!EMAILJS_CONFIG.enabled || !EMAILJS_CONFIG.publicKey || !EMAILJS_CONFIG.serviceId || !EMAILJS_CONFIG.templateId) {
+    return Promise.resolve(false);
+  }
+  if (typeof emailjs === 'undefined') return Promise.resolve(false);
+
+  var msg = buildWelcomeMessage(user.displayName);
+  emailjs.init(EMAILJS_CONFIG.publicKey);
+
+  return emailjs
+    .send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+      to_email: user.email,
+      user_name: user.displayName,
+      user_email: user.email,
+      subject: msg.subject,
+      message: msg.plain,
+      reply_to: LEGAL_OPERATOR.email,
+    })
+    .then(function () {
+      return true;
+    })
+    .catch(function (err) {
+      console.error('Welcome email failed:', err);
+      return false;
+    });
+}
+
+function markWelcomeSent(user) {
+  if (!ensureDb()) return Promise.resolve();
+  return userRef(user.email).update({
+    welcomeSent: true,
+    welcomeSentAt: firebase.database.ServerValue.TIMESTAMP,
+  });
+}
+
+function openWelcomeModal(user, emailSent) {
+  var msg = buildWelcomeMessage(user.displayName);
+  document.getElementById('welcomeTitle').textContent = msg.intro;
+  document.getElementById('welcomeSub').textContent = emailSent
+    ? 'We sent a welcome email to ' + user.email + '. Here is a quick hello from us:'
+    : 'We are glad you joined Legis. Here is a quick hello from us:';
+  document.getElementById('welcomeBody').innerHTML = msg.body;
+  document.getElementById('welcomeOverlay').classList.add('open');
+  playSfx('open');
+}
+
+function closeWelcomeModal() {
+  document.getElementById('welcomeOverlay').classList.remove('open');
+}
+
+function handleFirstTimeWelcome(user, isFirstTime, emailSent) {
+  if (!isFirstTime) return Promise.resolve();
+  return markWelcomeSent(user).then(function () {
+    openWelcomeModal(user, emailSent);
+    if (emailSent) {
+      showToast('Welcome email sent to ' + user.email);
+    } else {
+      showToast('Welcome to Legis, @' + user.displayName + '!');
+    }
+  });
+}
+
+function sendWelcomeExperience(user, isFirstTime) {
+  if (!isFirstTime) return Promise.resolve();
+  return sendWelcomeNotification(user)
+    .then(function () {
+      return sendWelcomeEmail(user);
+    })
+    .then(function (emailSent) {
+      return handleFirstTimeWelcome(user, true, emailSent);
+    });
 }
 
 function fetchUserProfile(email) {
@@ -384,28 +528,65 @@ function verifyUserSession() {
 
 function loadAllUsers() {
   if (!ensureDb()) return Promise.resolve([]);
-  return usersRegistryRef()
+
+  function mapSnapshot(snapshot) {
+    var users = [];
+    snapshot.forEach(function (child) {
+      var val = child.val();
+      if (!val || typeof val !== 'object') return;
+      if (!val.email && !val.displayName) return;
+      users.push({
+        id: child.key,
+        displayName: val.displayName || 'Unknown',
+        email: val.email || '',
+        country: val.country || 'Unknown',
+        createdAt: val.createdAt || val.joinedAt || null,
+        banned: !!val.banned,
+      });
+    });
+    users.sort(function (a, b) {
+      return (b.createdAt || 0) - (a.createdAt || 0);
+    });
+    return users;
+  }
+
+  return userRegistryIndexRef()
     .once('value')
-    .then(function (snapshot) {
-      var users = [];
-      snapshot.forEach(function (child) {
-        var val = child.val();
-        if (!val || typeof val !== 'object') return;
-        if (val.email || val.displayName) {
-          users.push({
+    .then(function (registrySnap) {
+      var users = mapSnapshot(registrySnap);
+      if (users.length) return users;
+
+      return usersRegistryRef().once('value').then(function (legacySnap) {
+        var legacyUsers = [];
+        legacySnap.forEach(function (child) {
+          var val = child.val();
+          if (!val || typeof val !== 'object') return;
+          var email = val.email || '';
+          var displayName = val.displayName || '';
+          if (!email && !displayName) return;
+          legacyUsers.push({
             id: child.key,
-            displayName: val.displayName || 'Unknown',
-            email: val.email || '',
+            displayName: displayName || 'Unknown',
+            email: email,
             country: val.country || 'Unknown',
             createdAt: val.createdAt || val.joinedAt || null,
             banned: !!val.banned,
           });
-        }
+          var syncUpdates = {};
+          syncUpdates['legis/userRegistry/' + child.key] = {
+            displayName: displayName || 'Unknown',
+            email: email,
+            country: val.country || 'Unknown',
+            createdAt: val.createdAt || val.joinedAt || Date.now(),
+            banned: !!val.banned,
+          };
+          db.ref().update(syncUpdates);
+        });
+        legacyUsers.sort(function (a, b) {
+          return (b.createdAt || 0) - (a.createdAt || 0);
+        });
+        return legacyUsers;
       });
-      users.sort(function (a, b) {
-        return (b.createdAt || 0) - (a.createdAt || 0);
-      });
-      return users;
     });
 }
 
@@ -491,10 +672,18 @@ function openAdminPanel() {
   }
   document.getElementById('adminOverlay').classList.add('open');
   document.getElementById('adminUserSearch').value = '';
+  document.getElementById('adminUserList').innerHTML =
+    '<p style="color:var(--text-tertiary);font-size:0.875rem;">Loading users...</p>';
   playSfx('open');
-  loadAllUsers().then(function (users) {
-    renderAdminUserList(users, '');
-  });
+  loadAllUsers()
+    .then(function (users) {
+      renderAdminUserList(users, '');
+    })
+    .catch(function (err) {
+      console.error(err);
+      document.getElementById('adminUserList').innerHTML =
+        '<p style="color:var(--danger);font-size:0.875rem;">Could not load users. Check Firebase connection.</p>';
+    });
 }
 
 function closeAdminPanel() {
@@ -508,8 +697,10 @@ function adminToggleBan(userId, currentlyBanned) {
   }
   var updates = {};
   updates['legis/users/' + userId + '/banned'] = !currentlyBanned;
+  updates['legis/userRegistry/' + userId + '/banned'] = !currentlyBanned;
   if (!currentlyBanned) {
     updates['legis/users/' + userId + '/bannedAt'] = firebase.database.ServerValue.TIMESTAMP;
+    updates['legis/userRegistry/' + userId + '/bannedAt'] = firebase.database.ServerValue.TIMESTAMP;
   }
   db.ref()
     .update(updates)
@@ -536,6 +727,7 @@ function adminDeleteUser(userId, displayName) {
       var data = snap.val();
       var updates = {};
       updates['legis/users/' + userId] = null;
+      updates['legis/userRegistry/' + userId] = null;
       if (data && data.displayName) {
         updates['legis/displayNames/' + nameKey(data.displayName)] = null;
       }
@@ -2206,13 +2398,25 @@ document.getElementById('authSubmit').addEventListener('click', function () {
       banned: false,
     };
 
-    registerUserProfile(user, authMode === 'register').then(function () {
-      saveUser(user);
-      closeAuth();
-      playSfx('success');
-      showToast(authMode === 'login' ? 'Welcome back!' : 'Account created. Welcome!');
-      updateAuthUI();
-    });
+    var isFirstTime = authMode === 'register' || !(data && data.welcomeSent);
+
+    registerUserProfile(user, authMode === 'register')
+      .then(function () {
+        return sendWelcomeExperience(user, isFirstTime);
+      })
+      .then(function () {
+        saveUser(user);
+        closeAuth();
+        playSfx('success');
+        if (!isFirstTime) {
+          showToast('Welcome back!');
+        }
+        updateAuthUI();
+      })
+      .catch(function (err) {
+        console.error(err);
+        showToast('Could not save account to server. Check connection.');
+      });
   }
 
   if (authMode === 'register') {
@@ -2403,6 +2607,25 @@ document.getElementById('saveEditLaw').addEventListener('click', function () {
       showToast('Could not save');
       console.error(err);
     });
+});
+
+document.getElementById('welcomeClose').addEventListener('click', function () {
+  closeWelcomeModal();
+  playSfx('click');
+});
+document.getElementById('welcomeOverlay').addEventListener('click', function (e) {
+  if (!e.target.closest('.modal')) {
+    closeWelcomeModal();
+    playSfx('click');
+  }
+});
+document.getElementById('welcomeStartBtn').addEventListener('click', function () {
+  closeWelcomeModal();
+  openMakePostFlow();
+});
+document.getElementById('welcomeRulesBtn').addEventListener('click', function () {
+  closeWelcomeModal();
+  openInfoPage('rules');
 });
 
 document.getElementById('logoHome').addEventListener('click', function (e) {
