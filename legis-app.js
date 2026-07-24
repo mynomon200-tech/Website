@@ -392,6 +392,48 @@ function registerUserProfile(user, isNew) {
     });
 }
 
+function formatNotifSender(displayName) {
+  if (displayName === ADMIN_DISPLAY_NAME) return ADMIN_DISPLAY_NAME + ' (Admin)';
+  return displayName || 'Someone';
+}
+
+function pushUserNotificationToKey(targetKey, payload) {
+  if (!ensureDb() || !targetKey) return Promise.resolve();
+  if (payload.fromEmail && targetKey === emailKey(payload.fromEmail)) return Promise.resolve();
+  return db.ref('legis/users/' + targetKey + '/notifications').push({
+    read: false,
+    createdAt: firebase.database.ServerValue.TIMESTAMP,
+    ...payload,
+  });
+}
+
+function pushUserNotification(targetEmail, payload) {
+  if (!targetEmail) return Promise.resolve();
+  return pushUserNotificationToKey(emailKey(targetEmail), payload);
+}
+
+function createLikeNotification(fromUser, country, lawId, lawTitle, authorEmail) {
+  return pushUserNotification(authorEmail, {
+    type: 'like',
+    from: formatNotifSender(fromUser.displayName),
+    fromEmail: fromUser.email,
+    text: fromUser.displayName + ' liked your post "' + lawTitle + '"',
+    country: country,
+    lawId: lawId,
+  });
+}
+
+function createReplyNotification(fromUser, country, lawId, lawTitle, parentAuthorEmail) {
+  return pushUserNotification(parentAuthorEmail, {
+    type: 'reply',
+    from: formatNotifSender(fromUser.displayName),
+    fromEmail: fromUser.email,
+    text: fromUser.displayName + ' replied to your comment on "' + lawTitle + '"',
+    country: country,
+    lawId: lawId,
+  });
+}
+
 function buildWelcomeMessage(displayName) {
   return {
     subject: 'Welcome to Legis, @' + displayName + '!',
@@ -425,7 +467,9 @@ function sendWelcomeNotification(user) {
   var msg = buildWelcomeMessage(user.displayName);
   return notifRef(user.email).push({
     type: 'welcome',
-    text: msg.intro + ' Check your inbox for a welcome email, or read the message in your notifications.',
+    from: formatNotifSender(ADMIN_DISPLAY_NAME),
+    text: msg.intro,
+    body: msg.body,
     read: false,
     createdAt: firebase.database.ServerValue.TIMESTAMP,
   });
@@ -484,11 +528,10 @@ function closeWelcomeModal() {
 function handleFirstTimeWelcome(user, isFirstTime, emailSent) {
   if (!isFirstTime) return Promise.resolve();
   return markWelcomeSent(user).then(function () {
-    openWelcomeModal(user, emailSent);
     if (emailSent) {
       showToast('Welcome email sent to ' + user.email);
     } else {
-      showToast('Welcome to Legis, @' + user.displayName + '!');
+      showToast('Welcome to Legis! Open notifications for your welcome message.');
     }
   });
 }
@@ -1025,7 +1068,17 @@ function castVote(country, lawId, email, type) {
     return law;
   }).then(function (result) {
     if (result.committed && result.snapshot.val()) {
-      return syncLawIndex(country, lawId, result.snapshot.val());
+      var law = result.snapshot.val();
+      var syncPromise = syncLawIndex(country, lawId, law);
+      if (type === 'up' && law.authorEmail && emailKey(law.authorEmail) !== voteKey) {
+        var voter = getUser();
+        if (voter && emailKey(voter.email) === voteKey) {
+          return syncPromise.then(function () {
+            return createLikeNotification(voter, country, lawId, law.title || 'your post', law.authorEmail);
+          });
+        }
+      }
+      return syncPromise;
     }
   });
 }
@@ -1065,14 +1118,13 @@ function createMentionNotifications(fromUser, country, lawId, lawTitle, mentions
     return displayNameRef(name).once('value').then(function (snap) {
       var targetKey = snap.val();
       if (!targetKey || targetKey === emailKey(fromUser.email)) return;
-      return db.ref('legis/users/' + targetKey + '/notifications').push({
+      return pushUserNotificationToKey(targetKey, {
         type: 'mention',
+        from: formatNotifSender(fromUser.displayName),
+        fromEmail: fromUser.email,
         text: fromUser.displayName + ' mentioned you in "' + lawTitle + '"',
         country: country,
         lawId: lawId,
-        from: fromUser.displayName,
-        read: false,
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
       });
     });
   });
@@ -1105,6 +1157,13 @@ function postComment(country, lawId, author, authorEmail, text, parentId) {
 
   var mentions = parseMentions(trimmed);
   var law = findLaw(lawId);
+  var lawTitlePromise = law
+    ? Promise.resolve(law.title)
+    : lawRef(country, lawId)
+        .once('value')
+        .then(function (snap) {
+          return snap.val() && snap.val().title ? snap.val().title : 'a post';
+        });
   var payload = {
     author: author,
     authorEmail: authorEmail || '',
@@ -1114,17 +1173,38 @@ function postComment(country, lawId, author, authorEmail, text, parentId) {
   };
   if (parentId) payload.parentId = parentId;
 
-  return messagesRef(country, lawId).push().set(payload).then(function () {
-    return refreshIndexMessageCount(country, lawId).then(function () {
-      if (law) {
-        return createMentionNotifications(
-          { displayName: author, email: authorEmail },
-          country,
-          lawId,
-          law.title,
-          mentions
-        );
-      }
+  var parentFetch = parentId
+    ? messagesRef(country, lawId).child(parentId).once('value')
+    : Promise.resolve({ val: function () { return null; } });
+
+  return parentFetch.then(function (parentSnap) {
+    var parentMsg = parentSnap.val();
+    return lawTitlePromise.then(function (lawTitle) {
+      return messagesRef(country, lawId).push().set(payload).then(function () {
+        return refreshIndexMessageCount(country, lawId).then(function () {
+          var tasks = [
+            createMentionNotifications(
+              { displayName: author, email: authorEmail },
+              country,
+              lawId,
+              lawTitle,
+              mentions
+            ),
+          ];
+          if (parentId && parentMsg && parentMsg.authorEmail) {
+            tasks.push(
+              createReplyNotification(
+                { displayName: author, email: authorEmail },
+                country,
+                lawId,
+                lawTitle,
+                parentMsg.authorEmail
+              )
+            );
+          }
+          return Promise.all(tasks);
+        });
+      });
     });
   });
 }
@@ -1286,6 +1366,10 @@ function renderNotificationsList() {
       }
       list.innerHTML = items
         .map(function (n) {
+          var bodyHtml =
+            n.type === 'welcome' && n.body
+              ? '<div class="notif-body welcome-body">' + n.body + '</div>'
+              : '';
           return (
             '<div class="notif-item' +
             (n.read ? '' : ' unread') +
@@ -1296,7 +1380,11 @@ function renderNotificationsList() {
             '" data-law="' +
             escapeHtml(n.lawId || '') +
             '">' +
+            (n.from ? '<div class="notif-from">' + escapeHtml(n.from) + '</div>' : '') +
+            '<div class="notif-text">' +
             escapeHtml(n.text || '') +
+            '</div>' +
+            bodyHtml +
             '<div class="message-time">' +
             formatTime(n.createdAt) +
             '</div></div>'
