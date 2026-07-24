@@ -1,10 +1,10 @@
-// Paste your Web App config from Firebase Console → Project settings → Your apps
+// Firebase Web App config (project: chatr-6d513)
 window.FIREBASE_CONFIG = {
-  apiKey: 'YOUR_API_KEY',
+  apiKey: 'AIzaSyBVrek7QSFiFZILJ2FeumZPaCuprZrVDUA',
   authDomain: 'chatr-6d513.firebaseapp.com',
   databaseURL: 'https://chatr-6d513-default-rtdb.europe-west1.firebasedatabase.app',
   projectId: 'chatr-6d513',
   storageBucket: 'chatr-6d513.firebasestorage.app',
-  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-  appId: 'YOUR_APP_ID',
+  messagingSenderId: '961820142442',
+  appId: '1:961820142442:web:8957e81acc258e1fa59313',
 };
