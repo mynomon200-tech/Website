@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07090d">
+  <meta name="description" content="NEXO — A social world built for real conversations.">
+  <title>NEXO — Enter the Social World</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background">
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="grid"></div>
+  </div>
+
+  <main class="page">
+    <section class="brand-panel">
+      <div class="brand">ɴᴇxᴏ</div>
+      <div class="brand-line"></div>
+      <div class="eyebrow">SOCIAL WORLD</div>
+      <h1>A world built<br><span>around people.</span></h1>
+      <p class="hero-copy">
+        Meet people, explore new places and create your own presence
+        in a living 3D social world.
+      </p>
+
+      <div class="feature-list">
+        <div class="feature">
+          <div class="feature-icon">01</div>
+          <div>
+            <strong>Explore</strong>
+            <span>Walk through a persistent social world.</span>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">02</div>
+          <div>
+            <strong>Connect</strong>
+            <span>Meet people and start real conversations.</span>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">03</div>
+          <div>
+            <strong>Become known</strong>
+            <span>Build your profile and your social identity.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="status">
+        <span class="status-dot"></span>
+        <span>WORLD ONLINE</span>
+        <b id="onlineCount">1,284</b>
+      </div>
+    </section>
+
+    <section class="auth-wrap">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="mobile-brand">ɴᴇxᴏ</div>
+          <div class="auth-kicker" id="authKicker">WELCOME BACK</div>
+          <h2 id="authTitle">Sign in</h2>
+          <p id="authSubtitle">Enter your credentials to continue.</p>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" id="loginTab" type="button">Sign in</button>
+          <button class="tab" id="registerTab" type="button">Create account</button>
+        </div>
+
+        <div id="message" class="message" role="alert"></div>
+
+        <form id="authForm" autocomplete="off">
+          <div class="field register-only">
+            <label for="username">Username</label>
+            <div class="input-wrap">
+              <span class="input-symbol">@</span>
+              <input id="username" name="username" type="text"
+                     maxlength="16" placeholder="Choose a username"
+                     spellcheck="false" autocomplete="username">
+            </div>
+            <small>3–16 characters. Letters, numbers and underscores.</small>
+          </div>
+
+          <div class="field login-only">
+            <label for="loginUsername">Username</label>
+            <div class="input-wrap">
+              <span class="input-symbol">@</span>
+              <input id="loginUsername" name="loginUsername" type="text"
+                     maxlength="16" placeholder="Your username"
+                     spellcheck="false" autocomplete="username">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label for="password">Password</label>
+              <span id="passwordHint">Required</span>
+            </div>
+            <div class="input-wrap">
+              <span class="input-symbol lock">◆</span>
+              <input id="password" name="password" type="password"
+                     maxlength="72" placeholder="Your password"
+                     autocomplete="current-password">
+              <button class="password-toggle" id="togglePassword" type="button" aria-label="Show password">SHOW</button>
+            </div>
+          </div>
+
+          <div class="field register-only">
+            <label for="confirmPassword">Confirm password</label>
+            <div class="input-wrap">
+              <span class="input-symbol lock">◆</span>
+              <input id="confirmPassword" name="confirmPassword" type="password"
+                     maxlength="72" placeholder="Repeat your password"
+                     autocomplete="new-password">
+            </div>
+          </div>
+
+          <button class="submit" id="submitButton" type="submit">
+            <span id="submitText">Sign in</span>
+            <span class="arrow">→</span>
+          </button>
+        </form>
+
+        <div class="divider"><span>NO EMAIL REQUIRED</span></div>
+
+        <p class="legal">
+          By continuing, you agree to the NEXO community rules and terms of service.
+        </p>
+      </div>
+
+      <div class="footer-note">
+        <span>© 2026 NEXO</span>
+        <span>PRIVATE SOCIAL WORLD</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="index.js"></script>
+</body>
+</html>
