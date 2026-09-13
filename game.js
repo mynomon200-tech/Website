@@ -151,8 +151,9 @@ scene.add(character);
 // ---------- Player state ----------
 const player = {
   position: character.position, // shared reference
-  yaw: 0,          // facing direction (Y rotation)
+  yaw: 0,          // camera/movement facing direction (mouse-controlled)
   pitch: 0,        // look up/down
+  charYaw: 0,      // direction the character model itself faces
   speed: 2.6,      // units per second
 };
 
@@ -231,10 +232,16 @@ function animate() {
     moveZ = (moveZ / len) * player.speed * dt;
     player.position.x += moveX;
     player.position.z += moveZ;
+
+    // In first person the model always faces exactly where you look.
+    // In third person it turns to face the direction you're actually
+    // walking in, independent of where the (free-orbiting) camera points.
+    player.charYaw = firstPerson ? player.yaw : Math.atan2(moveX, moveZ);
+  } else if (firstPerson) {
+    player.charYaw = player.yaw;
   }
 
-  // character always faces the camera's yaw
-  character.rotation.y = player.yaw;
+  character.rotation.y = player.charYaw;
 
   // walk cycle
   if (moving) {
