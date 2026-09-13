@@ -139,7 +139,7 @@ function buildCharacter() {
   const legR = buildLeg(1);
   character.add(legL, legR);
 
-  character.userData.parts = { armL, armR, legL, legR };
+  character.userData.parts = { head, armL, armR, legL, legR };
   character.userData.totalHeight = unit * (12 + 12 + 8); // legs + torso + head
   return character;
 }
@@ -164,7 +164,10 @@ let firstPerson = true;
 function setViewMode(isFirst) {
   firstPerson = isFirst;
   hudView.textContent = firstPerson ? "FIRST PERSON" : "THIRD PERSON";
-  character.visible = !firstPerson; // hide own body in first person
+  // Body stays visible in first person too (so you can look down/sideways
+  // and see your own arms/legs) — only the head is hidden so the camera,
+  // which sits at head height, isn't stuck looking at the inside of it.
+  character.userData.parts.head.visible = !firstPerson;
 }
 setViewMode(true);
 
