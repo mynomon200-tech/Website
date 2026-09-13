@@ -203,6 +203,15 @@ window.addEventListener("keyup", (e) => {
   if (k in keys) keys[k] = false;
 });
 
+// ---------- Angle helper: shortest-path smooth rotation (framerate-independent) ----------
+function normalizeAngle(a) {
+  return Math.atan2(Math.sin(a), Math.cos(a));
+}
+function lerpAngle(current, target, t) {
+  const diff = normalizeAngle(target - current);
+  return current + diff * t;
+}
+
 // ---------- Animation loop ----------
 let t = 0;
 let lastTime = performance.now();
@@ -220,10 +229,10 @@ function animate() {
   const right = new THREE.Vector3(Math.sin(player.yaw + Math.PI / 2), 0, Math.cos(player.yaw + Math.PI / 2));
 
   let moveX = 0, moveZ = 0;
-  if (keys.w) { moveX -= forward.x; moveZ -= forward.z; }
-  if (keys.s) { moveX += forward.x; moveZ += forward.z; }
-  if (keys.a) { moveX -= right.x; moveZ -= right.z; }
-  if (keys.d) { moveX += right.x; moveZ += right.z; }
+  if (keys.w) { moveX += forward.x; moveZ += forward.z; }
+  if (keys.s) { moveX -= forward.x; moveZ -= forward.z; }
+  if (keys.a) { moveX += right.x; moveZ += right.z; }
+  if (keys.d) { moveX -= right.x; moveZ -= right.z; }
 
   const moving = moveX !== 0 || moveZ !== 0;
   if (moving) {
@@ -241,7 +250,15 @@ function animate() {
     player.charYaw = player.yaw;
   }
 
-  character.rotation.y = player.charYaw;
+  if (firstPerson) {
+    // your own view — the body should match your look direction instantly
+    character.rotation.y = player.charYaw;
+  } else {
+    // third person — turn smoothly toward the walking direction instead of
+    // snapping, so 360° turns feel continuous rather than frame-by-frame
+    const turnSpeed = 10; // higher = snappier, lower = floatier
+    character.rotation.y = lerpAngle(character.rotation.y, player.charYaw, Math.min(1, turnSpeed * dt));
+  }
 
   // walk cycle
   if (moving) {
