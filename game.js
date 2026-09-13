@@ -231,7 +231,7 @@ function animate() {
   }
 
   // character always faces the camera's yaw
-  character.rotation.y = player.yaw + Math.PI;
+  character.rotation.y = player.yaw;
 
   // walk cycle
   if (moving) {
