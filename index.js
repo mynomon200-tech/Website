@@ -147,11 +147,7 @@ form.addEventListener("submit", (event) => {
     showMessage("Account created. Welcome to NEXO.", "success");
 
     setTimeout(() => {
-      /*
-        Later:
-        window.location.href = "game.html";
-      */
-      showMessage("Account created. The 3D world connection will be added next.", "success");
+      window.location.href = "game.html";
     }, 600);
 
   } else {
@@ -174,11 +170,7 @@ form.addEventListener("submit", (event) => {
     showMessage(`Welcome back, ${result.username}.`, "success");
 
     setTimeout(() => {
-      /*
-        Later:
-        window.location.href = "game.html";
-      */
-      showMessage("Login successful. The 3D world connection will be added next.", "success");
+      window.location.href = "game.html";
     }, 600);
   }
 });
