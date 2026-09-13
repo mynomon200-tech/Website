@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NEXO — Social World</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game"></div>
+
+  <div class="topbar">
+    <div class="brand">ɴᴇxᴏ</div>
+    <div class="server-status"><span></span> SOCIAL WORLD</div>
+    <div class="top-right">
+      <div class="clock" id="clock">18:42</div>
+      <div class="profile-mini"><div class="avatar-dot"></div><b>MrNexo</b></div>
+    </div>
+  </div>
+
+  <div class="location" id="location">CITY PLAZA</div>
+
+  <div class="player-list">
+    <div class="list-title">PLAYERS <b id="playerCount">12</b></div>
+    <div class="player-row"><i></i> Alex <small>Plaza</small></div>
+    <div class="player-row"><i></i> Luna <small>Café</small></div>
+    <div class="player-row"><i></i> Kai <small>Beach</small></div>
+    <div class="player-row"><i></i> Nova <small>Club</small></div>
+  </div>
+
+  <div class="event-card">
+    <div class="eyebrow">LIVE EVENT</div>
+    <div class="event-name">BEACH PARTY</div>
+    <div class="event-meta"><span id="eventTimer">02:31</span> · 37 PLAYERS</div>
+    <button id="goBeach">GO TO BEACH</button>
+  </div>
+
+  <div class="chat">
+    <div id="chatMessages">
+      <div><b>Alex</b><span>yo, anyone at the plaza?</span></div>
+      <div><b>Luna</b><span>I'm grabbing a coffee.</span></div>
+      <div class="system">Walk close to someone and press E to interact.</div>
+    </div>
+    <form id="chatForm">
+      <input id="chatInput" autocomplete="off" maxlength="80" placeholder="Type a message...">
+      <button>Send</button>
+    </form>
+  </div>
+
+  <div class="interaction" id="interaction">
+    <div class="interaction-name" id="interactionName">Alex</div>
+    <div class="interaction-actions">
+      <button data-action="profile">PROFILE</button>
+      <button data-action="friend">ADD FRIEND</button>
+      <button data-action="wave">WAVE</button>
+    </div>
+  </div>
+
+  <div class="crosshair">+</div>
+
+  <div class="controls">
+    <kbd>W A S D</kbd> MOVE
+    <kbd>SHIFT</kbd> RUN
+    <kbd>SPACE</kbd> JUMP
+    <kbd>E</kbd> INTERACT
+    <kbd>ESC</kbd> RELEASE MOUSE
+  </div>
+
+  <div class="profile-panel" id="profilePanel">
+    <button class="close" id="closeProfile">×</button>
+    <div class="profile-cover"></div>
+    <div class="profile-body">
+      <div class="big-avatar">A</div>
+      <h2 id="profileName">Alex</h2>
+      <p class="muted">Exploring the Social World</p>
+      <div class="stats">
+        <div><b>27</b><span>Social Level</span></div>
+        <div><b>14</b><span>Friends</span></div>
+        <div><b>83</b><span>Visits</span></div>
+      </div>
+      <div class="badges">
+        <span>EARLY EXPLORER</span><span>GOOD VIBES</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>
