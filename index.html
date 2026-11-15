@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11162a">
+  <title>MiniNexo — Pixel Pets</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="glow glow-a"></div><div class="glow glow-b"></div>
+  <header><a href="./" class="logo"><span>✦</span> MINI<span>NEXO</span></a><span class="top-label">PIXEL PETS · ALPHA</span></header>
+  <main>
+    <section class="panel" id="auth-view">
+      <div class="overline">DEIN KLEINES PIXEL-UNIVERSUM</div>
+      <h1>Dein Abenteuer <em>beginnt hier.</em></h1>
+      <p class="muted">Erstelle deinen Account und finde deinen ersten Begleiter.</p>
+      <div class="tabs"><button class="tab active" type="button" id="tab-login">Anmelden</button><button class="tab" type="button" id="tab-register">Registrieren</button></div>
+      <form id="auth-form" autocomplete="off">
+        <label for="username">Benutzername</label><input id="username" name="username" placeholder="Dein Spielername" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+" required autocomplete="username">
+        <label for="password">Passwort</label><input id="password" name="password" placeholder="Mindestens 6 Zeichen" type="password" minlength="6" required autocomplete="off">
+        <button type="submit" class="primary" id="auth-submit">Einloggen <span>→</span></button>
+        <p id="auth-message" class="message" aria-live="polite"></p>
+      </form>
+      <p class="small-notice">Demo ohne Datenbank: Konten gelten nur in diesem Browser. Bitte kein echtes Passwort verwenden.</p>
+    </section>
+    <section class="panel wide hidden" id="choose-view">
+      <div class="overline">SCHRITT 01 · DEIN STARTER</div><h1>Wähle deinen <em>Begleiter.</em></h1>
+      <p class="muted">Hey <strong id="welcome-name"></strong>! Diese Entscheidung kannst du in der Demo nicht rückgängig machen.</p>
+      <div class="pet-grid" id="pet-grid"></div><p id="choose-message" class="message" aria-live="polite"></p>
+      <button type="button" class="ghost" id="logout-choose">Abmelden</button>
+    </section>
+    <section class="panel home hidden" id="home-view">
+      <div class="overline">WILLKOMMEN BEI MININEXO</div><h1>Hey, <em id="home-name"></em>!</h1>
+      <p class="muted">Dein erster Freund wartet schon auf dich.</p>
+      <div class="my-pet"><img id="my-pet-image" alt="Dein Pixel-Pet"><h2 id="my-pet-name"></h2><span id="my-pet-type"></span><div class="pet-level">LEVEL 1 · STARTER PET</div></div>
+      <button type="button" class="ghost" id="logout-home">Abmelden</button>
+    </section>
+  </main>
+  <footer>© MiniNexo · Erste Demo-Version · Daten bleiben lokal im Browser</footer>
+</body>
+</html>
